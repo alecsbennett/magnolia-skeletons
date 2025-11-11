@@ -2,7 +2,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import { exec } from "child_process";
 import notifier from "node-notifier";
-import { getConfig, savePids, getPidsFromPort, loadPids } from "./utils.mjs";
+import { getConfig, savePids, getPidsFromPort, loadPids, PROJECT_ROOT } from "./utils.mjs";
 
 // Debug mode - set to true to enable verbose debug logging
 // Can also be enabled via environment variable: DEBUG=true node monitor.mjs
@@ -211,6 +211,38 @@ const main = async () => {
 		
 		// Show notification and URL
 		console.log(`\n🔗 ${config.serverUrl}\n`);
+		
+		// Calculate and log finish time with elapsed duration
+		const START_TIMES_LOG = path.join(PROJECT_ROOT, "startTimes.log");
+		try {
+			// Read the log file to get the last start time
+			const logContent = await fs.readFile(START_TIMES_LOG, "utf-8");
+			const lines = logContent.trim().split("\n").filter(line => line.trim());
+			const lastStartLine = lines.reverse().find(line => line.startsWith("START"));
+			
+			if (lastStartLine) {
+				// Parse: START | timestamp | startTimeMs
+				const parts = lastStartLine.split(" | ");
+				if (parts.length === 3) {
+					const startTimeMs = parseInt(parts[2], 10);
+					const finishTimeMs = Date.now();
+					const elapsedMs = finishTimeMs - startTimeMs;
+					
+					const elapsedMinutes = Math.floor(elapsedMs / 60000);
+					const elapsedSeconds = Math.floor((elapsedMs % 60000) / 1000);
+					const elapsedMilliseconds = elapsedMs % 1000;
+					
+					const finishTimestamp = new Date().toISOString();
+					const logEntry = `FINISH | ${finishTimestamp} | ${finishTimeMs} | Elapsed: ${elapsedMinutes}min ${elapsedSeconds}s ${elapsedMilliseconds}ms\n`;
+					
+					await fs.appendFile(START_TIMES_LOG, logEntry, "utf-8");
+					console.log(`⏱️  Startup completed in ${elapsedMinutes}min ${elapsedSeconds}s ${elapsedMilliseconds}ms`);
+				}
+			}
+		} catch (error) {
+			// Log file might not exist or might be empty - that's okay
+			debugLog(`[DEBUG] Could not read start time: ${error.message}`);
+		}
 		
 		if (config.showToasts && config.notificationConfig) {
 			const notifConfig = config.notificationConfig;

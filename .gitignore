@@ -92,6 +92,9 @@ tomcat/webapps/*/
 .maildev.pid
 *.pid
 
+# Startup Log (keep this file, but you can uncomment to ignore it)
+# startTimes.log
+
 # Lock Files
 *.lock
 db.lock.db
