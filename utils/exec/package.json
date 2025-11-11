@@ -14,7 +14,6 @@
     "start:cargo": "node scripts/start-cargo.mjs",
     "monitor": "node scripts/monitor.mjs",
     "start": "run-s start-timer && run-p check-server clean:locks clean:cargo clean:logs && run-s build && run-p maildev start:cargo monitor",
-    "start:fast": "run-s start-timer && run-p check-server clean:locks clean:logs && run-p maildev start:cargo monitor",
     "start:open": "cross-env OPEN_BROWSER=true npm start",
     "start:noclean": "cross-env CLEAR_LOGS=false run-s start-timer check-server clean:locks clean:cargo build && run-p maildev start:cargo monitor",
     "start:restart": "cross-env FORCE_RESTART=true npm start",

@@ -80,17 +80,7 @@
                     --add-opens=java.base/java.io=ALL-UNNAMED
                     --add-opens=java.base/java.lang=ALL-UNNAMED
                     --add-opens=java.base/java.lang.reflect=ALL-UNNAMED
-                    -DMAGNOLIA_PROFILE=develop
-                    -Dmagnolia.develop=true 
-                    -Dmagnolia.superuser.enabled=true 
-                    -Dmagnolia.utf8.enabled=true 
-                    -Dmagnolia.update.auto=true 
-                    -Dmagnolia.bootstrap.authorInstance=true 
-                    -Dmagnolia.resources.dir="${project.build.directory}/../../../light-modules" 
-                    -Dmagnolia.repositories.home="${project.build.directory}/../../../tomcat/Repos/author" 
-                    -Dmagnolia.logs.dir="${project.build.directory}/../../../tomcat/logs/author"
-                    -Dmagnolia.webapp="Local Author"
-                    -Dmagnolia.bundle.version=${magnoliaBundleVersion}
+                    -DMAGNOLIA_PROFILE=local
                   </cargo.jvmargs>
                 </properties>
               </configuration>

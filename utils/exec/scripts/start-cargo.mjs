@@ -28,6 +28,7 @@ const main = async () => {
 	const config = await getConfig();
 	
 	console.log("📦 Starting Maven Cargo...");
+	console.log(`   Profile: ${config.profileConfig.profile}`);
 	console.log(`   Command: ${config.cargoCommand} ${config.cargoArgs.join(' ')}`);
 	console.log(`   Working directory: ${config.cargoWorkingDir}`);
 	console.log(`   Output redirecting to: ${path.join(config.logDir, config.logFile)}\n`);

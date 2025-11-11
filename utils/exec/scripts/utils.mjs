@@ -13,16 +13,26 @@ const __dirname = path.dirname(__filename);
 const PROJECT_ROOT = path.resolve(__dirname, "../../..");
 
 let cachedConfig = null;
+let cachedEnvKey = null;
 
 /**
  * Load and cache configuration
  */
 export const getConfig = async () => {
+	const instanceType = process.env.MAGNOLIA_INSTANCE || 'author';
+	const envKey = instanceType;
+	
+	// Invalidate cache if environment variables changed
+	if (cachedConfig && cachedEnvKey !== envKey) {
+		cachedConfig = null;
+		cachedEnvKey = null;
+	}
+	
 	if (!cachedConfig) {
 		const baseConfig = await loadConfig();
-		const instanceType = process.env.MAGNOLIA_INSTANCE || baseConfig.instanceType || 'author';
+		const resolvedInstanceType = instanceType || baseConfig.instanceType || 'author';
 		
-		const profileConfig = instanceType === 'author' 
+		const profileConfig = resolvedInstanceType === 'author' 
 			? {
 				profile: baseConfig.maven.profiles.author,
 				cargoPort: baseConfig.ports.author.cargo,
@@ -48,10 +58,10 @@ export const getConfig = async () => {
 				pidFile: baseConfig.pids.runtime,
 			};
 		
-		const instancePaths = instanceType === 'author' ? baseConfig.paths.author : baseConfig.paths.runtime;
+		const instancePaths = resolvedInstanceType === 'author' ? baseConfig.paths.author : baseConfig.paths.runtime;
 		
 		cachedConfig = {
-			instanceType,
+			instanceType: resolvedInstanceType,
 			profileConfig,
 			logDir: instancePaths.logs,
 			logFile: profileConfig.logFile,
@@ -83,6 +93,7 @@ export const getConfig = async () => {
 			notificationConfig: baseConfig.notifications,
 			baseConfig,
 		};
+		cachedEnvKey = envKey;
 	}
 	return cachedConfig;
 };
