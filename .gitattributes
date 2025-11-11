@@ -1,0 +1,49 @@
+# Set default behavior to automatically normalize line endings
+* text=auto
+
+# Explicitly declare text files you want to always be normalized and converted
+# to native line endings on checkout
+*.txt text
+*.md text
+*.xml text
+*.properties text
+*.java text
+*.js text
+*.mjs text
+*.json text
+*.css text
+*.html text
+*.jsp text
+*.sh text
+*.bat text
+*.yml text
+*.yaml text
+
+# Denote all files that are truly binary and should not be modified
+*.jar binary
+*.war binary
+*.zip binary
+*.tar binary
+*.gz binary
+*.class binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.db binary
+*.cfs binary
+*.gen binary
+
+# Force LF line endings for shell scripts (important for cross-platform compatibility)
+*.sh text eol=lf
+*.mjs text eol=lf
+
+# Force CRLF for Windows batch files
+*.bat text eol=crlf
+

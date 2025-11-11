@@ -1,0 +1,116 @@
+# Maven
+target/
+*.war
+*.jar
+!**/src/**/*.jar
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.node_repl_history
+# Note: package-lock.json should be committed for consistent dependencies
+
+# IDE - IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# IDE - Eclipse
+.classpath
+.project
+.settings/
+bin/
+.metadata
+
+# IDE - VS Code
+.vscode/
+*.code-workspace
+
+# IDE - NetBeans
+nbproject/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+logs/
+tomcat/logs/
+tomcat/**/logs/
+
+# Tomcat / Cargo Runtime
+tomcat/cargo-*/
+tomcat/extracts/
+tomcat/Repos/
+tomcat/work/
+tomcat/temp/
+tomcat/webapps/*/
+!tomcat/webapps/ROOT/
+
+# Magnolia Repository Data
+**/Repos/
+**/repository/
+**/workspaces/
+**/version/
+
+# Build and Runtime Artifacts
+*.class
+*.cache
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# PID Files
+.cargo.*.pid
+.maildev.pid
+*.pid
+
+# Lock Files
+*.lock
+db.lock.db
+
+# Database Files (H2)
+*.mv.db
+*.trace.db
+
+# Temporary Files
+tmp/
+temp/
+*.bak
+*.backup
+
+# Cargo specific
+cargo-author/
+cargo-runtime/
+
+# Magnolia specific
+.magnolia/
+magnolia-webapp/target/
+
