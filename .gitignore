@@ -117,3 +117,6 @@ cargo-runtime/
 .magnolia/
 magnolia-webapp/target/
 
+
+./mgnl.error.log
+./mgnl.error.log

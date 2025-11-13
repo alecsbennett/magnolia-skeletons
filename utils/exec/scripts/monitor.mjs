@@ -237,11 +237,14 @@ const main = async () => {
 					
 					await fs.appendFile(START_TIMES_LOG, logEntry, "utf-8");
 					console.log(`⏱️  Startup completed in ${elapsedMinutes}min ${elapsedSeconds}s ${elapsedMilliseconds}ms`);
+					console.log(`\n💡 Type 'x' or 'q' + Enter to gracefully shutdown\n`);
 				}
 			}
 		} catch (error) {
 			// Log file might not exist or might be empty - that's okay
 			debugLog(`[DEBUG] Could not read start time: ${error.message}`);
+			// Show shutdown message even if startup time wasn't logged
+			console.log(`\n💡 Type 'x' or 'q' + Enter to gracefully shutdown\n`);
 		}
 		
 		if (config.showToasts && config.notificationConfig) {
@@ -277,6 +280,7 @@ const main = async () => {
 				wait: notifConfig.wait,
 				timeout: notifConfig.timeout,
 				appID: notifConfig.appId,
+				icon: path.join("./assets/magnolia-logo.png"),
 			}, (err, response, metadata) => {
 				debugLog(`[DEBUG] Notification callback - err: ${err}, response: ${response}`);
 				// Handle notification response via callback (more reliable on Windows)

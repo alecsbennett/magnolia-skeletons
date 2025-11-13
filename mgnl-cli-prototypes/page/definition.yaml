@@ -1,0 +1,6 @@
+title: __name__
+templateScript: __templateScript__
+renderType: freemarker
+dialog: __dialog__
+visible: true
+

@@ -6,7 +6,7 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <properties>
-    <magnoliaBundleVersion>6.4.0-rc3</magnoliaBundleVersion> <!--6.3.17-->
+    <magnolia.version>6.4.0</magnolia.version>
     <javaVersion>17</javaVersion>
     <tomcat.version>10.1.30</tomcat.version>
   </properties>
@@ -18,10 +18,20 @@
   </scm>
   <dependencyManagement>
     <dependencies>
+      <!-- Third-party dependencies BOM - manages versions of external libraries -->
+      <dependency>
+        <groupId>info.magnolia.boms</groupId>
+        <artifactId>magnolia-external-dependencies</artifactId>
+        <version>${magnolia.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      
+      <!-- Module BOM - Magnolia DX Core parent (replaces magnolia-bundle-parent) -->
       <dependency>
         <groupId>info.magnolia.bundle</groupId>
-        <artifactId>magnolia-bundle-parent</artifactId>
-        <version>${magnoliaBundleVersion}</version>
+        <artifactId>magnolia-community-webapp</artifactId>
+        <version>${magnolia.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -80,5 +90,6 @@
   </repositories>
   <modules>
     <module>magnolia-webapp</module>
+    <module>jcr-filesystem-sync</module>
   </modules>
 </project>

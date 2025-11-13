@@ -1,0 +1,5 @@
+title: hello
+templateScript: /tbscg/templates/pages/hello.ftl
+renderType: freemarker
+dialog: tbscg:pages/hello
+visible: true

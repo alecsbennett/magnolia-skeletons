@@ -1,0 +1,19 @@
+{
+  "name": "magnolia-6.4-community",
+  "version": "1.0.0",
+  "description": "Magnolia CMS 6.4 Community Edition project with CLI support",
+  "type": "module",
+  "scripts": {
+    "mgnl": "node node_modules/@magnolia/cli"
+  },
+  "dependencies": {
+    "@magnolia/cli": "^5.2.0",
+    "@magnolia/cli-create-app-plugin": "^1.1.1",
+    "@magnolia/cli-create-block-plugin": "^1.0.2",
+    "@magnolia/cli-create-component-plugin": "^1.3.0",
+    "@magnolia/cli-create-light-module-plugin": "^1.0.3",
+    "@magnolia/cli-create-page-plugin": "^1.3.0",
+    "@magnolia/cli-create-rest-endpoint-plugin": "^2.0.1",
+    "@magnolia/cli-create-virtual-uri-plugin": "^1.0.2"
+  }
+}

@@ -1,0 +1,4 @@
+title: __name__
+renderType: freemarker
+templateScript: __templateScript__
+dialog: __dialog__

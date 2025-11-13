@@ -12,13 +12,8 @@
   <packaging>war</packaging>
   <dependencies>
     <dependency>
-      <groupId>info.magnolia</groupId>
-      <artifactId>magnolia-empty-webapp</artifactId>
-      <type>war</type>
-    </dependency>
-    <dependency>
-      <groupId>info.magnolia</groupId>
-      <artifactId>magnolia-empty-webapp</artifactId>
+      <groupId>info.magnolia.bundle</groupId>
+      <artifactId>magnolia-community-webapp</artifactId>
       <type>pom</type>
     </dependency>
   </dependencies>

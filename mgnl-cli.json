@@ -1,0 +1,27 @@
+{
+  "setupMagnolia": {
+    "downloadUrl": "https://nexus.magnolia-cms.com/service/local/artifact/maven/content?r=magnolia.public.releases&g=info.magnolia.bundle&a=magnolia-community-demo-bundle&c=tomcat-bundle&e=zip&v=${magnoliaVersion}",
+    "tomcatFolder": "apache-tomcat",
+    "webapps": {
+      "magnoliaAuthor": {
+        "magnolia.develop": true,
+        "magnolia.update.auto": true
+      },
+      "magnoliaPublic": {
+        "magnolia.update.auto": true
+      }
+    },
+    "downloadJars": {}
+  },
+  "lightDevFoldersInModule": {
+    "dialogs_components": "/dialogs/components",
+    "dialogs_pages": "/dialogs/pages",
+    "templates_components": "/templates/components",
+    "templates_pages": "/templates/pages",
+    "webresources": "webresources",
+    "decorations": "decorations",
+    "i18n": "i18n"
+  },
+  "lightModules": "./light-modules",
+  "webapp": "./magnolia/magnolia-webapp"
+}
