@@ -1,0 +1,168 @@
+---
+- name: Check if WAR file exists locally
+  stat:
+    path: "{{ magnolia_war_path }}"
+  register: war_file
+  delegate_to: localhost
+  become: no
+
+- name: Fail if WAR file not found
+  fail:
+    msg: "WAR file not found at {{ magnolia_war_path }}. Please build it first with 'mvn clean install -Pauthor'"
+  when: not war_file.stat.exists
+
+- name: Copy WAR file to instance
+  copy:
+    src: "{{ magnolia_war_path }}"
+    dest: "/tmp/magnolia-webapp.war"
+    mode: '0644'
+
+- name: Stop Tomcat service
+  systemd:
+    name: tomcat
+    state: stopped
+  ignore_errors: yes
+
+- name: Remove old deployment
+  file:
+    path: "{{ tomcat_home }}/webapps/{{ magnolia_webapp_name }}"
+    state: absent
+
+- name: Create deployment directory
+  file:
+    path: "{{ tomcat_home }}/webapps/{{ magnolia_webapp_name }}"
+    state: directory
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+    mode: '0755'
+
+- name: Extract WAR file
+  unarchive:
+    src: "/tmp/magnolia-webapp.war"
+    dest: "{{ tomcat_home }}/webapps/{{ magnolia_webapp_name }}"
+    remote_src: yes
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+    creates: "{{ tomcat_home }}/webapps/{{ magnolia_webapp_name }}/WEB-INF"
+
+- name: Check if JDBC driver exists
+  stat:
+    path: "{{ tomcat_home }}/lib/postgresql-{{ postgres_jdbc_version }}.jar"
+  register: postgres_jdbc_file
+
+- name: Download PostgreSQL JDBC driver if not present
+  get_url:
+    url: "{{ postgres_jdbc_url }}"
+    dest: "{{ tomcat_home }}/lib/postgresql-{{ postgres_jdbc_version }}.jar"
+    mode: '0644'
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+  when: not postgres_jdbc_file.stat.exists
+
+- name: Check if PostgreSQL config exists
+  stat:
+    path: "{{ tomcat_home }}/webapps/{{ magnolia_webapp_name }}/WEB-INF/config/repo-conf/jackrabbit-bundle-postgres-search.xml"
+  register: postgres_config_file
+
+- name: Backup PostgreSQL config file
+  copy:
+    src: "{{ tomcat_home }}/webapps/{{ magnolia_webapp_name }}/WEB-INF/config/repo-conf/jackrabbit-bundle-postgres-search.xml"
+    dest: "{{ tomcat_home }}/webapps/{{ magnolia_webapp_name }}/WEB-INF/config/repo-conf/jackrabbit-bundle-postgres-search.xml.bak"
+    remote_src: yes
+  when: postgres_config_file.stat.exists
+
+- name: Configure PostgreSQL connection URL in repository config
+  replace:
+    path: "{{ tomcat_home }}/webapps/{{ magnolia_webapp_name }}/WEB-INF/config/repo-conf/jackrabbit-bundle-postgres-search.xml"
+    regexp: '(<param name="url" value=")jdbc:postgresql://[^"]*(" />)'
+    replace: '\1jdbc:postgresql://{{ postgres_ip }}:5432/{{ postgres_db }}\2'
+    backup: no
+  when: postgres_config_file.stat.exists
+
+- name: Update PostgreSQL user in repository config
+  replace:
+    path: "{{ tomcat_home }}/webapps/{{ magnolia_webapp_name }}/WEB-INF/config/repo-conf/jackrabbit-bundle-postgres-search.xml"
+    regexp: '(<param name="user" value=")[^"]*(" />)'
+    replace: '\1{{ postgres_user }}\2'
+    backup: no
+  when: postgres_config_file.stat.exists
+
+- name: Update PostgreSQL password in repository config
+  replace:
+    path: "{{ tomcat_home }}/webapps/{{ magnolia_webapp_name }}/WEB-INF/config/repo-conf/jackrabbit-bundle-postgres-search.xml"
+    regexp: '(<param name="password" value=")[^"]*(" />)'
+    replace: '\1{{ postgres_password }}\2'
+    backup: no
+  when: postgres_config_file.stat.exists
+
+- name: Check if repositories.xml exists
+  stat:
+    path: "{{ tomcat_home }}/webapps/{{ magnolia_webapp_name }}/WEB-INF/config/default/repositories.xml"
+  register: repos_xml_file
+
+- name: Update repositories.xml to use PostgreSQL config
+  replace:
+    path: "{{ tomcat_home }}/webapps/{{ magnolia_webapp_name }}/WEB-INF/config/default/repositories.xml"
+    regexp: 'jackrabbit-bundle-search\.xml'
+    replace: 'jackrabbit-bundle-postgres-search.xml'
+    backup: yes
+  when: repos_xml_file.stat.exists
+
+- name: Set ownership of webapp directory
+  file:
+    path: "{{ tomcat_home }}/webapps/{{ magnolia_webapp_name }}"
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+    recurse: yes
+
+- name: Get Java home path
+  shell: readlink -f /usr/bin/java | sed "s:bin/java::"
+  register: java_home_result
+  changed_when: false
+
+- name: Set Java home fact
+  set_fact:
+    java_home: "{{ java_home_result.stdout }}"
+
+- name: Fix Tomcat service JAVA_HOME
+  lineinfile:
+    path: /etc/systemd/system/tomcat.service
+    regexp: '^Environment="JAVA_HOME='
+    line: 'Environment="JAVA_HOME={{ java_home }}"'
+    backup: yes
+
+- name: Reload systemd daemon
+  command: systemctl daemon-reload
+  changed_when: true
+
+- name: Start Tomcat service
+  systemd:
+    name: tomcat
+    state: started
+    enabled: yes
+  register: tomcat_start_result
+  ignore_errors: yes
+
+- name: Check Tomcat logs if start failed
+  command: journalctl -u tomcat.service -n 50 --no-pager
+  register: tomcat_logs
+  when: tomcat_start_result.failed | default(false)
+  changed_when: false
+
+- name: Display Tomcat logs on failure
+  debug:
+    var: tomcat_logs.stdout_lines
+  when: tomcat_start_result.failed | default(false)
+
+- name: Fail if Tomcat didn't start
+  fail:
+    msg: "Tomcat failed to start. Check logs above or run: journalctl -u tomcat.service -n 50"
+  when: tomcat_start_result.failed | default(false)
+
+- name: Wait for Tomcat to start
+  wait_for:
+    port: "{{ tomcat_port }}"
+    delay: 10
+    timeout: 60
+  when: not (tomcat_start_result.failed | default(false))
+

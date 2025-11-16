@@ -87,9 +87,16 @@ public class SyncConfigurationService {
         dataDir = properties.getProperty("data.dir", "data");
         log.info("Data directory: {}", dataDir);
         
-        // Sync enabled
-        syncEnabled = Boolean.parseBoolean(properties.getProperty("sync.enabled", "true"));
-        log.info("Sync enabled: {}", syncEnabled);
+        // Sync enabled - check Magnolia properties first, then settings.properties
+        // Magnolia properties take precedence for environment-specific configuration
+        String magnoliaSyncEnabled = System.getProperty("jcr.filesystem.sync.enabled");
+        if (magnoliaSyncEnabled != null) {
+            syncEnabled = Boolean.parseBoolean(magnoliaSyncEnabled);
+            log.info("Sync enabled from Magnolia properties: {}", syncEnabled);
+        } else {
+            syncEnabled = Boolean.parseBoolean(properties.getProperty("sync.enabled", "true"));
+            log.info("Sync enabled from settings.properties: {}", syncEnabled);
+        }
         
         // Initial sync
         initialSync = Boolean.parseBoolean(properties.getProperty("sync.initial", "true"));

@@ -1,0 +1,25 @@
+---
+- name: Setup PostgreSQL Infrastructure
+  hosts: postgres
+  become: yes
+  gather_facts: no
+  collections:
+    - community.postgresql
+  vars:
+    postgres_db_name: "{{ postgres_db_name }}"
+    postgres_db_user: "{{ postgres_db_user }}"
+    postgres_db_password: "{{ postgres_db_password }}"
+    magnolia_instance_ip: "{{ magnolia_instance_ip | default('127.0.0.1') }}"
+  
+  pre_tasks:
+    - name: Ensure Ansible remote_tmp directory exists with correct permissions
+      file:
+        path: /root/.ansible/tmp
+        state: directory
+        mode: '0755'
+        owner: root
+        group: root
+  
+  roles:
+    - postgres-infrastructure
+

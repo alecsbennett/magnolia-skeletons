@@ -1,0 +1,14 @@
+---
+- name: Deploy Magnolia CMS Application
+  hosts: magnolia
+  become: yes
+  vars:
+    postgres_ip: "{{ postgres_ip | default(hostvars[groups['postgres'][0]]['ansible_host'] | default('localhost')) }}"
+    postgres_db: "{{ postgres_db_name }}"
+    postgres_user: "{{ postgres_db_user }}"
+    postgres_password: "{{ postgres_db_password }}"
+    magnolia_profile: "{{ magnolia_profile }}"
+  
+  roles:
+    - magnolia-deployment
+

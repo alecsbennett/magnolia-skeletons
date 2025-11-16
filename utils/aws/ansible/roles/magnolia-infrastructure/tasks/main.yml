@@ -1,0 +1,172 @@
+---
+- name: Update system packages
+  dnf:
+    name: "*"
+    state: latest
+    update_cache: yes
+
+- name: Install required packages
+  dnf:
+    name:
+      - wget
+      - tar
+      - gzip
+      - iptables-services
+    state: present
+
+- name: Install Java
+  dnf:
+    name: "{{ java_package }}"
+    state: present
+
+- name: Verify Java installation
+  command: java -version
+  register: java_version
+  changed_when: false
+  failed_when: false
+
+- name: Get Java home path
+  shell: readlink -f /usr/bin/java | sed "s:bin/java::"
+  register: java_home_result
+  changed_when: false
+
+- name: Set Java home fact
+  set_fact:
+    java_home: "{{ java_home_result.stdout }}"
+
+- name: Display Java version
+  debug:
+    msg: "{{ java_version.stderr_lines[0] }}"
+
+- name: Create tomcat group
+  group:
+    name: "{{ tomcat_group }}"
+    system: yes
+    state: present
+
+- name: Create tomcat user
+  user:
+    name: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+    home: "{{ tomcat_home }}"
+    shell: /bin/false
+    system: yes
+    create_home: no
+
+- name: Create Tomcat directory
+  file:
+    path: "{{ tomcat_home }}"
+    state: directory
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+    mode: '0755'
+
+- name: Download Tomcat
+  get_url:
+    url: "https://archive.apache.org/dist/tomcat/tomcat-10/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    dest: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    mode: '0644'
+  retries: 3
+  delay: 5
+
+- name: Extract Tomcat
+  unarchive:
+    src: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    dest: "{{ tomcat_home }}"
+    remote_src: yes
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+    extra_opts:
+      - "--strip-components=1"
+
+- name: Set Tomcat permissions
+  file:
+    path: "{{ item }}"
+    mode: '0755'
+    recurse: yes
+  loop:
+    - "{{ tomcat_home }}/bin"
+    - "{{ tomcat_home }}/lib"
+    - "{{ tomcat_home }}/conf"
+
+- name: Create Magnolia directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+    mode: '0755'
+  loop:
+    - "{{ magnolia_home }}/repos"
+    - "{{ magnolia_home }}/logs"
+    - "{{ magnolia_home }}/resources"
+
+- name: Create systemd service for Tomcat
+  template:
+    src: tomcat.service.j2
+    dest: /etc/systemd/system/tomcat.service
+    mode: '0644'
+  notify: reload systemd
+
+- name: Enable Tomcat service
+  systemd:
+    name: tomcat
+    enabled: yes
+    daemon_reload: yes
+
+- name: Check if iptables service exists
+  ansible.builtin.stat:
+    path: /usr/lib/systemd/system/iptables.service
+  register: iptables_service_file
+
+- name: Enable iptables service
+  ansible.builtin.systemd:
+    name: iptables
+    enabled: yes
+    state: started
+  when: iptables_service_file.stat.exists
+
+- name: Configure iptables port forwarding (check if rule exists)
+  ansible.builtin.shell: |
+    iptables -t nat -C PREROUTING -p tcp --dport 80 -j REDIRECT --to-port {{ tomcat_port }} 2>/dev/null || echo "needs-add"
+  register: iptables_prerouting_check
+  changed_when: false
+  failed_when: false
+
+- name: Configure iptables port forwarding
+  ansible.builtin.command: iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port {{ tomcat_port }}
+  when: iptables_prerouting_check.stdout == "needs-add"
+
+- name: Configure iptables OUTPUT port forwarding (check if rule exists)
+  ansible.builtin.shell: |
+    iptables -t nat -C OUTPUT -p tcp --dport 80 -j REDIRECT --to-port {{ tomcat_port }} 2>/dev/null || echo "needs-add"
+  register: iptables_output_check
+  changed_when: false
+  failed_when: false
+
+- name: Configure iptables OUTPUT port forwarding
+  ansible.builtin.command: iptables -t nat -A OUTPUT -p tcp --dport 80 -j REDIRECT --to-port {{ tomcat_port }}
+  when: iptables_output_check.stdout == "needs-add"
+
+- name: Save iptables rules
+  ansible.builtin.shell: |
+    iptables-save > /etc/sysconfig/iptables || service iptables save || true
+  changed_when: false
+  failed_when: false
+
+- name: Create installation marker
+  file:
+    path: "{{ tomcat_home }}/.installation-complete"
+    state: touch
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+    mode: '0644'
+
+- name: Write installation timestamp
+  copy:
+    content: "INSTALLATION_COMPLETE={{ ansible_date_time.iso8601 }}"
+    dest: "{{ tomcat_home }}/.installation-complete"
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+    mode: '0644'
+

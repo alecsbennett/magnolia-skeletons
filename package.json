@@ -4,7 +4,13 @@
   "description": "Magnolia CMS 6.4 Community Edition project with CLI support",
   "type": "module",
   "scripts": {
-    "mgnl": "node node_modules/@magnolia/cli"
+    "mgnl": "node node_modules/@magnolia/cli",
+    "aws:create": "node utils/aws/scripts/create.mjs",
+    "aws:deploy": "node utils/aws/scripts/deploy.mjs",
+    "aws:deploy:postgres": "node utils/aws/scripts/deploy-postgres.mjs",
+    "aws:deploy:tomcat": "node utils/aws/scripts/deploy-tomcat.mjs",
+    "aws:clean": "node utils/aws/scripts/clean.mjs",
+    "aws:ansible:install": "node utils/aws/scripts/installAnsibleCollections.mjs"
   },
   "dependencies": {
     "@magnolia/cli": "^5.2.0",
@@ -14,6 +20,8 @@
     "@magnolia/cli-create-light-module-plugin": "^1.0.3",
     "@magnolia/cli-create-page-plugin": "^1.3.0",
     "@magnolia/cli-create-rest-endpoint-plugin": "^2.0.1",
-    "@magnolia/cli-create-virtual-uri-plugin": "^1.0.2"
+    "@magnolia/cli-create-virtual-uri-plugin": "^1.0.2",
+    "@aws-sdk/client-ec2": "^3.700.0",
+    "@aws-sdk/credential-providers": "^3.700.0"
   }
 }

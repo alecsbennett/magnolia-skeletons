@@ -1,0 +1,7 @@
+---
+# Collections required for PostgreSQL modules
+# These work with Ansible 2.10+ (tested with 2.10.8)
+collections:
+  - name: community.postgresql
+    version: ">=1.0.0"
+

@@ -120,3 +120,20 @@ magnolia-webapp/target/
 
 ./mgnl.error.log
 ./mgnl.error.log
+
+# Terraform
+utils/aws/terraform/terraform.tfvars
+utils/aws/terraform/.terraform/
+utils/aws/terraform/.terraform.lock.hcl
+utils/aws/terraform/terraform.tfstate
+utils/aws/terraform/terraform.tfstate.backup
+utils/aws/terraform/*.tfvars
+!utils/aws/terraform/*.tfvars.example
+
+# AWS Credentials
+utils/aws/aws-credentials.properties
+
+# Ansible generated files
+utils/aws/ansible/inventory.ini
+utils/aws/ansible/vars.yml
+utils/aws/ansible/facts_cache/
