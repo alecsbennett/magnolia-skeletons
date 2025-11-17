@@ -159,10 +159,46 @@
     msg: "Tomcat failed to start. Check logs above or run: journalctl -u tomcat.service -n 50"
   when: tomcat_start_result.failed | default(false)
 
-- name: Wait for Tomcat to start
-  wait_for:
-    port: "{{ tomcat_port }}"
-    delay: 10
-    timeout: 60
+- block:
+    - name: Wait for Tomcat to start (port {{ tomcat_port }})
+      wait_for:
+        host: 127.0.0.1
+        port: "{{ tomcat_port }}"
+        delay: 5
+        timeout: 300
   when: not (tomcat_start_result.failed | default(false))
+  rescue:
+    - name: Show Tomcat service status after wait_for failure
+      command: systemctl status tomcat --no-pager
+      register: tomcat_status_after_wait
+      changed_when: false
+
+    - name: Show Tomcat journal logs after wait_for failure
+      command: journalctl -u tomcat.service -n 80 --no-pager
+      register: tomcat_journal_after_wait
+      changed_when: false
+
+    - name: Show latest Catalina log lines after wait_for failure
+      shell: |
+        if [ -f "{{ tomcat_home }}/logs/catalina.out" ]; then
+          tail -n 100 "{{ tomcat_home }}/logs/catalina.out"
+        else
+          echo "catalina.out not found"
+        fi
+      register: tomcat_catalina_after_wait
+      changed_when: false
+
+    - name: Display Tomcat diagnostics after wait_for failure
+      debug:
+        msg:
+          - "systemctl status:"
+          - "{{ tomcat_status_after_wait.stdout_lines | default([]) }}"
+          - "journalctl:"
+          - "{{ tomcat_journal_after_wait.stdout_lines | default([]) }}"
+          - "catalina.out:"
+          - "{{ tomcat_catalina_after_wait.stdout_lines | default([]) }}"
+
+    - name: Fail because Tomcat did not become ready in time
+      fail:
+        msg: "Tomcat did not become ready on port {{ tomcat_port }} within the timeout. See diagnostics above."
 
