@@ -88,24 +88,29 @@ async function showToastNotification(title, message, url = null) {
   // Platform-specific fallbacks (only used if node-notifier fails)
   if (platform === 'win32') {
     // Windows toast notification using PowerShell
-    // Use a here-string approach to avoid quoting issues
+    // Use base64-encoded command to avoid all escaping issues
     try {
       // Remove emojis and special chars that cause PowerShell issues
       const cleanTitle = title.replace(/[^\x20-\x7E\n]/g, '').trim() || 'Magnolia CMS Started';
       const cleanMessage = message.replace(/[^\x20-\x7E\n]/g, '').trim() || 'Server is ready';
       
-      // Use a PowerShell script file approach or properly escaped command
-      const psScript = `
-[Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] | Out-Null
+      // Build PowerShell script with proper variable substitution
+      // Use single quotes for text nodes to avoid escaping issues
+      const psScript = `[Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] | Out-Null
 $template = [Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent([Windows.UI.Notifications.ToastTemplateType]::ToastText02)
 $textNodes = $template.GetElementsByTagName("text")
 $textNodes.Item(0).AppendChild($template.CreateTextNode('${cleanTitle.replace(/'/g, "''")}')) | Out-Null
 $textNodes.Item(1).AppendChild($template.CreateTextNode('${cleanMessage.replace(/'/g, "''")}')) | Out-Null
 $toast = [Windows.UI.Notifications.ToastNotification]::new($template)
-[Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier("Magnolia Deployment").Show($toast)
-`.trim();
+[Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier("Magnolia Deployment").Show($toast)`;
       
-      execSync(`powershell -NoProfile -ExecutionPolicy Bypass -Command "${psScript.replace(/"/g, '`"').replace(/\$/g, '`$').replace(/\n/g, '; ')}"`, { 
+      // Convert to UTF-16LE bytes (PowerShell's requirement for -EncodedCommand)
+      const utf16Bytes = Buffer.from(psScript, 'utf16le');
+      // Base64 encode
+      const base64Script = utf16Bytes.toString('base64');
+      
+      // Execute using -EncodedCommand (no escaping needed)
+      execSync(`powershell -NoProfile -ExecutionPolicy Bypass -EncodedCommand ${base64Script}`, { 
         stdio: 'pipe', 
         timeout: 5000 
       });
