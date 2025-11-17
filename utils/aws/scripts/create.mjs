@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { execSync } from 'child_process';
+import { execSync, spawnSync } from 'child_process';
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -51,18 +51,29 @@ function getPublicIP() {
 
 // Parse CIDR from terraform.tfvars
 function parseCidr(tfvarsContent, varName) {
-  // Match varName = "value" or varName = 'value' or varName = value
-  const regex = new RegExp(`${varName}\\s*=\\s*["']?([^"'\n]+)["']?`);
-  const match = tfvarsContent.match(regex);
-  if (match) {
-    return match[1].trim();
+  // Match varName = "value" but NOT commented lines (lines starting with # or whitespace followed by #)
+  // Use multiline mode and match from start of line (or after whitespace) but not if line starts with #
+  const lines = tfvarsContent.split('\n');
+  for (const line of lines) {
+    const trimmed = line.trim();
+    // Skip commented lines
+    if (trimmed.startsWith('#')) {
+      continue;
+    }
+    // Match varName = "value" or varName = 'value' or varName = value
+    const regex = new RegExp(`^\\s*${varName}\\s*=\\s*["']?([^"'\n#]+)["']?`);
+    const match = trimmed.match(regex);
+    if (match) {
+      return match[1].trim();
+    }
   }
   return null;
 }
 
 // Handle CIDR auto-detection and formatting
-async function processCidr(tfvarsContent, tfvarsPath, varName, displayName) {
+async function processCidr(tfvarsContent, varName, displayName) {
   let cidr = parseCidr(tfvarsContent, varName);
+  const autoVars = {};
   
   // Handle IP detection/restriction
   if (cidr && (cidr.toLowerCase() === 'auto' || cidr.toLowerCase() === 'auto-detect')) {
@@ -73,38 +84,23 @@ async function processCidr(tfvarsContent, tfvarsPath, varName, displayName) {
       console.log(`   ✓ Detected public IP: ${publicIp}`);
       console.log(`   ✓ ${displayName} access will be restricted to: ${cidr}\n`);
       
-      // Update terraform.tfvars with detected IP
-      const regex = new RegExp(`${varName}\\s*=\\s*["']?[^"'\n]+["']?`);
-      tfvarsContent = tfvarsContent.replace(
-        regex,
-        `${varName} = "${cidr}"`
-      );
-      writeFileSync(tfvarsPath, tfvarsContent);
+      // Store for -var flag override (not modifying terraform.tfvars)
+      autoVars[varName] = cidr;
     } catch (error) {
       console.error(`   ⚠️  Warning: Could not auto-detect IP: ${error.message}`);
       console.error(`   Continuing with default access\n`);
-      // Remove the "auto" value from terraform.tfvars to prevent issues
-      const regex = new RegExp(`${varName}\\s*=\\s*["']?[^"'\n]+["']?\\n?`, 'g');
-      tfvarsContent = tfvarsContent.replace(regex, '');
-      writeFileSync(tfvarsPath, tfvarsContent);
       cidr = null;
     }
   } else if (cidr) {
     // Ensure CIDR format (add /32 if no CIDR notation)
     if (!cidr.includes('/')) {
       cidr = `${cidr}/32`;
-      // Update terraform.tfvars with properly formatted CIDR
-      const regex = new RegExp(`${varName}\\s*=\\s*["']?[^"'\n]+["']?`);
-      tfvarsContent = tfvarsContent.replace(
-        regex,
-        `${varName} = "${cidr}"`
-      );
-      writeFileSync(tfvarsPath, tfvarsContent);
     }
     console.log(`🔒 ${displayName} access will be restricted to: ${cidr}\n`);
+    // Note: Value is already in terraform.tfvars, no override needed
   }
   
-  return { cidr, tfvarsContent };
+  return { cidr, autoVars };
 }
 
 (async () => {
@@ -127,41 +123,56 @@ async function processCidr(tfvarsContent, tfvarsPath, varName, displayName) {
     process.exit(1);
   }
 
-  // Read and parse terraform.tfvars
-  let tfvarsContent = readFileSync(tfvarsPath, 'utf-8');
+  // Read terraform.tfvars (read-only, won't modify it)
+  const tfvarsContent = readFileSync(tfvarsPath, 'utf-8');
+  
+  // Process CIDR values and set environment variables for validate, build -var flags for plan/apply
+  // Using TF_VAR_* for validate (which doesn't accept -var flags), and -var flags for plan/apply
+  let terraformVars = [];
 
   // Process SSH CIDR
-  const sshResult = await processCidr(tfvarsContent, tfvarsPath, 'allowed_ssh_cidr', 'SSH');
-  tfvarsContent = sshResult.tfvarsContent;
+  const sshResult = await processCidr(tfvarsContent, 'allowed_ssh_cidr', 'SSH');
+  if (sshResult.autoVars.allowed_ssh_cidr) {
+    process.env.TF_VAR_allowed_ssh_cidr = sshResult.autoVars.allowed_ssh_cidr;
+    terraformVars.push('-var', `allowed_ssh_cidr=${sshResult.autoVars.allowed_ssh_cidr}`);
+  }
   if (!sshResult.cidr) {
     console.log('   ℹ️  SSH access using default (allowing access from anywhere - 0.0.0.0/0)\n');
   }
   
   // Process HTTP CIDR
-  const httpResult = await processCidr(tfvarsContent, tfvarsPath, 'allowed_http_cidr', 'HTTP/HTTPS');
-  tfvarsContent = httpResult.tfvarsContent;
+  const httpResult = await processCidr(tfvarsContent, 'allowed_http_cidr', 'HTTP/HTTPS');
+  if (httpResult.autoVars.allowed_http_cidr) {
+    process.env.TF_VAR_allowed_http_cidr = httpResult.autoVars.allowed_http_cidr;
+    terraformVars.push('-var', `allowed_http_cidr=${httpResult.autoVars.allowed_http_cidr}`);
+  }
   if (!httpResult.cidr) {
     console.log('   ℹ️  No HTTP access restriction configured (allowing access from anywhere)\n');
   }
+  
+  if (terraformVars.length > 0) {
+    console.log('   ℹ️  Using TF_VAR_* environment variables and -var flags to override "auto" values with detected IPs\n');
+  }
 
-  // Get project name for resource checking
+  // Get project name for resource checking (read from original tfvars)
+  // Use parseCidr for consistency with clean.mjs (handles commented lines properly)
   let projectName = 'magnolia-author';
   try {
-    const projectMatch = tfvarsContent.match(/project_name\s*=\s*["']?([^"'\s]+)["']?/);
-    if (projectMatch) {
-      projectName = projectMatch[1];
+    const projectValue = parseCidr(tfvarsContent, 'project_name');
+    if (projectValue) {
+      projectName = projectValue;
     }
   } catch (error) {
     // Use default
   }
 
   // Parse terraform.tfvars to get key_pair_name
+  // Use parseCidr for consistency (handles commented lines properly)
   let keyPairName = null;
   try {
-    // Match key_pair_name = "value" or key_pair_name = 'value' or key_pair_name = value
-    const keyPairMatch = tfvarsContent.match(/key_pair_name\s*=\s*["']?([^"'\s]+)["']?/);
-    if (keyPairMatch) {
-      keyPairName = keyPairMatch[1];
+    const keyPairValue = parseCidr(tfvarsContent, 'key_pair_name');
+    if (keyPairValue) {
+      keyPairName = keyPairValue;
     }
   } catch (error) {
     console.warn(`⚠️  Warning: Could not parse terraform.tfvars: ${error.message}`);
@@ -257,20 +268,47 @@ async function processCidr(tfvarsContent, tfvarsPath, varName, displayName) {
     console.log('📦 Initializing Terraform...');
     execSync('terraform init', { stdio: 'inherit' });
 
+    // Build terraform command args helper
+    const buildTerraformArgs = (baseArgs) => {
+      return terraformVars.length > 0 ? [...baseArgs, ...terraformVars] : baseArgs;
+    };
+
     // Validate configuration
+    // Note: terraform validate doesn't accept -var flags, so we use TF_VAR_* environment variables
     console.log('\n✅ Validating Terraform configuration...');
-    execSync('terraform validate', { stdio: 'inherit' });
+    const validateResult = spawnSync('terraform', ['validate'], { 
+      stdio: 'inherit',
+      cwd: terraformDir,
+      env: process.env
+    });
+    if (validateResult.error || validateResult.status !== 0) {
+      throw new Error(`terraform validate failed`);
+    }
 
     // Plan changes
     console.log('\n📋 Planning infrastructure changes...');
-    execSync('terraform plan', { stdio: 'inherit' });
+    const planArgs = buildTerraformArgs(['terraform', 'plan']);
+    const planResult = spawnSync(planArgs[0], planArgs.slice(1), { 
+      stdio: 'inherit',
+      cwd: terraformDir
+    });
+    if (planResult.error || planResult.status !== 0) {
+      throw new Error(`terraform plan failed`);
+    }
 
     // Apply changes
     console.log('\n🔨 Applying infrastructure changes...');
     console.log('   This will create EC2 instance, security groups, and other resources.');
     console.log('   This may take a few minutes...\n');
     
-    execSync('terraform apply -auto-approve', { stdio: 'inherit' });
+    const applyArgs = buildTerraformArgs(['terraform', 'apply', '-auto-approve']);
+    const applyResult = spawnSync(applyArgs[0], applyArgs.slice(1), { 
+      stdio: 'inherit',
+      cwd: terraformDir
+    });
+    if (applyResult.error || applyResult.status !== 0) {
+      throw new Error(`terraform apply failed`);
+    }
 
     // Show outputs
     console.log('\n📊 Infrastructure outputs:');

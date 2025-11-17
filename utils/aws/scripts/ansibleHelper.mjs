@@ -38,7 +38,7 @@ function isAnsibleInWSL() {
 }
 
 /**
- * Finds Ansible command, checking Windows first, then WSL
+ * Finds Ansible command, checking Windows first, then WSL with retries
  * @returns {Object} { command: string, useWSL: boolean, method: string }
  */
 function findAnsibleCommand() {
@@ -58,13 +58,30 @@ function findAnsibleCommand() {
     }
   }
   
-  // If on Windows and WSL is available, try WSL
+  // If on Windows and WSL is available, try WSL with retries
   if (isWindows && isWSLAvailable()) {
-    try {
-      execSync('wsl ansible --version', { stdio: 'ignore', shell: true, timeout: 5000 });
-      return { command: 'ansible', useWSL: true, method: 'ansible (WSL)' };
-    } catch (e) {
-      // WSL available but Ansible not installed in WSL
+    // Warm up WSL first
+    warmupWSL();
+    
+    // Retry logic for WSL ansible check
+    const maxRetries = 3;
+    const retryDelays = [500, 1000, 2000];
+    
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+      try {
+        execSync('wsl ansible --version', { stdio: 'ignore', shell: true, timeout: 10000 });
+        return { command: 'ansible', useWSL: true, method: 'ansible (WSL)' };
+      } catch (e) {
+        if (attempt < maxRetries - 1) {
+          const delay = retryDelays[attempt] || 2000;
+          try {
+            execSync(`powershell -Command "Start-Sleep -Milliseconds ${delay}"`, { stdio: 'ignore', shell: true });
+          } catch (sleepErr) {
+            const start = Date.now();
+            while (Date.now() - start < delay) {}
+          }
+        }
+      }
     }
   }
   
@@ -72,7 +89,7 @@ function findAnsibleCommand() {
 }
 
 /**
- * Finds ansible-galaxy command, checking Windows first, then WSL
+ * Finds ansible-galaxy command, checking Windows first, then WSL with retries
  * @returns {Object} { command: string, useWSL: boolean, method: string }
  */
 function findAnsibleGalaxyCommand() {
@@ -92,13 +109,30 @@ function findAnsibleGalaxyCommand() {
     }
   }
   
-  // If on Windows and WSL is available, try WSL
+  // If on Windows and WSL is available, try WSL with retries
   if (isWindows && isWSLAvailable()) {
-    try {
-      execSync('wsl ansible-galaxy --version', { stdio: 'ignore', shell: true, timeout: 5000 });
-      return { command: 'ansible-galaxy', useWSL: true, method: 'ansible-galaxy (WSL)' };
-    } catch (e) {
-      // WSL available but Ansible not installed in WSL
+    // Warm up WSL first
+    warmupWSL();
+    
+    // Retry logic for WSL ansible check
+    const maxRetries = 3;
+    const retryDelays = [500, 1000, 2000];
+    
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+      try {
+        execSync('wsl ansible-galaxy --version', { stdio: 'ignore', shell: true, timeout: 10000 });
+        return { command: 'ansible-galaxy', useWSL: true, method: 'ansible-galaxy (WSL)' };
+      } catch (e) {
+        if (attempt < maxRetries - 1) {
+          const delay = retryDelays[attempt] || 2000;
+          try {
+            execSync(`powershell -Command "Start-Sleep -Milliseconds ${delay}"`, { stdio: 'ignore', shell: true });
+          } catch (sleepErr) {
+            const start = Date.now();
+            while (Date.now() - start < delay) {}
+          }
+        }
+      }
     }
   }
   
@@ -106,7 +140,23 @@ function findAnsibleGalaxyCommand() {
 }
 
 /**
- * Finds ansible-playbook command, checking Windows first, then WSL
+ * Warms up WSL by running a simple command to ensure it's initialized
+ * @returns {boolean} True if WSL is ready
+ */
+function warmupWSL() {
+  if (!isWindows || !isWSLAvailable()) return false;
+  
+  try {
+    // Run a simple command to initialize WSL (this can take a moment on first run)
+    execSync('wsl echo "ready"', { stdio: 'ignore', shell: true, timeout: 10000 });
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+/**
+ * Finds ansible-playbook command, checking Windows first, then WSL with retries
  * @returns {Object} { command: string, useWSL: boolean, method: string }
  */
 function findAnsiblePlaybookCommand() {
@@ -126,13 +176,35 @@ function findAnsiblePlaybookCommand() {
     }
   }
   
-  // If on Windows and WSL is available, try WSL
+  // If on Windows and WSL is available, try WSL with retries
   if (isWindows && isWSLAvailable()) {
-    try {
-      execSync('wsl ansible-playbook --version', { stdio: 'ignore', shell: true, timeout: 5000 });
-      return { command: 'ansible-playbook', useWSL: true, method: 'ansible-playbook (WSL)' };
-    } catch (e) {
-      // WSL available but Ansible not installed in WSL
+    // Warm up WSL first (important for parallel execution)
+    warmupWSL();
+    
+    // Retry logic for WSL ansible check (handles initialization delays)
+    const maxRetries = 3;
+    const retryDelays = [500, 1000, 2000]; // Exponential backoff
+    
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+      try {
+        execSync('wsl ansible-playbook --version', { stdio: 'ignore', shell: true, timeout: 10000 });
+        return { command: 'ansible-playbook', useWSL: true, method: 'ansible-playbook (WSL)' };
+      } catch (e) {
+        if (attempt < maxRetries - 1) {
+          // Wait before retrying (except on last attempt)
+          const delay = retryDelays[attempt] || 2000;
+          try {
+            // Use a simple sleep via execSync
+            execSync(`powershell -Command "Start-Sleep -Milliseconds ${delay}"`, { stdio: 'ignore', shell: true });
+          } catch (sleepErr) {
+            // Fallback: busy wait if powershell fails
+            const start = Date.now();
+            while (Date.now() - start < delay) {
+              // Busy wait
+            }
+          }
+        }
+      }
     }
   }
   

@@ -19,12 +19,22 @@ variable "allowed_ssh_cidr" {
   description = "CIDR block allowed for SSH access. Set to 'auto' or 'auto-detect' to auto-detect your public IP, specify an IP/CIDR (e.g., '203.0.113.45/32'), or use default '0.0.0.0/0' to allow access from anywhere (not recommended for production)"
   type        = string
   default     = "0.0.0.0/0"
+  
+  validation {
+    condition     = var.allowed_ssh_cidr != "auto" && var.allowed_ssh_cidr != "auto-detect"
+    error_message = "ERROR: 'auto' value detected in allowed_ssh_cidr! The create script should have replaced this with your IP. Please run: npm run aws:create"
+  }
 }
 
 variable "allowed_http_cidr" {
   description = "CIDR block allowed for HTTP/HTTPS access to Tomcat. Set to 'auto' or 'auto-detect' to auto-detect your public IP, specify an IP/CIDR (e.g., '203.0.113.45/32'), or leave unset/null to allow access from anywhere (0.0.0.0/0)"
   type        = string
   default     = null
+  
+  validation {
+    condition     = var.allowed_http_cidr == null || (var.allowed_http_cidr != "auto" && var.allowed_http_cidr != "auto-detect")
+    error_message = "ERROR: 'auto' value detected in allowed_http_cidr! The create script should have replaced this with your IP. Please run: npm run aws:create"
+  }
 }
 
 variable "project_name" {

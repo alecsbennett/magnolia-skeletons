@@ -28,11 +28,10 @@ locals {
     TerraformRepo = "MagnoliaSkeletons"
   })
   
-  # Handle "auto" values - convert to null so Terraform uses defaults
-  # The create script will replace "auto" with actual IP before Terraform runs
-  # This is a safety net in case Terraform validates before the script runs
-  allowed_ssh_cidr = var.allowed_ssh_cidr == "auto" || var.allowed_ssh_cidr == "auto-detect" ? "0.0.0.0/0" : var.allowed_ssh_cidr
-  allowed_http_cidr = var.allowed_http_cidr == "auto" || var.allowed_http_cidr == "auto-detect" ? null : var.allowed_http_cidr
+  # Use the variables directly - validation blocks will catch "auto" values
+  # The create script MUST replace "auto" with actual IP before Terraform runs
+  allowed_ssh_cidr = var.allowed_ssh_cidr
+  allowed_http_cidr = var.allowed_http_cidr
 }
 
 # Data source for latest Amazon Linux 2023 AMI

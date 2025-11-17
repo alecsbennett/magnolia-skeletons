@@ -3,6 +3,7 @@
 import { spawn } from 'child_process';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { existsSync, readFileSync } from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -19,6 +20,18 @@ const FLAGS = {
   skipPostgres: envFlag('DEPLOY_SKIP_POSTGRES', false),
   skipTomcat: envFlag('DEPLOY_SKIP_TOMCAT', false),
 };
+
+// Helper: parse boolean from terraform.tfvars
+function parseTfVar(tfvarsContent, varName, defaultValue = false) {
+  // Match: varName = value (with optional quotes, stops at # comment or newline)
+  const regex = new RegExp(`${varName}\\s*=\\s*["']?([^"'\n#]+)["']?`);
+  const match = tfvarsContent.match(regex);
+  if (match) {
+    const value = match[1].trim().toLowerCase();
+    return value === 'true' || value === '1' || value === 'yes';
+  }
+  return defaultValue;
+}
 
 console.log('📦 Deploying Magnolia to AWS with Ansible...\n');
 
@@ -86,6 +99,49 @@ function runScript(scriptPath, name) {
     console.log('\n' + '='.repeat(60));
     console.log('✅ ALL DEPLOYMENTS COMPLETE!');
     console.log('='.repeat(60) + '\n');
+
+    // Check if monitoring is enabled
+    const terraformDir = join(__dirname, '..', 'terraform');
+    const tfvarsPath = join(terraformDir, 'terraform.tfvars');
+    
+    if (existsSync(tfvarsPath)) {
+      const tfvarsContent = readFileSync(tfvarsPath, 'utf-8');
+      const monitor = parseTfVar(tfvarsContent, 'monitor', false);
+      
+      console.log(`\n🔍 Monitoring check: monitor=${monitor}\n`);
+      
+      if (monitor) {
+        const monitorScript = join(__dirname, 'monitor-magnolia.mjs');
+        console.log('🔍 Starting Magnolia startup monitoring...\n');
+        
+        // Run monitoring script in foreground and wait for completion
+        await new Promise((resolve, reject) => {
+          const monitorProc = spawn('node', [monitorScript], {
+            stdio: 'inherit',
+            shell: false
+          });
+
+          monitorProc.on('close', (code) => {
+            if (code === 0) {
+              console.log('\n✅ Monitoring completed\n');
+              resolve();
+            } else {
+              console.log(`\n⚠️  Monitoring exited with code ${code}\n`);
+              resolve(); // Don't fail deployment if monitoring has issues
+            }
+          });
+
+          monitorProc.on('error', (err) => {
+            console.error(`\n⚠️  Error running monitoring: ${err.message}\n`);
+            resolve(); // Don't fail deployment if monitoring fails to start
+          });
+        });
+      } else {
+        console.log('   ⏭️  Monitoring disabled (monitor=false in terraform.tfvars)\n');
+      }
+    } else {
+      console.log('   ⚠️  terraform.tfvars not found, skipping monitoring\n');
+    }
 
   } catch (error) {
     console.error('\n❌ Deployment failed:', error.message);

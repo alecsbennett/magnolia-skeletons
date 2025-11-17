@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { execSync } from 'child_process';
+import { execSync, spawnSync } from 'child_process';
 import { existsSync, readFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -13,6 +13,27 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const terraformDir = join(__dirname, '..', 'terraform');
+
+// Parse CIDR from terraform.tfvars (same logic as create.mjs)
+function parseCidr(tfvarsContent, varName) {
+  // Match varName = "value" but NOT commented lines (lines starting with # or whitespace followed by #)
+  // Use multiline mode and match from start of line (or after whitespace) but not if line starts with #
+  const lines = tfvarsContent.split('\n');
+  for (const line of lines) {
+    const trimmed = line.trim();
+    // Skip commented lines
+    if (trimmed.startsWith('#')) {
+      continue;
+    }
+    // Match varName = "value" or varName = 'value' or varName = value
+    const regex = new RegExp(`^\\s*${varName}\\s*=\\s*["']?([^"'\n#]+)["']?`);
+    const match = trimmed.match(regex);
+    if (match) {
+      return match[1].trim();
+    }
+  }
+  return null;
+}
 
 // Load and set AWS credentials
 const awsConfig = loadAwsConfig();
@@ -75,15 +96,15 @@ if (existsSync(terraformState)) {
   }
 }
 
-// Get project name from terraform.tfvars
+// Get project name from terraform.tfvars (using parseCidr logic for consistency)
 let projectName = 'magnolia-author';
 try {
   const tfvarsPath = join(terraformDir, 'terraform.tfvars');
   if (existsSync(tfvarsPath)) {
     const tfvarsContent = readFileSync(tfvarsPath, 'utf-8');
-    const projectMatch = tfvarsContent.match(/project_name\s*=\s*["']?([^"'\s]+)["']?/);
-    if (projectMatch) {
-      projectName = projectMatch[1];
+    const projectCidr = parseCidr(tfvarsContent, 'project_name');
+    if (projectCidr) {
+      projectName = projectCidr;
     }
   }
 } catch (error) {
@@ -143,8 +164,52 @@ rl.question('Type "CLEAN" to confirm: ', async (answer) => {
     if (existsSync(terraformState)) {
       console.log('🗑️  Destroying Terraform-managed infrastructure...');
       console.log('   This may take a few minutes...\n');
-      execSync('terraform destroy -auto-approve', { stdio: 'inherit' });
-      console.log('\n✅ Terraform resources destroyed successfully!');
+      
+      // Check if terraform.tfvars has "auto" values that need to be overridden
+      // Use -var flags (like create.mjs) to override values before validation
+      const tfvarsPath = join(terraformDir, 'terraform.tfvars');
+      const terraformVars = [];
+      
+      if (existsSync(tfvarsPath)) {
+        const tfvarsContent = readFileSync(tfvarsPath, 'utf-8');
+        
+        // Check for "auto" values and override them with valid values for destroy
+        // Use parseCidr to properly handle commented lines (same logic as create.mjs)
+        const sshCidr = parseCidr(tfvarsContent, 'allowed_ssh_cidr');
+        const httpCidr = parseCidr(tfvarsContent, 'allowed_http_cidr');
+        
+        if (sshCidr && (sshCidr.toLowerCase() === 'auto' || sshCidr.toLowerCase() === 'auto-detect')) {
+          terraformVars.push('-var', 'allowed_ssh_cidr=0.0.0.0/0');
+        }
+        if (httpCidr && (httpCidr.toLowerCase() === 'auto' || httpCidr.toLowerCase() === 'auto-detect')) {
+          terraformVars.push('-var', 'allowed_http_cidr=0.0.0.0/0');
+        }
+        
+        if (terraformVars.length > 0) {
+          console.log('   ℹ️  Overriding "auto" values with -var flags for destroy operation\n');
+        }
+      }
+      
+      try {
+        // Build destroy command with -var flags if needed
+        const destroyArgs = ['destroy', '-auto-approve', ...terraformVars];
+        const result = spawnSync('terraform', destroyArgs, { 
+          stdio: 'inherit',
+          cwd: terraformDir,
+          env: process.env
+        });
+        
+        if (result.error) {
+          throw result.error;
+        }
+        
+        if (result.status !== 0) {
+          throw new Error(`terraform destroy failed with exit code ${result.status}`);
+        }
+        console.log('\n✅ Terraform resources destroyed successfully!');
+      } catch (error) {
+        throw error;
+      }
     } else {
       console.log('ℹ️  No Terraform state found. Will only clean up orphaned resources.\n');
     }
