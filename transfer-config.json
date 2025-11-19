@@ -1,0 +1,25 @@
+{
+  "output": {
+    "type": "FileSystem",
+    "destinationPath": "d:/magnolia-data",
+    "filters": [
+      {
+        "exclude": "jcr:.*",
+        "exceptions": ["jcr:primaryType"]
+      },
+      {
+        "exclude": "mgnl:.*",
+        "exceptions": ["mgnl:template"]
+      }
+    ],
+    "settings": {}
+  },
+  "workspaces": [
+    {
+      "workspace": "website",
+      "paths": [".*"],
+      "mode": "node"
+    }
+  ]
+}
+

@@ -6,6 +6,7 @@ import CreatePagePlugin from '@magnolia/cli-create-page-plugin';
 import CreateAppPlugin from '@magnolia/cli-create-app-plugin';
 import CreateBlockPlugin from '@magnolia/cli-create-block-plugin';
 import StartCustomPlugin from './utils/mgnl/cli-start-custom-plugin.js';
+import ContentTransferPlugin from './utils/mgnl/cli-content-transfer-plugin.js';
 export default {
 	lightModule: 'tbscg',
 	// Global properties used by plugins
@@ -25,6 +26,7 @@ export default {
 		new CreateAppPlugin(),
 		new CreateBlockPlugin(),
 		new StartCustomPlugin(),
+		new ContentTransferPlugin(),
 	],
 	// Logger configuration
 	logger: {

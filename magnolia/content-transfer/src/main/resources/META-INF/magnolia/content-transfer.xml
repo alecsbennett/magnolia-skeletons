@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+  <name>content-transfer</name>
+  <class>info.magnolia.contenttransfer.ContentTransferModule</class>
+  <versionHandler>info.magnolia.contenttransfer.setup.ContentTransferModuleVersionHandler</versionHandler>
+  <version>1.0.0</version>
+  <dependencies>
+    <dependency>
+      <name>core</name>
+    </dependency>
+  </dependencies>
+  <servlets>
+    <servlet>
+      <name>contentTransfer</name>
+      <class>info.magnolia.contenttransfer.servlet.ContentTransferServlet</class>
+      <mappings>
+        <mapping>/content-transfer/*</mapping>
+      </mappings>
+    </servlet>
+  </servlets>
+</module>
+

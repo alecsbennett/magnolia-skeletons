@@ -91,5 +91,6 @@
   <modules>
     <module>magnolia-webapp</module>
     <module>jcr-filesystem-sync</module>
+    <module>content-transfer</module>
   </modules>
 </project>

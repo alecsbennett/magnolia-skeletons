@@ -16,6 +16,17 @@
       <artifactId>magnolia-community-webapp</artifactId>
       <type>pom</type>
     </dependency>
+    <!-- Custom modules -->
+    <dependency>
+      <groupId>info.magnolia.dx</groupId>
+      <artifactId>jcr-filesystem-sync</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>info.magnolia.dx</groupId>
+      <artifactId>content-transfer</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 
   <build>

@@ -63,8 +63,9 @@ const openBrowser = (url) => {
 };
 
 const monitorLogs = (config) => {
-	return new Promise((resolve, reject) => {
+	return new Promise(async (resolve, reject) => {
 		let lastSize = 0;
+		let initialSize = 0;
 		let checkCount = 0;
 		let fileNotFoundCount = 0;
 		const maxFileNotFoundAttempts = 60;
@@ -75,6 +76,19 @@ const monitorLogs = (config) => {
 		debugLog(`[DEBUG] Startup pattern: ${config.startupPattern}`);
 		debugLog(`[DEBUG] Poll interval: ${config.pollInterval}ms`);
 		debugLog(`[DEBUG] Startup timeout: ${config.startupTimeout}ms\n`);
+		
+		// Get initial file size to only check new content
+		try {
+			const logFileExists = await checkLogFileExists(logPath);
+			if (logFileExists) {
+				const stats = await fs.stat(logPath);
+				initialSize = stats.size;
+				lastSize = initialSize;
+				debugLog(`[DEBUG] Initial log file size: ${initialSize} bytes - will only check new content`);
+			}
+		} catch (error) {
+			debugLog(`[DEBUG] Could not get initial file size: ${error.message}`);
+		}
 		
 		let interval;
 		let timeout;
@@ -106,14 +120,25 @@ const monitorLogs = (config) => {
 				fileNotFoundCount = 0;
 				const stats = await fs.stat(logPath);
 				const currentSize = stats.size;
-				debugLog(`[DEBUG] Log file size: ${currentSize} bytes (previous: ${lastSize} bytes)`);
+				debugLog(`[DEBUG] Log file size: ${currentSize} bytes (initial: ${initialSize}, previous: ${lastSize})`);
 				
-				// Check the entire file when it grows (not just delta) to catch startup message
-				// that might have appeared in a chunk we already processed
+				// Check only new content added since monitoring started to avoid matching
+				// old startup messages from previous runs. This ensures we only detect new startup.
 				if (currentSize > lastSize || (currentSize > 0 && lastSize === 0)) {
-					const fileContent = await fs.readFile(logPath, "utf-8");
-					debugLog(`[DEBUG] Reading log file content (${fileContent.length} chars)`);
-					debugLog(`[DEBUG] Last 200 chars of log: ${fileContent.slice(-200)}`);
+					// Only check content that was added since monitoring started
+					// Read from initialSize onwards (or last 50KB if file is smaller)
+					const contentToCheck = currentSize - initialSize;
+					const tailSize = Math.min(Math.max(contentToCheck, 0), 50000);
+					const startPos = Math.max(initialSize, currentSize - tailSize);
+					
+					const fileHandle = await fs.open(logPath, "r");
+					const buffer = Buffer.alloc(tailSize);
+					await fileHandle.read(buffer, 0, tailSize, startPos);
+					await fileHandle.close();
+					
+					const fileContent = buffer.toString("utf-8");
+					debugLog(`[DEBUG] Reading log file tail (${tailSize} bytes from position ${startPos}, total size: ${currentSize})`);
+					debugLog(`[DEBUG] Last 200 chars of tail: ${fileContent.slice(-200)}`);
 					
 					// Reset regex lastIndex to avoid state issues
 					config.startupPattern.lastIndex = 0;

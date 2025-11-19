@@ -1,0 +1,24 @@
+{
+  "output": {
+    "type": "S3",
+    "destinationPath": "my-magnolia-bucket/exports",
+    "settings": {
+      "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
+      "secretAccessKey": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+      "region": "us-east-1"
+    }
+  },
+  "workspaces": [
+    {
+      "workspace": "website",
+      "paths": ["/website/.*"],
+      "mode": "node"
+    },
+    {
+      "workspace": "contacts",
+      "paths": [".*"],
+      "mode": "combined"
+    }
+  ]
+}
+

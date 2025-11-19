@@ -1,0 +1,7 @@
+class: info.magnolia.contenttransfer.filter.ContentTransferFilter
+enabled: true
+mappings:
+  contentTransfer:
+    pattern: /content-transfer/*
+
+

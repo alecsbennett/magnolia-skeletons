@@ -1,0 +1,25 @@
+{
+  "output": {
+    "type": "OneDrive",
+    "destinationPath": "MagnoliaExports",
+    "settings": {
+      "tenantId": "your-tenant-id",
+      "clientId": "your-client-id",
+      "clientSecret": "your-client-secret",
+      "driveId": "me"
+    }
+  },
+  "workspaces": [
+    {
+      "workspace": "website",
+      "paths": [".*"],
+      "mode": "node"
+    },
+    {
+      "workspace": "contacts",
+      "paths": [".*"],
+      "mode": "combined"
+    }
+  ]
+}
+

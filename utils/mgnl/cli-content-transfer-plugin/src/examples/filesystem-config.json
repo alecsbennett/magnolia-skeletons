@@ -1,0 +1,20 @@
+{
+  "output": {
+    "type": "FileSystem",
+    "destinationPath": "d:/magnolia-data",
+    "settings": {}
+  },
+  "workspaces": [
+    {
+      "workspace": "website",
+      "paths": [".*"],
+      "mode": "node"
+    },
+    {
+      "workspace": "contacts",
+      "paths": [".*"],
+      "mode": "combined"
+    }
+  ]
+}
+
