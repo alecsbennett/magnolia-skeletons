@@ -133,6 +133,9 @@ utils/aws/terraform/*.tfvars
 # AWS Credentials
 utils/aws/aws-credentials.properties
 
+# Content Transfer Configuration (may contain secrets)
+transfer-config.json
+
 # Ansible generated files
 utils/aws/ansible/inventory.ini
 utils/aws/ansible/vars.yml
