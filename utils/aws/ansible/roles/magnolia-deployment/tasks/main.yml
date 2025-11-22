@@ -36,6 +36,55 @@
     group: "{{ tomcat_group }}"
     mode: '0755'
 
+- name: Check if unzip is installed
+  command: which unzip
+  register: unzip_check
+  changed_when: false
+  failed_when: false
+
+- name: Detect package manager
+  command: which dnf || which yum || which apt-get
+  register: package_manager_check
+  changed_when: false
+  failed_when: false
+
+- name: Install unzip using dnf (Amazon Linux/RHEL/Fedora)
+  dnf:
+    name: unzip
+    state: present
+  when: 
+    - unzip_check.rc != 0
+    - "'dnf' in package_manager_check.stdout"
+
+- name: Install unzip using yum (older RHEL/CentOS)
+  yum:
+    name: unzip
+    state: present
+  when:
+    - unzip_check.rc != 0
+    - "'yum' in package_manager_check.stdout"
+    - "'dnf' not in package_manager_check.stdout"
+
+- name: Install unzip using apt (Debian/Ubuntu)
+  ansible.builtin.apt:
+    name: unzip
+    state: present
+    update_cache: yes
+  when:
+    - unzip_check.rc != 0
+    - "'apt-get' in package_manager_check.stdout"
+
+- name: Verify unzip installation
+  command: which unzip
+  register: unzip_verify
+  changed_when: false
+  failed_when: unzip_verify.rc != 0
+
+- name: Fail if unzip is not available
+  fail:
+    msg: "unzip is required to extract WAR files but could not be installed. Please install it manually."
+  when: unzip_verify.rc != 0
+
 - name: Extract WAR file
   unarchive:
     src: "/tmp/magnolia-webapp.war"

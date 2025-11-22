@@ -11,6 +11,7 @@
       - wget
       - tar
       - gzip
+      - unzip
       - iptables-services
     state: present
 
