@@ -32,10 +32,14 @@ export default {
 	logger: {
 		filename: './mgnl.error.log',
 		fileLevel: 'warn',
-		consoleLevel: 'debug',
+		consoleLevel: 'warn',
 	},
+
+	// Content Transfer configuration file path
+
+	contentTransferConfigPath: 'C:/Development/MagnoliaSkeletons/6.4-Community/transfer-config.json',
 	// Analytics configuration
 	analytics: {
-		enabled: true,
+		enabled: false,
 	},
 };

@@ -140,6 +140,12 @@ public class ContentTransferFilter extends AbstractMgnlFilter {
 
         if ("/status".equals(subPath) || "/".equals(subPath)) {
             handleStatus(response);
+        } else if ("/configure".equals(subPath)) {
+            handleConfigure(request, response);
+        } else if ("/export".equals(subPath)) {
+            handleExport(request, response);
+        } else if ("/import".equals(subPath)) {
+            handleImport(request, response);
         } else {
             sendErrorResponse(response, HttpServletResponse.SC_NOT_FOUND, "Endpoint not found");
         }
@@ -148,21 +154,15 @@ public class ContentTransferFilter extends AbstractMgnlFilter {
     private void handlePost(HttpServletRequest request, HttpServletResponse response, String subPath)
             throws IOException {
 
-        // POST endpoints require authentication (health is GET-only)
+        // POST endpoints require authentication
         if (!isAuthenticated(request)) {
             sendErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized: Invalid private key");
             return;
         }
 
-        if ("/configure".equals(subPath)) {
-            handleConfigure(request, response);
-        } else if ("/export".equals(subPath)) {
-            handleExport(response);
-        } else if ("/import".equals(subPath)) {
-            handleImport(response);
-        } else {
-            sendErrorResponse(response, HttpServletResponse.SC_NOT_FOUND, "Endpoint not found");
-        }
+        // POST is only used for configure (if needed in the future)
+        sendErrorResponse(response, HttpServletResponse.SC_METHOD_NOT_ALLOWED,
+                "POST not supported for this endpoint. Use GET for export/import.");
     }
 
     private boolean isAuthenticated(HttpServletRequest request) {
@@ -194,10 +194,22 @@ public class ContentTransferFilter extends AbstractMgnlFilter {
         }
     }
 
-    private void handleExport(HttpServletResponse response) throws IOException {
+    private void handleExport(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
-            exportService.export();
-            Map<String, Object> result = createResponse("message", "Export completed successfully");
+            // Extract configuration from request
+            Map<String, Object> configMap = extractConfiguration(request);
+            if (configMap == null) {
+                sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST,
+                        "Missing configuration. Configuration must be provided in request body or query parameter.");
+                return;
+            }
+
+            Map<String, Object> exportResult = exportService.export(configMap);
+            Map<String, Object> result = new HashMap<>();
+            result.put("success", true);
+            result.put("message", exportResult.get("message"));
+            Object documentsExported = exportResult.get("documentsExported");
+            result.put("documentsExported", documentsExported != null ? documentsExported : 0);
             sendSuccessResponse(response, result);
         } catch (Exception e) {
             log.error("Error during export", e);
@@ -206,15 +218,74 @@ public class ContentTransferFilter extends AbstractMgnlFilter {
         }
     }
 
-    private void handleImport(HttpServletResponse response) throws IOException {
+    private void handleImport(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
-            importService.importContent();
-            Map<String, Object> result = createResponse("message", "Import completed successfully");
+            // Extract configuration from request
+            Map<String, Object> configMap = extractConfiguration(request);
+            if (configMap == null) {
+                sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST,
+                        "Missing configuration. Configuration must be provided in request body or query parameter.");
+                return;
+            }
+
+            Map<String, Object> importResult = importService.importContent(configMap);
+            Map<String, Object> result = new HashMap<>();
+            result.put("success", true);
+            result.put("message", importResult.get("message"));
+            Object documentsImported = importResult.get("documentsImported");
+            result.put("documentsImported", documentsImported != null ? documentsImported : 0);
             sendSuccessResponse(response, result);
         } catch (Exception e) {
             log.error("Error during import", e);
             sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                     "Import failed: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Extract configuration from request (body or query parameter).
+     */
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> extractConfiguration(HttpServletRequest request) throws IOException {
+        String configBase64 = null;
+
+        // Try to get from request body first (for POST requests)
+        if ("POST".equals(request.getMethod()) || "PUT".equals(request.getMethod())) {
+            try {
+                String body = readRequestBody(request);
+                if (body != null && !body.isEmpty()) {
+                    Map<String, Object> bodyMap = objectMapper.readValue(body, Map.class);
+                    Object configObj = bodyMap.get("config");
+                    if (configObj != null) {
+                        configBase64 = configObj.toString();
+                    }
+                }
+            } catch (Exception e) {
+                log.debug("Failed to read config from request body: {}", e.getMessage());
+            }
+        }
+
+        // Fall back to query parameter
+        if (configBase64 == null) {
+            configBase64 = request.getParameter("config");
+        }
+
+        if (configBase64 == null || configBase64.isEmpty()) {
+            return null;
+        }
+
+        try {
+            // Decode base64
+            byte[] decodedBytes = java.util.Base64.getDecoder().decode(configBase64);
+            String configJson = new String(decodedBytes, java.nio.charset.StandardCharsets.UTF_8);
+            
+            return objectMapper.readValue(configJson, Map.class);
+        } catch (IllegalArgumentException e) {
+            log.error("Error decoding base64 configuration", e);
+            throw new IOException("Invalid base64 encoding in config parameter: " + e.getMessage(), e);
+        } catch (Exception e) {
+            log.error("Error parsing configuration JSON", e);
+            throw new IOException("Invalid configuration JSON: " + e.getMessage(), e);
         }
     }
 

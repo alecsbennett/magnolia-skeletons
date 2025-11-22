@@ -113,9 +113,9 @@ public class ContentTransferServlet extends HttpServlet {
         } else if ("/configure".equals(subPath)) {
             handleConfigure(request, response);
         } else if ("/export".equals(subPath)) {
-            handleExport(response);
+            handleExport(request, response);
         } else if ("/import".equals(subPath)) {
-            handleImport(response);
+            handleImport(request, response);
         } else {
             sendErrorResponse(response, HttpServletResponse.SC_NOT_FOUND, "Endpoint not found");
         }
@@ -194,10 +194,22 @@ public class ContentTransferServlet extends HttpServlet {
         }
     }
 
-    private void handleExport(HttpServletResponse response) throws IOException {
+    private void handleExport(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
-            exportService.export();
-            Map<String, Object> result = createResponse("message", "Export completed successfully");
+            // Extract configuration from request
+            Map<String, Object> configMap = extractConfiguration(request);
+            if (configMap == null) {
+                sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST,
+                        "Missing configuration. Configuration must be provided in request body or query parameter.");
+                return;
+            }
+
+            Map<String, Object> exportResult = exportService.export(configMap);
+            Map<String, Object> result = new HashMap<>();
+            result.put("success", true);
+            result.put("message", exportResult.get("message"));
+            Object documentsExported = exportResult.get("documentsExported");
+            result.put("documentsExported", documentsExported != null ? documentsExported : 0);
             sendSuccessResponse(response, result);
         } catch (Exception e) {
             log.error("Error during export", e);
@@ -206,10 +218,22 @@ public class ContentTransferServlet extends HttpServlet {
         }
     }
 
-    private void handleImport(HttpServletResponse response) throws IOException {
+    private void handleImport(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
-            importService.importContent();
-            Map<String, Object> result = createResponse("message", "Import completed successfully");
+            // Extract configuration from request
+            Map<String, Object> configMap = extractConfiguration(request);
+            if (configMap == null) {
+                sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST,
+                        "Missing configuration. Configuration must be provided in request body or query parameter.");
+                return;
+            }
+
+            Map<String, Object> importResult = importService.importContent(configMap);
+            Map<String, Object> result = new HashMap<>();
+            result.put("success", true);
+            result.put("message", importResult.get("message"));
+            Object documentsImported = importResult.get("documentsImported");
+            result.put("documentsImported", documentsImported != null ? documentsImported : 0);
             sendSuccessResponse(response, result);
         } catch (Exception e) {
             log.error("Error during import", e);
@@ -218,14 +242,67 @@ public class ContentTransferServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Extract configuration from request (body or query parameter).
+     */
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> extractConfiguration(HttpServletRequest request) throws IOException {
+        String configBase64 = null;
+
+        // Try to get from request body first (for POST requests)
+        if ("POST".equals(request.getMethod()) || "PUT".equals(request.getMethod())) {
+            try {
+                StringBuilder body = new StringBuilder();
+                String line;
+                java.io.BufferedReader reader = request.getReader();
+                while ((line = reader.readLine()) != null) {
+                    body.append(line);
+                }
+                
+                if (body.length() > 0) {
+                    Map<String, Object> bodyMap = objectMapper.readValue(body.toString(), Map.class);
+                    Object configObj = bodyMap.get("config");
+                    if (configObj != null) {
+                        configBase64 = configObj.toString();
+                    }
+                }
+            } catch (Exception e) {
+                log.debug("Failed to read config from request body: {}", e.getMessage());
+            }
+        }
+
+        // Fall back to query parameter
+        if (configBase64 == null) {
+            configBase64 = request.getParameter("config");
+        }
+
+        if (configBase64 == null || configBase64.isEmpty()) {
+            return null;
+        }
+
+        try {
+            // Decode base64
+            byte[] decodedBytes = Base64.getDecoder().decode(configBase64);
+            String configJson = new String(decodedBytes, StandardCharsets.UTF_8);
+            
+            return objectMapper.readValue(configJson, Map.class);
+        } catch (IllegalArgumentException e) {
+            log.error("Error decoding base64 configuration", e);
+            throw new IOException("Invalid base64 encoding in config parameter: " + e.getMessage(), e);
+        } catch (Exception e) {
+            log.error("Error parsing configuration JSON", e);
+            throw new IOException("Invalid configuration JSON: " + e.getMessage(), e);
+        }
+    }
+
     private void handleHealth(HttpServletResponse response) throws IOException {
         Map<String, Object> health = new HashMap<>();
         health.put("status", "UP");
         health.put("service", "Content Transfer");
         health.put("servlet", "ContentTransferServlet");
-        health.put("configured", configService != null);
         health.put("exportService", exportService != null);
         health.put("importService", importService != null);
+        health.put("stateless", true);
         sendSuccessResponse(response, health);
     }
 
@@ -233,10 +310,9 @@ public class ContentTransferServlet extends HttpServlet {
         Map<String, Object> status = new HashMap<>();
         status.put("status", "running");
         status.put("service", "Content Transfer");
-        status.put("configured", configService != null);
         status.put("exportService", exportService != null);
         status.put("importService", importService != null);
-        status.put("hasConfiguration", configService != null);
+        status.put("stateless", true);
         sendSuccessResponse(response, status);
     }
 

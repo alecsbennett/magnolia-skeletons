@@ -23,7 +23,6 @@ public class ExportService {
     
     private static final Logger log = LoggerFactory.getLogger(ExportService.class);
     
-    private final ContentTransferConfigurationService configService;
     private final XmlSerializationService xmlService;
     private final RepositoryManager repositoryManager;
     
@@ -31,33 +30,43 @@ public class ExportService {
             ContentTransferConfigurationService configService,
             XmlSerializationService xmlService,
             RepositoryManager repositoryManager) {
-        this.configService = configService;
+        // Note: configService parameter kept for backward compatibility but not stored
+        // Configuration is now passed per-request
         this.xmlService = xmlService;
         this.repositoryManager = repositoryManager;
     }
     
     /**
      * Perform export operation based on configuration.
+     * @return Map with export statistics including document count
      */
-    public void export() throws Exception {
+    public java.util.Map<String, Object> export(java.util.Map<String, Object> configMap) throws Exception {
         log.info("Starting export operation");
         
+        // Parse configuration from map
+        ContentTransferConfigurationService configService = new ContentTransferConfigurationService();
+        configService.initialize(configMap);
+        
         if (configService.getOutputConfig() == null) {
-            throw new IllegalStateException("Output configuration not set. Call configure() first.");
+            throw new IllegalStateException("Output configuration not set in provided configuration.");
         }
         
         List<ContentTransferConfigurationService.WorkspaceConfig> workspaceConfigs = 
             configService.getWorkspaceConfigs();
         
         if (workspaceConfigs == null || workspaceConfigs.isEmpty()) {
-            throw new IllegalStateException("No workspace configurations found. Call configure() first.");
+            throw new IllegalStateException("No workspace configurations found in provided configuration.");
         }
+        
+        final int[] totalDocuments = {0};
         
         // Execute in system context
         info.magnolia.context.MgnlContext.doInSystemContext(() -> {
             try {
+                OutputDestination output = createOutputDestination(configService);
                 for (ContentTransferConfigurationService.WorkspaceConfig workspaceConfig : workspaceConfigs) {
-                    exportWorkspace(workspaceConfig);
+                    int count = exportWorkspace(workspaceConfig, configService, output);
+                    totalDocuments[0] += count;
                 }
             } catch (Exception e) {
                 log.error("Error during export", e);
@@ -66,13 +75,22 @@ public class ExportService {
             return null;
         });
         
-        log.info("Export operation completed");
+        java.util.Map<String, Object> result = new java.util.HashMap<>();
+        result.put("documentsExported", totalDocuments[0]);
+        result.put("message", "Export completed successfully");
+        
+        log.info("Export operation completed: {} documents exported", totalDocuments[0]);
+        return result;
     }
     
     /**
      * Export a workspace based on its configuration.
+     * @return Number of documents exported
      */
-    private void exportWorkspace(ContentTransferConfigurationService.WorkspaceConfig workspaceConfig) 
+    private int exportWorkspace(
+            ContentTransferConfigurationService.WorkspaceConfig workspaceConfig,
+            ContentTransferConfigurationService configService,
+            OutputDestination output) 
             throws Exception {
         
         String workspaceName = workspaceConfig.getWorkspace();
@@ -81,18 +99,23 @@ public class ExportService {
         Session session = info.magnolia.context.MgnlContext.getJCRSession(workspaceName);
         
         if (workspaceConfig.isCombinedMode()) {
-            exportCombinedMode(session, workspaceConfig);
+            return exportCombinedMode(session, workspaceConfig, output);
         } else if (workspaceConfig.isNodeMode()) {
-            exportNodeMode(session, workspaceConfig);
+            return exportNodeMode(session, workspaceConfig, configService, output);
         } else {
             log.warn("Unknown export mode for workspace {}: {}", workspaceName, workspaceConfig.getMode());
+            return 0;
         }
     }
     
     /**
      * Export in combined mode - single XML file per workspace.
+     * @return Number of documents exported (always 1 for combined mode)
      */
-    private void exportCombinedMode(Session session, ContentTransferConfigurationService.WorkspaceConfig workspaceConfig) 
+    private int exportCombinedMode(
+            Session session, 
+            ContentTransferConfigurationService.WorkspaceConfig workspaceConfig,
+            OutputDestination output) 
             throws RepositoryException, IOException, Exception {
         
         String workspaceName = workspaceConfig.getWorkspace();
@@ -118,10 +141,10 @@ public class ExportService {
             
             // Write to output destination
             String filename = workspaceName + "-export.xml";
-            OutputDestination output = createOutputDestination();
             output.write(filename, baos.toByteArray());
             
             log.info("Exported workspace {} in combined mode to {}", workspaceName, filename);
+            return 1; // Combined mode exports 1 file
             
         } finally {
             baos.close();
@@ -130,14 +153,19 @@ public class ExportService {
     
     /**
      * Export in node mode - separate XML file per primary node.
+     * @return Number of documents exported
      */
-    private void exportNodeMode(Session session, ContentTransferConfigurationService.WorkspaceConfig workspaceConfig) 
+    private int exportNodeMode(
+            Session session, 
+            ContentTransferConfigurationService.WorkspaceConfig workspaceConfig,
+            ContentTransferConfigurationService configService,
+            OutputDestination output) 
             throws RepositoryException, IOException, Exception {
         
         String workspaceName = workspaceConfig.getWorkspace();
         List<String> paths = workspaceConfig.getPaths();
         
-        OutputDestination output = createOutputDestination();
+        int documentCount = 0;
         
         // For each path pattern, find matching nodes and export each separately
         for (String pathPattern : paths) {
@@ -161,7 +189,7 @@ public class ExportService {
                 // Export this node as a separate file
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 try {
-                    xmlService.exportNodeToXml(session, nodePath, baos);
+                    xmlService.exportNodeToXml(session, nodePath, baos, configService);
                     
                     // Create file path matching ideal structure:
                     // /home -> website/home.xml
@@ -170,6 +198,7 @@ public class ExportService {
                     
                     output.write(relativePath, baos.toByteArray());
                     log.debug("Exported node {} to {}", nodePath, relativePath);
+                    documentCount++;
                     
                 } finally {
                     baos.close();
@@ -177,7 +206,8 @@ public class ExportService {
             }
         }
         
-        log.info("Exported workspace {} in node mode", workspaceName);
+        log.info("Exported workspace {} in node mode: {} documents", workspaceName, documentCount);
+        return documentCount;
     }
     
     /**
@@ -339,7 +369,7 @@ public class ExportService {
     /**
      * Create output destination based on configuration.
      */
-    private OutputDestination createOutputDestination() throws Exception {
+    private OutputDestination createOutputDestination(ContentTransferConfigurationService configService) throws Exception {
         ContentTransferConfigurationService.OutputConfig outputConfig = configService.getOutputConfig();
         String type = outputConfig.getType();
         

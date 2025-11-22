@@ -4,7 +4,7 @@
 		<sv:value>w2</sv:value>
 	</sv:property>
 	<sv:property sv:name="title" sv:type="String">
-		<sv:value>t2</sv:value>
+		<sv:value>t3</sv:value>
 	</sv:property>
 	<sv:property sv:name="jcr:primaryType" sv:type="Name">
 		<sv:value>mgnl:page</sv:value>

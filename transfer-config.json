@@ -1,7 +1,12 @@
 {
   "output": {
-    "type": "FileSystem",
-    "destinationPath": "d:/magnolia-data",
+    "type": "S3",
+    "destinationPath": "magnolia-content",
+    "settings": {
+      "accessKeyId": "YOUR_AWS_ACCESS_KEY_ID",
+      "secretAccessKey": "YOUR_AWS_SECRET_ACCESS_KEY",
+      "region": "us-east-1"
+    },
     "filters": [
       {
         "exclude": "jcr:.*",
@@ -11,8 +16,7 @@
         "exclude": "mgnl:.*",
         "exceptions": ["mgnl:template"]
       }
-    ],
-    "settings": {}
+    ]
   },
   "workspaces": [
     {
@@ -22,4 +26,3 @@
     }
   ]
 }
-
