@@ -263,7 +263,7 @@ public class ExportService {
             String childPath = child.getPath();
             String childType = child.getPrimaryNodeType().getName();
             
-            // Skip child nodes with same type as parent (like jcr-filesystem-sync)
+            // Skip child nodes with same type as parent
             if (childType.equals(nodeType)) {
                 continue;
             }

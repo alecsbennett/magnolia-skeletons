@@ -142,3 +142,4 @@ utils/aws/ansible/vars.yml
 utils/aws/ansible/facts_cache/
 ./mgnl.error.log
 ./mgnl.error.log
+./mgnl.error.log

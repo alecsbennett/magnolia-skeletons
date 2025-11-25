@@ -34,7 +34,7 @@ import org.w3c.dom.NodeList;
 
 /**
  * Service for serializing JCR nodes to/from XML with pretty printing.
- * Adapted from jcr-filesystem-sync module.
+ * Service for serializing JCR nodes to/from XML.
  */
 public class XmlSerializationService {
     
