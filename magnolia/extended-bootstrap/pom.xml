@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>info.magnolia.dx</groupId>
+    <artifactId>magnolia</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <artifactId>extended-bootstrap</artifactId>
+  <name>Extended Bootstrap Module</name>
+  <packaging>jar</packaging>
+  
+  <dependencies>
+    <!-- Magnolia Core - includes module framework -->
+    <dependency>
+      <groupId>info.magnolia</groupId>
+      <artifactId>magnolia-core</artifactId>
+    </dependency>
+    
+    <!-- JCR API - provided by Magnolia -->
+    <dependency>
+      <groupId>javax.jcr</groupId>
+      <artifactId>jcr</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Logging -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    
+    <!-- YAML parsing -->
+    <dependency>
+      <groupId>org.yaml</groupId>
+      <artifactId>snakeyaml</artifactId>
+      <version>2.2</version>
+    </dependency>
+    
+    <!-- Jackson for YAML support (alternative/complementary) -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-yaml</artifactId>
+    </dependency>
+  </dependencies>
+</project>
+

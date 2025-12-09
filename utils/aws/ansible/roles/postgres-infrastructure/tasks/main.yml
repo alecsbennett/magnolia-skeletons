@@ -1,0 +1,245 @@
+---
+- name: Update system packages
+  dnf:
+    name: "*"
+    state: latest
+    update_cache: yes
+
+- name: Install PostgreSQL
+  dnf:
+    name:
+      - postgresql15
+      - postgresql15-server
+      - python3-psycopg2
+    state: present
+
+- name: Wait for EBS volume to be attached
+  wait_for:
+    path: /dev/nvme1n1
+    timeout: 60
+  ignore_errors: yes
+  register: volume_wait
+
+- name: Check if EBS volume exists
+  stat:
+    path: /dev/nvme1n1
+  register: ebs_volume
+
+- name: Get UUID of EBS volume
+  command: blkid -s UUID -o value /dev/nvme1n1
+  register: ebs_volume_uuid_result
+  when: ebs_volume.stat.exists
+  changed_when: false
+  failed_when: false
+
+- name: Set EBS volume UUID fact
+  set_fact:
+    ebs_volume_uuid: "{{ ebs_volume_uuid_result.stdout }}"
+  when: 
+    - ebs_volume.stat.exists
+    - ebs_volume_uuid_result.rc == 0
+    - ebs_volume_uuid_result.stdout | length > 0
+
+- name: Check if EBS volume is formatted
+  command: file -s /dev/nvme1n1
+  register: volume_file_check
+  when: ebs_volume.stat.exists
+  changed_when: false
+  failed_when: false
+
+- name: Format EBS volume if needed
+  command: mkfs.ext4 -F /dev/nvme1n1
+  when: ebs_volume.stat.exists and volume_file_check.rc == 0 and ('ext4' not in volume_file_check.stdout)
+  register: format_result
+  changed_when: format_result.rc == 0
+
+- name: Get UUID of EBS volume after formatting
+  command: blkid -s UUID -o value /dev/nvme1n1
+  register: ebs_volume_uuid_result_after_format
+  when: 
+    - ebs_volume.stat.exists
+    - format_result is defined
+    - format_result.rc is defined
+    - format_result.rc == 0
+  changed_when: false
+
+- name: Update EBS volume UUID fact after formatting
+  set_fact:
+    ebs_volume_uuid: "{{ ebs_volume_uuid_result_after_format.stdout }}"
+  when:
+    - ebs_volume.stat.exists
+    - ebs_volume_uuid_result_after_format is defined
+    - ebs_volume_uuid_result_after_format.rc is defined
+    - ebs_volume_uuid_result_after_format.rc == 0
+    - ebs_volume_uuid_result_after_format.stdout | length > 0
+
+- name: Create mount point
+  file:
+    path: /var/lib/pgsql
+    state: directory
+    mode: '0755'
+
+- name: Mount EBS volume
+  ansible.builtin.mount:
+    path: /var/lib/pgsql
+    src: /dev/nvme1n1
+    fstype: ext4
+    state: mounted
+  when: ebs_volume.stat.exists
+
+- name: Add EBS volume to fstab
+  ansible.builtin.mount:
+    path: /var/lib/pgsql
+    src: UUID={{ ebs_volume_uuid }}
+    fstype: ext4
+    opts: defaults,nofail
+    state: present
+  when: ebs_volume.stat.exists and ebs_volume_uuid is defined
+
+- name: Set ownership of PostgreSQL directory
+  file:
+    path: /var/lib/pgsql
+    owner: postgres
+    group: postgres
+    mode: '0755'
+    recurse: yes
+  when: ebs_volume.stat.exists
+
+- name: Check if PostgreSQL is initialized
+  stat:
+    path: /var/lib/pgsql/data/postgresql.conf
+  register: postgres_initialized
+
+- name: Initialize PostgreSQL database
+  command: postgresql-setup --initdb
+  args:
+    creates: /var/lib/pgsql/data/postgresql.conf
+  when: not postgres_initialized.stat.exists
+
+- name: Set correct permissions on PostgreSQL data directory
+  file:
+    path: /var/lib/pgsql/data
+    owner: postgres
+    group: postgres
+    mode: '0700'
+  when: postgres_initialized.stat.exists or not postgres_initialized.stat.exists
+
+- name: Stop PostgreSQL service if running (to configure pg_hba.conf)
+  systemd:
+    name: postgresql
+    state: stopped
+  ignore_errors: yes
+
+- name: Configure PostgreSQL to listen on all interfaces
+  lineinfile:
+    path: /var/lib/pgsql/data/postgresql.conf
+    regexp: "^#?listen_addresses"
+    line: "listen_addresses = '*'"
+    backup: yes
+
+- name: Replace ident with md5 in pg_hba.conf for localhost IPv4 (all users)
+  replace:
+    path: /var/lib/pgsql/data/pg_hba.conf
+    regexp: '^(host\s+all\s+all\s+127\.0\.0\.1/32\s+)ident'
+    replace: '\1md5'
+    backup: yes
+
+- name: Replace ident with md5 in pg_hba.conf for localhost IPv6 (all users)
+  replace:
+    path: /var/lib/pgsql/data/pg_hba.conf
+    regexp: '^(host\s+all\s+all\s+::1/128\s+)ident'
+    replace: '\1md5'
+    backup: yes
+
+- name: Replace ident with md5 in pg_hba.conf for replication IPv4
+  replace:
+    path: /var/lib/pgsql/data/pg_hba.conf
+    regexp: '^(host\s+replication\s+all\s+127\.0\.0\.1/32\s+)ident'
+    replace: '\1md5'
+    backup: yes
+
+- name: Replace ident with md5 in pg_hba.conf for replication IPv6
+  replace:
+    path: /var/lib/pgsql/data/pg_hba.conf
+    regexp: '^(host\s+replication\s+all\s+::1/128\s+)ident'
+    replace: '\1md5'
+    backup: yes
+
+- name: Add pg_hba.conf entry for database user from Magnolia instance
+  lineinfile:
+    path: /var/lib/pgsql/data/pg_hba.conf
+    regexp: "^host.*{{ postgres_db_name }}.*{{ postgres_db_user }}"
+    line: "host    {{ postgres_db_name }}    {{ postgres_db_user }}    {{ magnolia_instance_ip }}/32    md5"
+    state: present
+    backup: yes
+
+- name: Start PostgreSQL service
+  systemd:
+    name: postgresql
+    state: started
+    enabled: yes
+
+- name: Wait for PostgreSQL to be ready
+  wait_for:
+    port: 5432
+    delay: 5
+    timeout: 30
+
+- name: Set postgres user password using peer auth
+  shell: |
+    sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD '{{ postgres_db_password }}';"
+  changed_when: true
+  no_log: true
+
+- name: Wait for PostgreSQL to be ready after restart
+  wait_for:
+    port: 5432
+    delay: 5
+    timeout: 30
+
+- name: Create PostgreSQL database
+  community.postgresql.postgresql_db:
+    name: "{{ postgres_db_name }}"
+    state: present
+    login_host: localhost
+    login_user: postgres
+    login_password: "{{ postgres_db_password }}"
+
+- name: Create PostgreSQL user
+  community.postgresql.postgresql_user:
+    name: "{{ postgres_db_user }}"
+    password: "{{ postgres_db_password }}"
+    state: present
+    login_host: localhost
+    login_user: postgres
+    login_password: "{{ postgres_db_password }}"
+
+- name: Grant database privileges to user
+  community.postgresql.postgresql_privs:
+    database: "{{ postgres_db_name }}"
+    privs: ALL
+    type: database
+    roles: "{{ postgres_db_user }}"
+    state: present
+    login_host: localhost
+    login_user: postgres
+    login_password: "{{ postgres_db_password }}"
+
+- name: Grant schema privileges to user
+  community.postgresql.postgresql_privs:
+    database: "{{ postgres_db_name }}"
+    privs: ALL
+    type: schema
+    objs: public
+    roles: "{{ postgres_db_user }}"
+    state: present
+    login_host: localhost
+    login_user: postgres
+    login_password: "{{ postgres_db_password }}"
+
+- name: Create PostgreSQL setup marker
+  file:
+    path: /var/lib/pgsql/.postgres-setup-complete
+    state: touch
+    mode: '0644'
+

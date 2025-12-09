@@ -1,0 +1,94 @@
+---
+- name: Fix iptables rules for port 80 access
+  hosts: magnolia
+  become: yes
+  gather_facts: yes
+  
+  tasks:
+    - name: Check if iptables service exists
+      ansible.builtin.stat:
+        path: /usr/lib/systemd/system/iptables.service
+      register: iptables_service_file
+
+    - name: Enable and start iptables service
+      ansible.builtin.systemd:
+        name: iptables
+        enabled: yes
+        state: started
+      when: iptables_service_file.stat.exists
+
+    ###############################################################
+    # INPUT RULES - allow external traffic to Tomcat via port 80
+    ###############################################################
+    - name: Ensure INPUT accepts TCP traffic to tomcat_port before REJECT
+      ansible.builtin.shell: |
+        iptables -C INPUT -p tcp --dport {{ tomcat_port }} -j ACCEPT 2>/dev/null || \
+        iptables -I INPUT 1 -p tcp --dport {{ tomcat_port }} -j ACCEPT
+      changed_when: false
+      failed_when: false
+
+    - name: Ensure INPUT accepts external port 80 traffic (for completeness)
+      ansible.builtin.shell: |
+        iptables -C INPUT -p tcp --dport 80 -j ACCEPT 2>/dev/null || \
+        iptables -I INPUT 1 -p tcp --dport 80 -j ACCEPT
+      changed_when: false
+      failed_when: false
+
+    ###############################################################
+    # NAT PREROUTING RULE - redirect external port 80 to tomcat_port
+    ###############################################################
+    - name: Check if PREROUTING redirect exists
+      ansible.builtin.shell: |
+        iptables -t nat -C PREROUTING -p tcp --dport 80 -j REDIRECT --to-port {{ tomcat_port }} 2>/dev/null || echo "needs-add"
+      register: iptables_prerouting_check
+      changed_when: false
+      failed_when: false
+
+    - name: Add PREROUTING redirect rule for port 80 → tomcat_port
+      ansible.builtin.command: >
+        iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port {{ tomcat_port }}
+      when: iptables_prerouting_check.stdout == "needs-add"
+
+    ###############################################################
+    # REMOVE OUTPUT NAT RULE (BREAKS OUTBOUND TRAFFIC)
+    ###############################################################
+    - name: Remove dangerous OUTPUT redirect rule for port 80 (if present)
+      ansible.builtin.shell: |
+        iptables -t nat -C OUTPUT -p tcp --dport 80 -j REDIRECT --to-port {{ tomcat_port }} 2>/dev/null && \
+        iptables -t nat -D OUTPUT -p tcp --dport 80 -j REDIRECT --to-port {{ tomcat_port }} || true
+      changed_when: false
+      failed_when: false
+      register: output_rule_removed
+
+    - name: Display OUTPUT rule removal status
+      ansible.builtin.debug:
+        msg: "OUTPUT NAT redirect rule was removed"
+      when: output_rule_removed.rc == 0
+
+    ###############################################################
+    # SAVE IPTABLES RULES
+    ###############################################################
+    - name: Save iptables rules
+      ansible.builtin.shell: |
+        iptables-save > /etc/sysconfig/iptables || service iptables save || true
+      changed_when: false
+      failed_when: false
+
+    - name: Display current iptables rules summary
+      ansible.builtin.command: iptables -L -n -v
+      register: iptables_output
+      changed_when: false
+
+    - name: Display current NAT rules summary
+      ansible.builtin.command: iptables -t nat -L -n -v
+      register: iptables_nat_output
+      changed_when: false
+
+    - name: Show iptables rules
+      ansible.builtin.debug:
+        msg: "{{ iptables_output.stdout_lines }}"
+
+    - name: Show NAT rules
+      ansible.builtin.debug:
+        msg: "{{ iptables_nat_output.stdout_lines }}"
+

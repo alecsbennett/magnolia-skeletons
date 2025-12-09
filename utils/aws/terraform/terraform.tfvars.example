@@ -1,0 +1,83 @@
+# AWS Configuration
+aws_region = "us-east-1"
+
+# EC2 Instance Configuration
+instance_type = "t3.medium"
+
+# SSH Key Pair (must exist in AWS)
+key_pair_name = "your-key-pair-name"
+
+# Security Configuration - Access Restrictions
+# 
+# SSH Access Restriction:
+# Options:
+# 1. Auto-detect your public IP (useful for VPN users):
+#    allowed_ssh_cidr = "auto"
+#    or
+#    allowed_ssh_cidr = "auto-detect"
+#    (The script will detect your IP and update this value automatically)
+#
+# 2. Specify a specific IP or CIDR block:
+#    allowed_ssh_cidr = "203.0.113.45/32"     # Single IP
+#    allowed_ssh_cidr = "203.0.113.0/24"       # CIDR block
+#    allowed_ssh_cidr = "203.0.113.45"         # IP without /32 (will be added automatically)
+#
+# 3. Allow access from anywhere (not recommended for production):
+#    allowed_ssh_cidr = "0.0.0.0/0"
+#
+# HTTP/HTTPS Access Restriction (optional):
+# Leave unset or empty to allow access from anywhere (0.0.0.0/0)
+# 
+# Options:
+# 1. Auto-detect your public IP (useful for VPN users):
+#    allowed_http_cidr = "auto"
+#    or
+#    allowed_http_cidr = "auto-detect"
+#    (The script will detect your IP and update this value automatically)
+#
+# 2. Specify a specific IP or CIDR block:
+#    allowed_http_cidr = "203.0.113.45/32"     # Single IP
+#    allowed_http_cidr = "203.0.113.0/24"       # CIDR block
+#    allowed_http_cidr = "203.0.113.45"         # IP without /32 (will be added automatically)
+#
+# Examples (uncomment and modify):
+allowed_ssh_cidr = "0.0.0.0/0"
+# allowed_http_cidr = "auto"
+
+# Project Configuration
+project_name = "magnolia-author"
+
+# Environment Configuration
+environment      = "development"  # Options: development, production, staging
+magnolia_profile  = "development"  # Magnolia config profile (maps to WEB-INF/config/{profile}/magnolia.properties)
+
+# Tags
+# Note: The following tags are automatically added to all resources:
+# - Environment (from environment variable)
+# - Project (from project_name variable)
+# - ManagedBy = "Terraform"
+# - CreatedDate (deployment date)
+# - CreatedTime (deployment time)
+# - TerraformRepo = "MagnoliaSkeletons"
+#
+# Add custom tags below for cost tracking, team ownership, etc.
+tags = {
+  Project     = "Magnolia-CMS"
+  Environment = "Development"  # Note: This will be overridden by automatic Environment tag
+  # Cost tracking tags (uncomment and customize as needed):
+  # CostCenter  = "Engineering"
+  # Team        = "Platform"
+  # Application = "Magnolia-CMS"
+  # Owner       = "platform-team@example.com"
+  # Department  = "IT"
+}
+
+# PostgreSQL Configuration
+postgres_db_name     = "jackrabbit-author"
+postgres_db_user     = "magnolia"
+postgres_db_password = "CHANGE_THIS_PASSWORD"  # IMPORTANT: Change this!
+
+# PostgreSQL Storage Configuration
+postgres_storage_size = 20  # GB - can be resized later
+postgres_storage_type = "gp3"  # gp3 is recommended for better performance
+

@@ -1,0 +1,14 @@
+# Magnolia Enterprise License Configuration
+# =========================================
+# Copy this file to magnolia-license.properties and fill in your Magnolia license
+# This file is excluded from git to keep license information secure
+#
+# License values can be copied from magnolia-cargo.properties for consistency
+# between local development and AWS deployments
+
+# Magnolia License Owner (email address)
+magnolia.license.owner=your-email@example.com
+
+# Magnolia License Key (base64 encoded PGP message)
+magnolia.license.key=YOUR_BASE64_ENCODED_LICENSE_KEY
+

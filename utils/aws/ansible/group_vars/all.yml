@@ -1,0 +1,24 @@
+---
+# Common variables
+ansible_python_interpreter: /usr/bin/python3
+
+# Tomcat configuration
+tomcat_version: "10.1.30"
+tomcat_home: "/opt/tomcat"
+tomcat_user: "tomcat"
+tomcat_group: "tomcat"
+tomcat_port: 8080
+
+# Java configuration
+java_version: "17"
+java_package: "java-17-amazon-corretto-devel"
+
+# Magnolia configuration
+magnolia_home: "/opt/magnolia"
+magnolia_webapp_name: "author"
+magnolia_war_path: "/tmp/magnolia-webapp.war"
+
+# PostgreSQL JDBC driver
+postgres_jdbc_version: "42.7.1"
+postgres_jdbc_url: "https://jdbc.postgresql.org/download/postgresql-{{ postgres_jdbc_version }}.jar"
+

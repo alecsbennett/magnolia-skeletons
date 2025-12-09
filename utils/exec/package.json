@@ -1,0 +1,39 @@
+{
+  "name": "magnolia-cargo-utils",
+  "version": "1.0.0",
+  "description": "Utilities for managing Magnolia Cargo server",
+  "main": "scripts/start-cargo.mjs",
+  "type": "module",
+  "scripts": {
+    "start-timer": "node scripts/start-timer.mjs",
+    "check-server": "node scripts/check-server.mjs",
+    "clean:locks": "node scripts/clean-locks.mjs",
+    "clean:logs": "node scripts/clean-logs.mjs",
+    "clean:cargo": "node scripts/clean-cargo.mjs",
+    "build": "node scripts/build.mjs",
+    "start:cargo": "node scripts/start-cargo.mjs",
+    "monitor": "node scripts/monitor.mjs",
+    "start": "run-s start-timer && run-p check-server clean:locks clean:cargo clean:logs && run-s build && run-p maildev start:cargo monitor",
+    "start:open": "cross-env OPEN_BROWSER=true npm start",
+    "start:noclean": "cross-env CLEAR_LOGS=false run-s start-timer check-server clean:locks clean:cargo build && run-p maildev start:cargo monitor",
+    "start:restart": "cross-env FORCE_RESTART=true npm start",
+    "start:clearlocks": "cross-env CLEAR_JCR_LOCKS=true npm start",
+    "start:nomail": "cross-env MAILDEV_ENABLED=false run-s start-timer check-server clean:locks clean:cargo clean:logs build && run-p start:cargo monitor",
+    "maildev": "node startMailDev.mjs",
+    "kill": "node killCargo.mjs",
+    "kill:force": "node killForce.mjs",
+    "kill:maildev": "node killMailDev.mjs",
+    "restart": "run-s kill start",
+    "restart:open": "run-s kill start:open",
+    "test:toast": "node testToast.cjs"
+  },
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "glob": "^10.3.10",
+    "maildev": "^2.2.1",
+    "node-notifier": "^10.0.1"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}

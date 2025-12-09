@@ -1,0 +1,32 @@
+# Example: Environment-specific Terraform configurations
+# 
+# This file demonstrates how to structure multiple environments.
+# You can either:
+# 1. Use separate Terraform workspaces
+# 2. Use separate directories for each environment
+# 3. Use this file to define environment-specific overrides
+
+# Example: Production environment overrides
+# Uncomment and customize for production:
+
+# variable "production_overrides" {
+#   description = "Production-specific overrides"
+#   type = object({
+#     instance_type        = string
+#     postgres_storage_size = number
+#     allowed_ssh_cidr     = string
+#   })
+#   default = {
+#     instance_type         = "t3.large"      # Larger instance for production
+#     postgres_storage_size = 100              # More storage
+#     allowed_ssh_cidr      = "YOUR_IP/32"     # Restrict SSH access
+#   }
+# }
+
+# locals {
+#   # Apply environment-specific overrides
+#   effective_instance_type = var.environment == "production" 
+#     ? var.production_overrides.instance_type 
+#     : var.instance_type
+# }
+

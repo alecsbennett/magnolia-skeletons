@@ -1,0 +1,198 @@
+---
+- name: Update system packages
+  dnf:
+    name: "*"
+    state: latest
+    update_cache: yes
+
+- name: Install required packages
+  dnf:
+    name:
+      - wget
+      - tar
+      - gzip
+      - unzip
+      - iptables-services
+    state: present
+
+- name: Install Java
+  dnf:
+    name: "{{ java_package }}"
+    state: present
+
+- name: Verify Java installation
+  command: java -version
+  register: java_version
+  changed_when: false
+  failed_when: false
+
+- name: Get Java home path
+  shell: dirname "$(dirname "$(readlink -f $(which java))")"
+  register: java_home_result
+  changed_when: false
+
+- name: Set Java home fact
+  set_fact:
+    java_home: "{{ java_home_result.stdout }}"
+
+- name: Display Java version
+  debug:
+    msg: "{{ java_version.stderr_lines[0] }}"
+
+- name: Create tomcat group
+  group:
+    name: "{{ tomcat_group }}"
+    system: yes
+    state: present
+
+- name: Create tomcat user
+  user:
+    name: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+    home: "{{ tomcat_home }}"
+    shell: /bin/false
+    system: yes
+    create_home: no
+
+- name: Create Tomcat directory
+  file:
+    path: "{{ tomcat_home }}"
+    state: directory
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+    mode: '0755'
+
+- name: Download Tomcat
+  get_url:
+    url: "https://archive.apache.org/dist/tomcat/tomcat-10/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    dest: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    mode: '0644'
+  retries: 3
+  delay: 5
+
+- name: Extract Tomcat
+  unarchive:
+    src: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    dest: "{{ tomcat_home }}"
+    remote_src: yes
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+    extra_opts:
+      - "--strip-components=1"
+
+- name: Set Tomcat permissions
+  file:
+    path: "{{ item.path }}"
+    mode: "{{ item.mode }}"
+    recurse: yes
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+  loop:
+    - { path: "{{ tomcat_home }}/bin", mode: "0755" }
+    - { path: "{{ tomcat_home }}/lib", mode: "0755" }
+    - { path: "{{ tomcat_home }}/conf", mode: "0750" }
+
+- name: Create Magnolia directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+    mode: '0755'
+  loop:
+    - "{{ magnolia_home }}/repos"
+    - "{{ magnolia_home }}/logs"
+    - "{{ magnolia_home }}/resources"
+
+- name: Create systemd service for Tomcat
+  template:
+    src: tomcat.service.j2
+    dest: /etc/systemd/system/tomcat.service
+    mode: '0644'
+  notify: reload systemd
+
+- name: Enable Tomcat service
+  systemd:
+    name: tomcat
+    enabled: yes
+    daemon_reload: yes
+
+- name: Check if iptables service exists
+  ansible.builtin.stat:
+    path: /usr/lib/systemd/system/iptables.service
+  register: iptables_service_file
+
+- name: Enable and start iptables service
+  ansible.builtin.systemd:
+    name: iptables
+    enabled: yes
+    state: started
+  when: iptables_service_file.stat.exists
+
+###############################################################
+# INPUT RULES - allow external traffic to Tomcat via port 80
+###############################################################
+- name: Ensure INPUT accepts TCP traffic to tomcat_port before REJECT
+  ansible.builtin.shell: |
+    iptables -C INPUT -p tcp --dport {{ tomcat_port }} -j ACCEPT 2>/dev/null || \
+    iptables -I INPUT 1 -p tcp --dport {{ tomcat_port }} -j ACCEPT
+  changed_when: false
+  failed_when: false
+
+- name: Ensure INPUT accepts external port 80 traffic (for completeness)
+  ansible.builtin.shell: |
+    iptables -C INPUT -p tcp --dport 80 -j ACCEPT 2>/dev/null || \
+    iptables -I INPUT 1 -p tcp --dport 80 -j ACCEPT
+  changed_when: false
+  failed_when: false
+
+###############################################################
+# NAT PREROUTING RULE - redirect external port 80 to tomcat_port
+###############################################################
+- name: Check if PREROUTING redirect exists
+  ansible.builtin.shell: |
+    iptables -t nat -C PREROUTING -p tcp --dport 80 -j REDIRECT --to-port {{ tomcat_port }} 2>/dev/null || echo "needs-add"
+  register: iptables_prerouting_check
+  changed_when: false
+  failed_when: false
+
+- name: Add PREROUTING redirect rule for port 80 → tomcat_port
+  ansible.builtin.command: >
+    iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port {{ tomcat_port }}
+  when: iptables_prerouting_check.stdout == "needs-add"
+
+###############################################################
+# REMOVE OUTPUT NAT RULE (BREAKS OUTBOUND TRAFFIC)
+###############################################################
+- name: Remove dangerous OUTPUT redirect rule for port 80 (if present)
+  ansible.builtin.shell: |
+    iptables -t nat -C OUTPUT -p tcp --dport 80 -j REDIRECT --to-port {{ tomcat_port }} 2>/dev/null && \
+    iptables -t nat -D OUTPUT -p tcp --dport 80 -j REDIRECT --to-port {{ tomcat_port }} || true
+  changed_when: false
+  failed_when: false
+
+###############################################################
+# SAVE IPTABLES RULES
+###############################################################
+- name: Save iptables rules
+  ansible.builtin.shell: |
+    iptables-save > /etc/sysconfig/iptables || service iptables save || true
+  changed_when: false
+  failed_when: false
+
+- name: Create installation marker
+  file:
+    path: "{{ tomcat_home }}/.installation-complete"
+    state: touch
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+    mode: '0644'
+
+- name: Write installation timestamp
+  copy:
+    content: "INSTALLATION_COMPLETE={{ ansible_date_time.iso8601 }}"
+    dest: "{{ tomcat_home }}/.installation-complete"
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+    mode: '0644'
+

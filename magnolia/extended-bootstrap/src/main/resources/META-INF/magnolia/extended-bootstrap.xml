@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+  <name>extended-bootstrap</name>
+  <class>info.magnolia.extendedbootstrap.ExtendedBootstrapModule</class>
+  <versionHandler>info.magnolia.extendedbootstrap.setup.ExtendedBootstrapModuleVersionHandler</versionHandler>
+  <version>1.0.0</version>
+  <dependencies>
+    <dependency>
+      <name>core</name>
+    </dependency>
+  </dependencies>
+</module>
+

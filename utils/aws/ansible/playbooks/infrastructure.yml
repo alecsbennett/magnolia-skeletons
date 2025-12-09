@@ -1,0 +1,24 @@
+---
+- name: Setup Magnolia Infrastructure
+  hosts: magnolia
+  become: yes
+  gather_facts: yes
+  
+  roles:
+    - magnolia-infrastructure
+
+- name: Setup PostgreSQL Infrastructure
+  hosts: postgres
+  become: yes
+  gather_facts: no
+  collections:
+    - community.postgresql
+  vars:
+    postgres_db_name: "{{ postgres_db_name }}"
+    postgres_db_user: "{{ postgres_db_user }}"
+    postgres_db_password: "{{ postgres_db_password }}"
+    magnolia_instance_ip: "{{ magnolia_instance_ip | default('127.0.0.1') }}"
+  
+  roles:
+    - postgres-infrastructure
+
