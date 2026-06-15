@@ -210,6 +210,11 @@ export const loadConfig = async () => {
 			owner: getProperty(props, "magnolia.license.owner", ""),
 			key: getProperty(props, "magnolia.license.key", ""),
 		},
+
+		// Magnolia initial superuser setup
+		superuser: {
+			bootstrapPassword: getProperty(props, "magnolia.superuser.bootstrap.password", ""),
+		},
 	};
 	
 	return config;

@@ -3,15 +3,15 @@
 ansible_python_interpreter: /usr/bin/python3
 
 # Tomcat configuration
-tomcat_version: "10.1.30"
+tomcat_version: "11.0.22"
 tomcat_home: "/opt/tomcat"
 tomcat_user: "tomcat"
 tomcat_group: "tomcat"
 tomcat_port: 8080
 
 # Java configuration
-java_version: "17"
-java_package: "java-17-amazon-corretto-devel"
+java_version: "25"
+java_package: "java-25-amazon-corretto-devel"
 
 # Magnolia configuration
 magnolia_home: "/opt/magnolia"

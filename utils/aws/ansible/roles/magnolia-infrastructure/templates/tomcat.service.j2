@@ -7,11 +7,11 @@ Type=forking
 User={{ tomcat_user }}
 Group={{ tomcat_group }}
 
-Environment="JAVA_HOME={{ java_home | default('/usr/lib/jvm/java-17-amazon-corretto') }}"
+Environment="JAVA_HOME={{ java_home | default('/usr/lib/jvm/java-25-amazon-corretto') }}"
 Environment="CATALINA_PID={{ tomcat_home }}/temp/tomcat.pid"
 Environment="CATALINA_HOME={{ tomcat_home }}"
 Environment="CATALINA_BASE={{ tomcat_home }}"
-Environment="CATALINA_OPTS=-Xms2g -Xmx4g -DMAGNOLIA_PROFILE={{ magnolia_profile }}{% if magnolia_license_owner is defined and magnolia_license_owner %} -Dmagnolia.license.owner={{ magnolia_license_owner }}{% endif %}{% if magnolia_license_key is defined and magnolia_license_key %} -Dmagnolia.license.key={{ magnolia_license_key }}{% endif %}"
+Environment="CATALINA_OPTS=-Xms2g -Xmx4g -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI -DMAGNOLIA_PROFILE={{ magnolia_profile }}{% if magnolia_license_owner is defined and magnolia_license_owner %} -Dmagnolia.license.owner={{ magnolia_license_owner }}{% endif %}{% if magnolia_license_key is defined and magnolia_license_key %} -Dmagnolia.license.key={{ magnolia_license_key }}{% endif %}"
 Environment="JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom"
 
 ExecStart={{ tomcat_home }}/bin/startup.sh

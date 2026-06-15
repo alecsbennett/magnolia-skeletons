@@ -13,7 +13,7 @@ This project provides a complete development environment for Magnolia CMS 6.4 En
 
 ## Prerequisites
 
-- Java 17 or higher
+- Java 25
 - Maven 3.6+
 - Node.js 14+ and npm (for utilities)
 - Git
@@ -31,15 +31,43 @@ This project provides a complete development environment for Magnolia CMS 6.4 En
 
 ## Quick Start
 
-### 1. Install Dependencies
+### 1. Configure GitHub Packages
 
-```bash
-# Install Node.js dependencies for utilities
-cd utils/exec
-npm install
+The webapp consumes the standalone `content-transfer` and `extended-bootstrap`
+artifacts from GitHub Packages using the versions declared in
+`magnolia/pom.xml`. Configure Maven credentials with a GitHub personal access
+token that has `read:packages` access:
+
+```xml
+<servers>
+  <server>
+    <id>github-content-transfer</id>
+    <username>YOUR_GITHUB_USERNAME</username>
+    <password>YOUR_GITHUB_TOKEN</password>
+  </server>
+  <server>
+    <id>github-extended-bootstrap</id>
+    <username>YOUR_GITHUB_USERNAME</username>
+    <password>YOUR_GITHUB_TOKEN</password>
+  </server>
+</servers>
 ```
 
-### 2. Configure
+For local module development, install either source project with
+`mvn clean install` and temporarily select its snapshot version in
+`magnolia/pom.xml`.
+
+### 2. Install Dependencies
+
+```bash
+# Install the Magnolia CLI and utility dependencies
+npm install
+cd utils/exec
+npm install
+cd ../..
+```
+
+### 3. Configure
 
 Edit `magnolia-cargo.properties` to customize:
 - Ports
@@ -47,19 +75,27 @@ Edit `magnolia-cargo.properties` to customize:
 - Behavior flags
 - MailDev settings
 
-### 3. Start the Server
+### 4. Start the Server
 
 ```bash
 # From utils/exec directory
 npm start
 
-# Or with browser auto-open
-npm run start:open
+# Explicit instance modes
+npm run start:author
+npm run start:public
+npm run start:both
+
+# Preferred Magnolia CLI entry point
+./mgnl startx --author
+./mgnl startx --public
+./mgnl startx --both
 ```
 
-### 4. Access Magnolia
+### 5. Access Magnolia
 
 - **Author instance**: http://localhost:8080/author
+- **Public instance**: http://localhost:8081/
 - **MailDev UI** (if enabled): http://localhost:1080
 
 ## Development Utilities
@@ -71,8 +107,8 @@ The project includes a comprehensive set of Node.js utilities for managing the d
 ```bash
 cd utils/exec
 
-# Start server
-npm start
+# Start author and public together
+npm run start:both
 
 # Start with browser auto-open
 npm run start:open
@@ -111,7 +147,7 @@ mvn clean install -Pruntime
 
 All server configuration is managed through `magnolia-cargo.properties`. Key settings include:
 
-- **Ports**: Author instance ports (default: 8080)
+- **Ports**: Author (8080) and public (8081) instance ports
 - **Paths**: Working directories and log locations
 - **Flags**: Behavior flags (log clearing, browser opening, etc.)
 - **MailDev**: Email testing server configuration

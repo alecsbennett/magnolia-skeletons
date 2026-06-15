@@ -1,5 +1,5 @@
 import { promises as fs } from "fs";
-import { getConfig } from "./utils.mjs";
+import { getConfig, getSelectedInstanceConfigs } from "./utils.mjs";
 
 const RETRY_ATTEMPTS = 3;
 const RETRY_DELAY_MS = 1000; // 1 second delay between retries
@@ -38,21 +38,25 @@ const cleanCargoDirectory = async (cargoHome, attempt = 1) => {
 
 const main = async () => {
 	const config = await getConfig();
+	const configs = getSelectedInstanceConfigs(config);
 	
 	try {
-		console.log("🧹 Cleaning cargo directory...");
+		console.log(config.instanceMode === "both" ? "🧹 Cleaning cargo directories..." : "🧹 Cleaning cargo directory...");
 		
-		try {
-			await cleanCargoDirectory(config.cargoHome);
-			console.log("✅ Cargo directory cleaned\n");
-		} catch (error) {
-			if (error.code === 'ENOENT') {
-				console.log("ℹ️  Cargo directory doesn't exist yet\n");
-			} else {
-				console.error("⚠️  Error cleaning cargo directory after retries:", error.message);
-				process.exit(1);
+		for (const instanceConfig of configs) {
+			try {
+				await cleanCargoDirectory(instanceConfig.cargoHome);
+				console.log(`✅ ${instanceConfig.instanceType} cargo directory cleaned`);
+			} catch (error) {
+				if (error.code === 'ENOENT') {
+					console.log(`ℹ️  ${instanceConfig.instanceType} cargo directory doesn't exist yet`);
+				} else {
+					console.error(`⚠️  Error cleaning ${instanceConfig.instanceType} cargo directory after retries:`, error.message);
+					process.exit(1);
+				}
 			}
 		}
+		console.log();
 	} catch (error) {
 		console.error("⚠️  Error:", error.message);
 		process.exit(1);

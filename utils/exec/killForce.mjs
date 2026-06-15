@@ -11,7 +11,10 @@ const __dirname = path.dirname(__filename);
 
 // Configuration
 const CONFIG = {
-	pidFile: path.resolve(__dirname, ".cargo.pid"),
+	pidFiles: [
+		path.resolve(__dirname, ".cargo.author.pid"),
+		path.resolve(__dirname, ".cargo.runtime.pid"),
+	],
 	forceKill: process.env.FORCE === "true",
 };
 
@@ -88,11 +91,13 @@ const main = async () => {
 	}
 	
 	// Clean up PID file
-	try {
-		await fs.unlink(CONFIG.pidFile);
-		console.log("🧹 Cleaned up PID file");
-	} catch (error) {
-		// Ignore if file doesn't exist
+	for (const pidFile of CONFIG.pidFiles) {
+		try {
+			await fs.unlink(pidFile);
+			console.log(`🧹 Cleaned up ${path.basename(pidFile)}`);
+		} catch (error) {
+			// Ignore if file doesn't exist
+		}
 	}
 	
 	console.log(`\n${"=".repeat(60)}`);

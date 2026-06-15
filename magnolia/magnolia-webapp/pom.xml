@@ -15,6 +15,12 @@
     <!-- Default to empty string if not provided to avoid literal ${property} in JVM args -->
     <magnolia.license.owner></magnolia.license.owner>
     <magnolia.license.key></magnolia.license.key>
+    <magnolia.superuser.bootstrap.password></magnolia.superuser.bootstrap.password>
+    <magnolia.profile>development</magnolia.profile>
+    <magnolia.repositories.jackrabbit.config>WEB-INF/config/repo-conf/jackrabbit-bundle-h2-search.xml</magnolia.repositories.jackrabbit.config>
+    <cargo.magnolia.repositories.home>${project.build.directory}/../../../tomcat/Repos/author</cargo.magnolia.repositories.home>
+    <cargo.magnolia.logs.dir>${project.build.directory}/../../../tomcat/logs/author</cargo.magnolia.logs.dir>
+    <cargo.magnolia.resources.dir>${project.basedir}/../../../light-modules</cargo.magnolia.resources.dir>
   </properties>
   <dependencies>
     <dependency>
@@ -29,14 +35,14 @@
     </dependency>
     <!-- Custom modules -->
     <dependency>
-      <groupId>info.magnolia.dx</groupId>
+      <groupId>com.tbscg.magnolia</groupId>
       <artifactId>content-transfer</artifactId>
-      <version>${project.version}</version>
+      <version>${content-transfer.version}</version>
     </dependency>
     <dependency>
-      <groupId>info.magnolia.dx</groupId>
+      <groupId>com.tbscg.magnolia</groupId>
       <artifactId>extended-bootstrap</artifactId>
-      <version>${project.version}</version>
+      <version>${extended-bootstrap.version}</version>
     </dependency>
   </dependencies>
 
@@ -45,7 +51,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
-        <version>3.3.1</version>
+        <version>${maven.war.plugin.version}</version>
         <configuration>
           <!-- exclude jars copied "physically" from the webapp overlay - so we only get those resolved by Maven's dependency management -->
           <dependentWarExcludes>WEB-INF/lib/*.jar</dependentWarExcludes>
@@ -60,6 +66,9 @@
   <profiles>
     <profile>
       <id>author</id>
+      <properties>
+        <magnolia.profile>local</magnolia.profile>
+      </properties>
       <build>
         <plugins>
           <plugin>
@@ -67,7 +76,7 @@
             <artifactId>cargo-maven3-plugin</artifactId>
             <configuration>
               <container>
-                <containerId>tomcat10x</containerId>
+                <containerId>tomcat11x</containerId>
                 <artifactInstaller>
                   <groupId>org.apache.tomcat</groupId>
                   <artifactId>tomcat</artifactId>
@@ -93,24 +102,109 @@
                   <cargo.jvmargs>
                     -Xms2g 
                     -Xmx4g
+                    -XX:+UnlockExperimentalVMOptions
+                    -XX:+EnableJVMCI
+                    -Djava.awt.headless=true
                     -Dsun.io.useCanonCaches=false
                     --add-opens=java.base/java.io=ALL-UNNAMED
                     --add-opens=java.base/java.lang=ALL-UNNAMED
                     --add-opens=java.base/java.lang.reflect=ALL-UNNAMED
-                    -DMAGNOLIA_PROFILE=local
+                    --add-opens=java.base/java.util=ALL-UNNAMED
+                    -DMAGNOLIA_PROFILE=${magnolia.profile}
+                    -Dmagnolia.repositories.jackrabbit.config=${magnolia.repositories.jackrabbit.config}
+                    -Dmagnolia.repositories.home=${cargo.magnolia.repositories.home}
+                    -Dmagnolia.logs.dir=${cargo.magnolia.logs.dir}
+                    -Dmagnolia.resources.dir=${cargo.magnolia.resources.dir}
+                    -Dmagnolia.publishing.receivers[0].name=magnoliaPublic
+                    -Dmagnolia.publishing.receivers[0].url=http://localhost:8081/
+                    -Dmagnolia.publishing.receivers[0].enabled=true
                     -Dmagnolia.license.owner=${magnolia.license.owner}
                     -Dmagnolia.license.key=${magnolia.license.key}
+                    -Dmagnolia.superuser.bootstrap.password=${magnolia.superuser.bootstrap.password}
                   </cargo.jvmargs>
                 </properties>
               </configuration>
               <deployables>
                 <deployable>
-                  <location>${project.build.directory}/${project.build.finalName}.war</location>
+                  <location>${project.build.directory}/${project.build.finalName}</location>
                   <type>war</type>
-                  <pingURL>http://localhost:8080/author/</pingURL>
-                  <pingTimeout>900000</pingTimeout>
+                  <pingURL>http://localhost:8080/author/.rest/health</pingURL>
+                  <pingTimeout>1800000</pingTimeout>
                   <properties>
                     <context>author</context>
+                  </properties>
+                </deployable>
+              </deployables>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>runtime</id>
+      <properties>
+        <magnolia.profile>local-public</magnolia.profile>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-maven3-plugin</artifactId>
+            <configuration>
+              <container>
+                <containerId>tomcat11x</containerId>
+                <artifactInstaller>
+                  <groupId>org.apache.tomcat</groupId>
+                  <artifactId>tomcat</artifactId>
+                  <version>${tomcat.version}</version>
+                  <type>zip</type>
+                  <extractDir>${project.build.directory}/../../../tomcat/extracts</extractDir>
+                </artifactInstaller>
+                <log>${project.build.directory}/../../../tomcat/logs/public/cargo.log</log>
+                <output>${project.build.directory}/../../../tomcat/logs/public/tomcat.log</output>
+                <timeout>12000000</timeout>
+                <append>false</append>
+              </container>
+              <configuration>
+                <home>${project.build.directory}/../../../tomcat/cargo-runtime</home>
+                <type>standalone</type>
+                <properties>
+                  <cargo.servlet.port>8081</cargo.servlet.port>
+                  <cargo.rmi.port>8207</cargo.rmi.port>
+                  <cargo.logging>medium</cargo.logging>
+                  <cargo.tomcat.shutdown.port>8006</cargo.tomcat.shutdown.port>
+                  <cargo.tomcat.ajp.port>8010</cargo.tomcat.ajp.port>
+                  <cargo.tomcat.shutdown>180000</cargo.tomcat.shutdown>
+                  <cargo.jvmargs>
+                    -Xms2g
+                    -Xmx4g
+                    -XX:+UnlockExperimentalVMOptions
+                    -XX:+EnableJVMCI
+                    -Djava.awt.headless=true
+                    -Dsun.io.useCanonCaches=false
+                    --add-opens=java.base/java.io=ALL-UNNAMED
+                    --add-opens=java.base/java.lang=ALL-UNNAMED
+                    --add-opens=java.base/java.lang.reflect=ALL-UNNAMED
+                    --add-opens=java.base/java.util=ALL-UNNAMED
+                    -DMAGNOLIA_PROFILE=${magnolia.profile}
+                    -Dmagnolia.repositories.jackrabbit.config=${magnolia.repositories.jackrabbit.config}
+                    -Dmagnolia.repositories.home=${cargo.magnolia.repositories.home}
+                    -Dmagnolia.logs.dir=${cargo.magnolia.logs.dir}
+                    -Dmagnolia.resources.dir=${cargo.magnolia.resources.dir}
+                    -Dmagnolia.license.owner=${magnolia.license.owner}
+                    -Dmagnolia.license.key=${magnolia.license.key}
+                    -Dmagnolia.superuser.bootstrap.password=${magnolia.superuser.bootstrap.password}
+                  </cargo.jvmargs>
+                </properties>
+              </configuration>
+              <deployables>
+                <deployable>
+                  <location>${project.build.directory}/${project.build.finalName}</location>
+                  <type>war</type>
+                  <pingURL>http://localhost:8081/.rest/health</pingURL>
+                  <pingTimeout>1800000</pingTimeout>
+                  <properties>
+                    <context>/</context>
                   </properties>
                 </deployable>
               </deployables>

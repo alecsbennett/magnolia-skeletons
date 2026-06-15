@@ -18,7 +18,7 @@ Examples:
 ## Configuration Sections
 
 ### Instance Configuration
-- `magnolia.instance.type` - Default instance type (author/runtime/both)
+- `magnolia.instance.type` - Default instance type (author/public/both)
 - `magnolia.instance.default` - Fallback default instance type
 
 ### Ports Configuration
@@ -81,6 +81,12 @@ All flags accept `true` or `false` values.
 - `maven.profile.author` - Author profile name (default: author)
 - `maven.profile.runtime` - Runtime profile name (default: runtime)
 
+### Magnolia Superuser Bootstrap
+- `magnolia.superuser.bootstrap.password` - Password assigned to `superuser` when a repository is initialized for the first time
+
+The value can be overridden with `MAGNOLIA_SUPERUSER_BOOTSTRAP_PASSWORD`.
+Magnolia does not apply changes to this property after initial repository setup.
+
 ### Logging Configuration
 - `log.file.name` - Log file name (default: tomcat.log)
 - `log.startup.pattern` - Regex pattern to detect server startup
@@ -135,6 +141,18 @@ author.port=9090
 ### Enable Auto-Open Browser
 ```properties
 flags.open.browser=true
+```
+
+### Start both instances
+```bash
+npm run start:both
+```
+
+The Magnolia CLI exposes the same modes:
+```bash
+./mgnl startx --author
+./mgnl startx --public
+./mgnl startx --both
 ```
 
 ### Verbose Debug Mode

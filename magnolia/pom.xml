@@ -6,9 +6,14 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <properties>
-    <magnolia.version>6.4.0</magnolia.version>
-    <javaVersion>17</javaVersion>
-    <tomcat.version>10.1.30</tomcat.version>
+    <magnolia.version>6.4.6</magnolia.version>
+    <content-transfer.version>1.0.1</content-transfer.version>
+    <extended-bootstrap.version>1.0.1</extended-bootstrap.version>
+    <javaVersion>25</javaVersion>
+    <tomcat.version>11.0.22</tomcat.version>
+    <cargo.maven3.plugin.version>1.10.27</cargo.maven3.plugin.version>
+    <maven.compiler.plugin.version>3.15.0</maven.compiler.plugin.version>
+    <maven.war.plugin.version>3.3.1</maven.war.plugin.version>
   </properties>
   <!-- Fill the following in, so you can use the release plugin -->
   <scm>
@@ -43,7 +48,7 @@
         <plugin>
           <groupId>org.codehaus.cargo</groupId>
           <artifactId>cargo-maven3-plugin</artifactId>
-          <version>1.10.8</version>
+          <version>${cargo.maven3.plugin.version}</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -51,10 +56,9 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.7.0</version>
+        <version>${maven.compiler.plugin.version}</version>
         <configuration>
-          <source>${javaVersion}</source>
-          <target>${javaVersion}</target>
+          <release>${javaVersion}</release>
         </configuration>
       </plugin>
     </plugins>
@@ -107,10 +111,28 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
+    <repository>
+      <id>github-content-transfer</id>
+      <url>https://maven.pkg.github.com/alecsbennett/mgnl-content-transfer</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>github-extended-bootstrap</id>
+      <url>https://maven.pkg.github.com/alecsbennett/extended-bootstrap</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
   </repositories>
   <modules>
     <module>magnolia-webapp</module>
-    <module>content-transfer</module>
-    <module>extended-bootstrap</module>
   </modules>
 </project>

@@ -286,8 +286,8 @@ You will be prompted to type "CLEAN" to confirm.
 - **Type:** t3.medium (4GB RAM, 2 vCPU)
 - **OS:** Amazon Linux 2023
 - **Storage:** 20GB GP3 EBS volume (encrypted)
-- **Java:** Amazon Corretto 17
-- **Tomcat:** 10.1.30
+- **Java:** Amazon Corretto 25
+- **Tomcat:** 11.0.22
 
 ### PostgreSQL EC2 Instance
 - **Type:** t3.micro (1GB RAM, 2 vCPU)

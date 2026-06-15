@@ -1,17 +1,25 @@
 import { Option } from 'commander';
 import { PluginTemplate } from '@magnolia/cli-plugin-template';
 import { spawn } from 'child_process';
+import { readFileSync } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { createRequire } from 'module';
 
-const requireFn = createRequire(import.meta.url);
-const pkg = requireFn('../../package.json');
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const PROJECT_ROOT = path.resolve(__dirname, '..', '..');
+
+const readStartxVersion = () => {
+	const versionFile = path.join(PROJECT_ROOT, '.mgnl-startx-version');
+	try {
+		return readFileSync(versionFile, 'utf-8').trim() || '1.0.0';
+	} catch {
+		return '1.0.0';
+	}
+};
 
 export default class StartCustomPlugin extends PluginTemplate {
 	name = 'startx';
-	version = pkg.version || '1.0.0';
+	version = readStartxVersion();
 	description = 'Start Magnolia using custom utils/exec npm start script';
 	usage = '[options]';
 	options = [
@@ -20,6 +28,9 @@ export default class StartCustomPlugin extends PluginTemplate {
 		new Option('--restart', 'Force restart if running'),
 		new Option('--clearlocks', 'Force clear JCR locks'),
 		new Option('--nomail', 'Start without MailDev'),
+		new Option('--author', 'Start author instance only'),
+		new Option('--public', 'Start public instance only'),
+		new Option('--both', 'Start both author and public instances'),
 	];
 
 	utilsExecPath = path.resolve(__dirname, '..', 'exec');
@@ -31,6 +42,13 @@ export default class StartCustomPlugin extends PluginTemplate {
 
 	async start(options) {
 		this.logger?.info('Starting Magnolia with custom utils/exec script...');
+
+		let instanceMode = 'author';
+		if (options.both) {
+			instanceMode = 'both';
+		} else if (options.public) {
+			instanceMode = 'public';
+		}
 
 		// Determine which npm script to run based on options
 		let npmScript = 'start';
@@ -47,12 +65,17 @@ export default class StartCustomPlugin extends PluginTemplate {
 		}
 
 		this.logger?.info(`Running: npm ${npmScript} in ${this.utilsExecPath}`);
+		this.logger?.info(`Instance mode: ${instanceMode}`);
 
 		// Spawn npm process
 		this.npmProcess = spawn('npm', [npmScript], {
 			cwd: this.utilsExecPath,
 			stdio: 'inherit',
 			shell: true,
+			env: {
+				...process.env,
+				MAGNOLIA_INSTANCE_MODE: instanceMode,
+			},
 		});
 
 		// Handle process events

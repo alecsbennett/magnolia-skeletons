@@ -32,7 +32,7 @@ const isPortInUse = async (port) => {
         let command;
         
         if (platform === "win32") {
-            command = `netstat -ano | findstr :${port}`;
+            command = `netstat -ano -p tcp | findstr ":${port}" | findstr "LISTENING"`;
         } else {
             command = `lsof -i :${port} -t`;
         }
@@ -51,7 +51,7 @@ const getPidsFromPort = async (port) => {
         let command;
         
         if (platform === "win32") {
-            command = `netstat -ano | findstr :${port}`;
+            command = `netstat -ano -p tcp | findstr ":${port}" | findstr "LISTENING"`;
         } else {
             command = `lsof -i :${port} -t`;
         }

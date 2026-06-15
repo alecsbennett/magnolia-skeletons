@@ -41,6 +41,9 @@ The system uses **modular scripts** composed with `npm-run-all` for clean, maint
 | **Auto restart** | Force restart if running | `npm run start:restart` |
 | **Clear JCR locks** | Force clear JCR locks | `npm run start:clearlocks` |
 | **No MailDev** | Start without MailDev | `npm run start:nomail` |
+| **Author only** | Start the author instance | `npm run start:author` |
+| **Public only** | Start the public instance | `npm run start:public` |
+| **Author + public** | Start both instances | `npm run start:both` |
 
 ### Individual Scripts
 
@@ -87,13 +90,17 @@ When you run `npm start`, the following happens:
 
 1. **Sequential steps** (using `run-s`):
    - `check-server` - Verify no existing server
+
+2. **Parallel cleanup** (using `run-p`):
    - `clean:locks` - Clear JCR lock files (if enabled)
    - `clean:cargo` - Clean Cargo directory
    - `clean:logs` - Clear log files (if enabled)
-   - `maildev` - Start MailDev server in background (if enabled)
+
+3. **Build**:
    - `build` - Build parent Maven project
 
-2. **Parallel steps** (using `run-p`):
+4. **Parallel runtime steps** (using `run-p`):
+   - `maildev` - Start MailDev server in background (if enabled)
    - `start:cargo` - Start Cargo server (keeps running)
    - `monitor` - Monitor logs for startup completion
 
@@ -119,12 +126,15 @@ Environment variables can override properties file settings:
 - `FORCE_RESTART=true` - Force restart without prompt
 - `CLEAR_JCR_LOCKS=true` - Force clear JCR locks
 - `MAILDEV_ENABLED=false` - Disable MailDev
-- `MAGNOLIA_INSTANCE=author` - Set instance type
+- `MAGNOLIA_INSTANCE_MODE=author` - Start author only
+- `MAGNOLIA_INSTANCE_MODE=public` - Start public only
+- `MAGNOLIA_INSTANCE_MODE=both` - Start author and public
 
 ## Process Tracking
 
 The system maintains PID files:
 - `.cargo.author.pid` - Tracks Cargo and Tomcat PIDs for author instance
+- `.cargo.runtime.pid` - Tracks Cargo and Tomcat PIDs for public instance
 - `.maildev.pid` - Tracks MailDev PID
 
 These files enable clean shutdowns and prevent multiple instances.
