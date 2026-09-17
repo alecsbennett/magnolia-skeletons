@@ -4,6 +4,7 @@ import { spawn } from 'child_process';
 import { readFileSync } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { createStartxInvocation } from './startx-invocation.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = path.resolve(__dirname, '..', '..');
@@ -11,9 +12,9 @@ const PROJECT_ROOT = path.resolve(__dirname, '..', '..');
 const readStartxVersion = () => {
 	const versionFile = path.join(PROJECT_ROOT, '.mgnl-startx-version');
 	try {
-		return readFileSync(versionFile, 'utf-8').trim() || '1.0.0';
+		return readFileSync(versionFile, 'utf-8').trim() || '1.2.0';
 	} catch {
-		return '1.0.0';
+		return '1.2.0';
 	}
 };
 
@@ -42,91 +43,52 @@ export default class StartCustomPlugin extends PluginTemplate {
 
 	async start(options) {
 		this.logger?.info('Starting Magnolia with custom utils/exec script...');
+		const invocation = createStartxInvocation(options);
+		const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
 
-		let instanceMode = 'author';
-		if (options.both) {
-			instanceMode = 'both';
-		} else if (options.public) {
-			instanceMode = 'public';
-		}
+		this.logger?.info(`Running: npm run ${invocation.script} in ${this.utilsExecPath}`);
+		this.logger?.info(`Instance mode: ${invocation.instanceMode}`);
 
-		// Determine which npm script to run based on options
-		let npmScript = 'start';
-		if (options.open) {
-			npmScript = 'start:open';
-		} else if (options.noclean) {
-			npmScript = 'start:noclean';
-		} else if (options.restart) {
-			npmScript = 'start:restart';
-		} else if (options.clearlocks) {
-			npmScript = 'start:clearlocks';
-		} else if (options.nomail) {
-			npmScript = 'start:nomail';
-		}
-
-		this.logger?.info(`Running: npm ${npmScript} in ${this.utilsExecPath}`);
-		this.logger?.info(`Instance mode: ${instanceMode}`);
-
-		// Spawn npm process
-		this.npmProcess = spawn('npm', [npmScript], {
+		this.npmProcess = spawn(npmCommand, ['run', invocation.script], {
 			cwd: this.utilsExecPath,
 			stdio: 'inherit',
-			shell: true,
+			shell: process.platform === 'win32',
 			env: {
 				...process.env,
-				MAGNOLIA_INSTANCE_MODE: instanceMode,
+				...invocation.env,
 			},
 		});
 
-		// Handle process events
-		this.npmProcess.on('error', (error) => {
-			this.logger?.error(`Failed to start npm process: ${error.message}`);
-			process.exit(1);
+		const code = await new Promise((resolve, reject) => {
+			this.npmProcess.on('error', reject);
+			this.npmProcess.on('exit', (exitCode) => resolve(exitCode));
 		});
-
-		this.npmProcess.on('exit', (code) => {
-			if (code !== 0 && code !== null) {
-				this.logger?.error(`npm process exited with code ${code}`);
-				process.exit(code);
-			}
-		});
-
-		// Keep the plugin running until stopped
-		await new Promise((resolve) => {
-			// The process will keep running until SIGINT/SIGTERM
-			// We resolve only when explicitly stopped
-			this.npmProcess?.on('exit', () => {
-				resolve();
-			});
-		});
+		this.npmProcess = null;
+		if (code !== 0 && code !== null) {
+			throw new Error(`npm run ${invocation.script} exited with code ${code}`);
+		}
 	}
 
 	async stop() {
 		this.logger?.info('Stopping Magnolia server...');
 
-		if (this.npmProcess) {
+		if (this.npmProcess && !this.npmProcess.killed) {
 			// Send SIGINT to npm process, which should propagate to child processes
 			this.npmProcess.kill('SIGINT');
-
-			// Also try to run the kill script from utils/exec
-			try {
-				const killProcess = spawn('npm', ['run', 'kill'], {
-					cwd: this.utilsExecPath,
-					stdio: 'inherit',
-					shell: true,
-				});
-
-				killProcess.on('exit', (code) => {
-					if (code === 0) {
-						this.logger?.info('Server stopped successfully');
-					} else {
-						this.logger?.warn(`Kill script exited with code ${code}`);
-					}
-				});
-			} catch (error) {
-				this.logger?.warn(`Failed to run kill script: ${error}`);
-			}
 		}
+
+		const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+		const code = await new Promise((resolve) => {
+			const killProcess = spawn(npmCommand, ['run', 'kill'], {
+				cwd: this.utilsExecPath,
+				stdio: 'inherit',
+				shell: process.platform === 'win32',
+			});
+			killProcess.on('error', () => resolve(1));
+			killProcess.on('exit', (exitCode) => resolve(exitCode));
+		});
+		if (code === 0) this.logger?.info('Server stopped successfully');
+		else this.logger?.warn(`Kill script exited with code ${code}`);
 
 		this.logger?.info('Plugin stopped');
 	}

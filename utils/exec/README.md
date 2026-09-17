@@ -28,6 +28,7 @@ The system uses **modular scripts** composed with `npm-run-all` for clean, maint
 | `scripts/start-cargo.mjs` | Start Cargo server (keeps running) | Parallel |
 | `scripts/monitor.mjs` | Monitor logs for startup completion | Parallel |
 | `startMailDev.mjs` | Start MailDev server (keeps running) | Parallel |
+| `scripts/additional-script.mjs` | Optional `startx` lifecycle hook runner | Start/shutdown |
 
 ## Usage
 
@@ -44,6 +45,8 @@ The system uses **modular scripts** composed with `npm-run-all` for clean, maint
 | **Author only** | Start the author instance | `npm run start:author` |
 | **Public only** | Start the public instance | `npm run start:public` |
 | **Author + public** | Start both instances | `npm run start:both` |
+
+The Magnolia CLI flags are composable: for example, `./mgnl startx --both --open --restart` runs the canonical `npm run start` command with the required environment overrides.
 
 ### Individual Scripts
 
@@ -116,12 +119,15 @@ Key settings:
 - `flags.clear.jcr.locks` - Clear JCR locks (default: true)
 - `flags.open.browser` - Auto-open browser (default: false)
 - `flags.force.restart` - Force restart without prompt (default: false)
+- `startx.additional.script` - Optional command started with `./mgnl startx`
+- `startx.additional-shutdown.script` - Optional command run during `startx` shutdown
+- `startx.services.file` - Optional JSON descriptor for health-checked companion services
 
 ## Environment Variables
 
 Environment variables can override properties file settings:
 
-- `CLEAR_LOGS=false` - Skip log clearing
+- `FLAGS_CLEAR_LOGS=false` - Skip log clearing (`CLEAR_LOGS=false` remains supported)
 - `OPEN_BROWSER=true` - Auto-open browser
 - `FORCE_RESTART=true` - Force restart without prompt
 - `CLEAR_JCR_LOCKS=true` - Force clear JCR locks
@@ -136,6 +142,7 @@ The system maintains PID files:
 - `.cargo.author.pid` - Tracks Cargo and Tomcat PIDs for author instance
 - `.cargo.runtime.pid` - Tracks Cargo and Tomcat PIDs for public instance
 - `.maildev.pid` - Tracks MailDev PID
+- `.startx.additional.pid` - Tracks the optional `startx.additional.script` process
 
 These files enable clean shutdowns and prevent multiple instances.
 

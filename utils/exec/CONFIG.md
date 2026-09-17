@@ -15,6 +15,8 @@ Examples:
 - `maildev.enabled` → `MAILDEV_ENABLED=false`
 - `author.port` → `AUTHOR_PORT=8080`
 
+For compatibility, `CLEAR_LOGS`, `CLEAR_JCR_LOCKS`, `OPEN_BROWSER`, and `FORCE_RESTART` are also accepted for their corresponding flags.
+
 ## Configuration Sections
 
 ### Instance Configuration
@@ -71,6 +73,34 @@ All flags accept `true` or `false` values.
 - `flags.quiet.heartbeat` - Quiet heartbeat mode (default: true)
 - `flags.show.toasts` - Show desktop toast notifications (default: true)
 
+### startx Extension Hooks
+- `startx.additional.script` - Optional shell command started by `./mgnl startx` before Cargo starts.
+- `startx.additional-shutdown.script` - Optional shell command run during `startx` / `npm run kill` shutdown.
+- `startx.additional.cwd` - Working directory for both hook commands, relative to the project root unless absolute.
+
+Long-running `startx.additional.script` processes are tracked and killed automatically on shutdown.
+
+The same settings can be overridden with environment variables such as `STARTX_ADDITIONAL_SCRIPT`.
+
+### Companion Services
+- `startx.services.file` - Optional JSON descriptor, relative to the project root, for services which must be healthy before Magnolia starts.
+- `pid.file.startx.services` - Lifecycle ledger file (default: `.startx.services.json`).
+
+The descriptor has a `services` array. Each service requires `name`, `start`, `stop`, and `healthUrl`; `cwd`, `timeoutMs` (default 30000), and `pollIntervalMs` (default 500) are optional. Commands run using the project shell, so descriptor files must be project-controlled.
+
+```json
+{
+  "services": [{
+    "name": "local-api",
+    "start": "npm run api:start",
+    "stop": "npm run api:stop",
+    "healthUrl": "http://127.0.0.1:4300/health"
+  }]
+}
+```
+
+Services are started sequentially and must return HTTP 2xx before Cargo begins. On shutdown, only services started by the current `startx` run are stopped, in reverse order. Use `npm run services:status` from `utils/exec` to inspect configured service health.
+
 ### Intervals (milliseconds)
 - `intervals.poll` - Log polling interval (default: 1000)
 - `intervals.heartbeat` - Heartbeat monitor interval (default: 30000)
@@ -95,6 +125,7 @@ Magnolia does not apply changes to this property after initial repository setup.
 - `pid.file.author` - Author PID file name (default: .cargo.author.pid)
 - `pid.file.runtime` - Runtime PID file name (default: .cargo.runtime.pid)
 - `pid.file.maildev` - MailDev PID file name (default: .maildev.pid)
+- `pid.file.startx.additional` - Optional startx additional process PID file name (default: .startx.additional.pid)
 - `pid.file.location` - PID files directory (default: utils/exec)
 
 ### Notification Configuration

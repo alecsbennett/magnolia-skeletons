@@ -60,13 +60,26 @@ const resolvePath = (relativePath) => {
  * Get property value with environment variable override
  */
 const getProperty = (props, key, defaultValue = undefined) => {
-	// Check environment variable first (uppercase with dots replaced by underscores)
-	const envKey = key.replace(/\./g, "_").toUpperCase();
+	// Check environment variable first (uppercase with dots/hyphens replaced by underscores)
+	const envKey = key.replace(/[.-]/g, "_").toUpperCase();
 	if (process.env[envKey] !== undefined) {
 		const envValue = process.env[envKey];
 		if (envValue === "true") return true;
 		if (envValue === "false") return false;
 		if (!isNaN(envValue)) return Number(envValue);
+		return envValue;
+	}
+	const legacyEnvKeys = {
+		"flags.clear.logs": "CLEAR_LOGS",
+		"flags.clear.jcr.locks": "CLEAR_JCR_LOCKS",
+		"flags.open.browser": "OPEN_BROWSER",
+		"flags.force.restart": "FORCE_RESTART",
+	};
+	const legacyEnvKey = legacyEnvKeys[key];
+	if (legacyEnvKey && process.env[legacyEnvKey] !== undefined) {
+		const envValue = process.env[legacyEnvKey];
+		if (envValue === "true") return true;
+		if (envValue === "false") return false;
 		return envValue;
 	}
 	
@@ -194,8 +207,25 @@ export const loadConfig = async () => {
 			author: path.resolve(__dirname, getProperty(props, "pid.file.author", ".cargo.author.pid")),
 			runtime: path.resolve(__dirname, getProperty(props, "pid.file.runtime", ".cargo.runtime.pid")),
 			maildev: path.resolve(__dirname, getProperty(props, "pid.file.maildev", ".maildev.pid")),
+			startxAdditional: path.resolve(__dirname, getProperty(props, "pid.file.startx.additional", ".startx.additional.pid")),
+			startxServices: path.resolve(__dirname, getProperty(props, "pid.file.startx.services", ".startx.services.json")),
 		},
-		
+
+		// startx lifecycle extension hooks
+		startx: {
+			additionalScript: getProperty(props, "startx.additional.script", ""),
+			additionalShutdownScript: getProperty(
+				props,
+				"startx.additional-shutdown.script",
+				getProperty(props, "startx.additional.shutdown.script", "")
+			),
+			additionalCwd: resolvePath(getProperty(props, "startx.additional.cwd", ".")),
+			servicesFile: (() => {
+				const value = String(getProperty(props, "startx.services.file", "")).trim();
+				return value ? resolvePath(value) : null;
+			})(),
+		},
+
 		// Notifications
 		notifications: {
 			titlePrefix: getProperty(props, "notification.title.prefix", "🚀"),

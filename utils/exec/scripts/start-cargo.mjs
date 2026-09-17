@@ -10,6 +10,8 @@ import {
 	killProcess,
 	forceStopLikelyCargoProcesses,
 } from "./utils.mjs";
+import { startAdditionalScript, stopAdditionalScript } from "./additional-script.mjs";
+import { startServices, stopServices } from "./startx-services.mjs";
 
 const cargoProcesses = [];
 let shutdownInProgress = false;
@@ -50,6 +52,12 @@ const gracefulShutdown = async (configs, rl, exitCode = 0) => {
 		} catch (error) {
 			// PID file is optional.
 		}
+	}
+
+	const baseConfig = configs[0]?.baseConfig;
+	if (baseConfig) {
+		await stopAdditionalScript(baseConfig);
+		await stopServices(baseConfig);
 	}
 
 	console.log("✅ Shutdown complete");
@@ -101,6 +109,7 @@ const startCargoForInstance = async (config, onUnexpectedExit) => {
 const main = async () => {
 	const config = await getConfig();
 	const configs = getSelectedInstanceConfigs(config);
+	const baseConfig = config.baseConfig ?? configs[0]?.baseConfig;
 	let rl;
 
 	if (config.instanceMode === "both") {
@@ -108,10 +117,15 @@ const main = async () => {
 	}
 
 	const onUnexpectedExit = (instanceConfig, code) => {
-		console.error(`❌ ${instanceConfig.instanceType} Cargo process exited with code ${code}`);
+		const label = instanceConfig?.instanceType ? `${instanceConfig.instanceType} Cargo process` : "startx additional script";
+		console.error(`❌ ${label} exited with code ${code}`);
 		gracefulShutdown(configs, rl, code);
 	};
 
+	if (baseConfig) {
+		await startServices(baseConfig);
+		await startAdditionalScript(baseConfig, (code) => onUnexpectedExit(null, code));
+	}
 	await Promise.all(configs.map((instanceConfig) => startCargoForInstance(instanceConfig, onUnexpectedExit)));
 
 	rl = createInterface({

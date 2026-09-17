@@ -3,7 +3,7 @@ import path from "path";
 import { exec } from "child_process";
 import http from "http";
 import https from "https";
-import notifier from "node-notifier";
+import { showDesktopNotification } from "./notifications.mjs";
 import {
 	getConfig,
 	getSelectedInstanceConfigs,
@@ -151,17 +151,22 @@ const main = async () => {
 	if (primaryConfig.showToasts && primaryConfig.notificationConfig) {
 		const notification = primaryConfig.notificationConfig;
 		const titleMode = config.instanceMode === "both" ? "BOTH" : primaryConfig.instanceType.toUpperCase();
-		notifier.notify({
-			title: `${notification.titlePrefix} ${titleMode} Server Loaded`,
-			message: config.instanceMode === "both"
-				? `Author: ${config.author.serverUrl}\nPublic: ${config.public.serverUrl}`
-				: `Server is ready: ${primaryConfig.serverUrl}`,
-			sound: notification.sound,
-			wait: false,
-			timeout: notification.timeout,
-			appID: notification.appId,
-			icon: path.join("./assets/magnolia-logo.png"),
-		});
+		try {
+			await showDesktopNotification({
+				title: `${notification.titlePrefix} ${titleMode} Server Loaded`,
+				message: config.instanceMode === "both"
+					? `Author: ${config.author.serverUrl}\nPublic: ${config.public.serverUrl}`
+					: `Server is ready: ${primaryConfig.serverUrl}`,
+				sound: notification.sound,
+				wait: false,
+				timeout: notification.timeout,
+				appID: notification.appId,
+				icon: path.join("./assets/magnolia-logo.png"),
+			});
+		} catch (error) {
+			// A desktop toast is optional and must never stop a running server.
+			console.warn(`⚠️  Desktop notification could not be displayed: ${error.message}`);
+		}
 	}
 
 	if (primaryConfig.openBrowser || process.env.OPEN_BROWSER === "true") {

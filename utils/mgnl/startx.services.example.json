@@ -1,0 +1,13 @@
+{
+  "services": [
+    {
+      "name": "local-api",
+      "start": "npm run api:start",
+      "stop": "npm run api:stop",
+      "healthUrl": "http://127.0.0.1:4300/health",
+      "cwd": ".",
+      "timeoutMs": 30000,
+      "pollIntervalMs": 500
+    }
+  ]
+}

@@ -3,6 +3,8 @@ import { exec } from "child_process";
 import { promisify } from "util";
 import loadConfig from "./loadConfig.mjs";
 import { getLikelyCargoPids } from "./scripts/utils.mjs";
+import { stopAdditionalScript } from "./scripts/additional-script.mjs";
+import { stopServices } from "./scripts/startx-services.mjs";
 
 const execAsync = promisify(exec);
 
@@ -134,6 +136,8 @@ const main = async () => {
 	];
 
 	console.log("🛑 Stopping Magnolia Cargo server(s)...");
+	await stopAdditionalScript(baseConfig);
+	await stopServices(baseConfig);
 	await stopMailDev(baseConfig);
 
 	let killedCount = 0;
