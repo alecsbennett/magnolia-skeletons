@@ -1,0 +1,23 @@
+$type: jcrDeliveryEndpoint_v2
+workspace: signageVideos
+endpointPath: delivery/signage-videos
+bypassWorkspaceAcls: true
+depth: 2
+nodeTypes:
+  - sgn:video
+childNodeTypes:
+  - mgnl:contentNode
+references:
+  - name: videoFile
+    propertyName: src
+    referenceResolver:
+      $type: assetReferenceResolver
+  - name: poster
+    propertyName: poster
+    referenceResolver:
+      $type: assetReferenceResolver
+  - name: cues
+    propertyName: cues
+    referenceResolver:
+      $type: assetReferenceResolver
+

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="m12">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:message</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>m12</sv:value></sv:property>
+  <sv:property sv:name="eyebrow" sv:type="String"><sv:value>Our customers</sv:value></sv:property>
+  <sv:property sv:name="text" sv:type="String"><sv:value>What we build here goes wherever the people we serve go. Build it like you’re going with it.</sv:value></sv:property>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>11</sv:value></sv:property>
+</sv:node>

@@ -1,0 +1,16 @@
+$type: compositeField
+label: Counter
+properties:
+  name:
+    $type: textField
+    label: Name
+    required: true
+  note:
+    $type: textField
+    label: Note
+  items:
+    $type: jcrMultiField
+    label: Dishes
+    buttonSelectAddLabel: Add dish
+    field: !include:/digital-signage/includes/forms/dish-entry.yaml
+

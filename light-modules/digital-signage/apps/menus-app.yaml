@@ -1,0 +1,79 @@
+!content-type:menu
+name: menus-app
+label: Menus
+icon: icon-forums-app
+subApps:
+  detail:
+    form:
+      properties:
+        name:
+          label: Name
+        slug:
+          label: Id
+          description: Stable id, for example frimley-restaurant.
+        site:
+          label: Location
+          description: Leave empty for the home site.
+        currency:
+          label: Currency
+          defaultValue: "£"
+        notice:
+          label: Notice
+          rows: 2
+          description: Allergen line along the bottom of the card.
+        services:
+          label: Serving times
+          description: Breakfast, lunch and so on. The card shows Now serving from these times. Use 24-hour times, for example 07:30.
+        everyday:
+          $type: jcrMultiField
+          label: Everyday counters
+          description: Shown every day after that day's own counters.
+          buttonSelectAddLabel: Add counter
+          field: !include:/digital-signage/includes/forms/menu-counter.yaml
+        days:
+          $type: jcrMultiField
+          label: Days
+          description: A weekday with no entry is skipped on the menu card.
+          buttonSelectAddLabel: Add day
+          field:
+            $type: compositeField
+            label: Day
+            properties:
+              weekday:
+                $type: comboBoxField
+                label: Weekday
+                required: true
+                datasource:
+                  $type: optionListDatasource
+                  options:
+                    - name: mon
+                      value: mon
+                      label: Monday
+                    - name: tue
+                      value: tue
+                      label: Tuesday
+                    - name: wed
+                      value: wed
+                      label: Wednesday
+                    - name: thu
+                      value: thu
+                      label: Thursday
+                    - name: fri
+                      value: fri
+                      label: Friday
+                    - name: sat
+                      value: sat
+                      label: Saturday
+                    - name: sun
+                      value: sun
+                      label: Sunday
+              title:
+                $type: textField
+                label: Title
+              special: !include:/digital-signage/includes/forms/dish-special.yaml
+              stations:
+                $type: jcrMultiField
+                label: Counters
+                buttonSelectAddLabel: Add counter
+                field: !include:/digital-signage/includes/forms/menu-counter.yaml
+

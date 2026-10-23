@@ -1,0 +1,35 @@
+!content-type:event
+name: events-app
+label: Events
+icon: icon-calendar
+subApps:
+  detail:
+    form:
+      properties:
+        name:
+          label: Title
+        slug:
+          label: Id
+          description: Stable id, for example town-hall.
+        start:
+          label: Starts
+          time: true
+          description: Local time in the site timezone.
+        end:
+          label: Ends
+          time: true
+        room:
+          label: Room
+          description: Room or area on site.
+        site:
+          label: Location
+          description: Leave empty for the home site.
+        category:
+          label: Category
+        description:
+          label: Description
+          rows: 3
+        featured:
+          buttonLabel: Featured
+          description: Prefer this event for the hero slot when several fall on the same day.
+

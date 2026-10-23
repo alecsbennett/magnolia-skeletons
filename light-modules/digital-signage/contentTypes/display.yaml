@@ -1,0 +1,20 @@
+datasource:
+  $type: jcrContentTypeDatasource
+  workspace: signageDisplays
+  namespaces:
+    sgn: https://www.tbscg.com/jcr/1.0/signage
+  autoCreate: true
+
+model:
+  nodeType: sgn:display
+  properties:
+    - name: name
+      required: true
+    - name: slug
+      required: true
+    - name: code
+      required: true
+    - name: place
+      type: reference:place
+    - name: note
+

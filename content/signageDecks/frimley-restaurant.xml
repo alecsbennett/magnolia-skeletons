@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="frimley-restaurant">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:deck</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>frimley-restaurant</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Frimley – Restaurant</sv:value></sv:property>
+  <sv:property sv:name="transition" sv:type="String"><sv:value>fade</sv:value></sv:property>
+  <sv:node sv:name="cards"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:node sv:name="0">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="cardId" sv:type="String"><sv:value>menu</sv:value></sv:property>
+      <sv:property sv:name="cardType" sv:type="String"><sv:value>menu</sv:value></sv:property>
+      <sv:property sv:name="label" sv:type="String"><sv:value>Today’s menu</sv:value></sv:property>
+      <sv:property sv:name="menuId" sv:type="String"><sv:value>frimley-restaurant</sv:value></sv:property>
+      <sv:property sv:name="durationSec" sv:type="Decimal"><sv:value>24</sv:value></sv:property>
+    </sv:node>
+    <sv:node sv:name="1">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="cardId" sv:type="String"><sv:value>events</sv:value></sv:property>
+      <sv:property sv:name="cardType" sv:type="String"><sv:value>events</sv:value></sv:property>
+      <sv:property sv:name="label" sv:type="String"><sv:value>What's on</sv:value></sv:property>
+      <sv:property sv:name="durationSec" sv:type="Decimal"><sv:value>16</sv:value></sv:property>
+    </sv:node>
+    <sv:node sv:name="2">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="cardId" sv:type="String"><sv:value>weather</sv:value></sv:property>
+      <sv:property sv:name="cardType" sv:type="String"><sv:value>weather</sv:value></sv:property>
+      <sv:property sv:name="label" sv:type="String"><sv:value>Weather</sv:value></sv:property>
+      <sv:property sv:name="durationSec" sv:type="Decimal"><sv:value>12</sv:value></sv:property>
+    </sv:node>
+    <sv:node sv:name="3">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="cardId" sv:type="String"><sv:value>wellbeing</sv:value></sv:property>
+      <sv:property sv:name="cardType" sv:type="String"><sv:value>message</sv:value></sv:property>
+      <sv:property sv:name="label" sv:type="String"><sv:value>Wellbeing</sv:value></sv:property>
+      <sv:property sv:name="durationSec" sv:type="Decimal"><sv:value>10</sv:value></sv:property>
+      <sv:property sv:name="messageId" sv:type="String"><sv:value>m7</sv:value></sv:property>
+    </sv:node>
+    <sv:node sv:name="4">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="cardId" sv:type="String"><sv:value>share-price</sv:value></sv:property>
+      <sv:property sv:name="cardType" sv:type="String"><sv:value>sharePrice</sv:value></sv:property>
+      <sv:property sv:name="label" sv:type="String"><sv:value>Share price</sv:value></sv:property>
+      <sv:property sv:name="videoId" sv:type="String"><sv:value>takeoff</sv:value></sv:property>
+      <sv:node sv:name="schedule">
+        <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+        <sv:property sv:name="days" sv:type="String" sv:multiple="true"><sv:value>mon</sv:value><sv:value>tue</sv:value><sv:value>wed</sv:value><sv:value>thu</sv:value><sv:value>fri</sv:value></sv:property>
+      </sv:node>
+    </sv:node>
+  </sv:node>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>2</sv:value></sv:property>
+</sv:node>

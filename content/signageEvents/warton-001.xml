@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="warton-001">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:event</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>warton-001</sv:value></sv:property>
+  <sv:property sv:name="site" sv:type="String"><sv:value>warton</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Shift Safety Briefing</sv:value></sv:property>
+  <sv:property sv:name="start" sv:type="String"><sv:value>2026-10-22T06:15:00</sv:value></sv:property>
+  <sv:property sv:name="end" sv:type="String"><sv:value>2026-10-22T06:30:00</sv:value></sv:property>
+  <sv:property sv:name="location" sv:type="String"><sv:value>Final Assembly, Hangar 2</sv:value></sv:property>
+  <sv:property sv:name="category" sv:type="String"><sv:value>Safety</sv:value></sv:property>
+  <sv:property sv:name="description" sv:type="String"><sv:value>Start-of-shift brief: lifts, test running and FOD hot spots.</sv:value></sv:property>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>17</sv:value></sv:property>
+</sv:node>

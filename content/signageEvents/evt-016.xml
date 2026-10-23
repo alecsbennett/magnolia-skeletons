@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="evt-016">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:event</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>evt-016</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Festive Lunch Bookings Open</sv:value></sv:property>
+  <sv:property sv:name="start" sv:type="String"><sv:value>2026-11-16T08:00:00</sv:value></sv:property>
+  <sv:property sv:name="end" sv:type="String"><sv:value>2026-11-16T17:00:00</sv:value></sv:property>
+  <sv:property sv:name="location" sv:type="String"><sv:value>Restaurant</sv:value></sv:property>
+  <sv:property sv:name="category" sv:type="String"><sv:value>Community</sv:value></sv:property>
+  <sv:property sv:name="description" sv:type="String"><sv:value>Reserve your team table for the festive lunch.</sv:value></sv:property>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>15</sv:value></sv:property>
+</sv:node>

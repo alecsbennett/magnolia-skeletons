@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="warton-final-assembly">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:board</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>warton-final-assembly</sv:value></sv:property>
+  <sv:property sv:name="site" sv:type="String"><sv:value>warton</sv:value></sv:property>
+  <sv:property sv:name="eyebrow" sv:type="String"><sv:value>Final assembly · Warton</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Typhoon assembly &amp; upgrades</sv:value></sv:property>
+  <sv:property sv:name="safeSince" sv:type="String"><sv:value>2026-02-09</sv:value></sv:property>
+  <sv:property sv:name="safeNote" sv:type="String"><sv:value>Site record: 418 days</sv:value></sv:property>
+  <sv:node sv:name="shifts"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:node sv:name="0">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="name" sv:type="String"><sv:value>Days</sv:value></sv:property>
+      <sv:property sv:name="from" sv:type="String"><sv:value>06:00</sv:value></sv:property>
+      <sv:property sv:name="to" sv:type="String"><sv:value>14:00</sv:value></sv:property>
+    </sv:node>
+    <sv:node sv:name="1">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="name" sv:type="String"><sv:value>Lates</sv:value></sv:property>
+      <sv:property sv:name="from" sv:type="String"><sv:value>14:00</sv:value></sv:property>
+      <sv:property sv:name="to" sv:type="String"><sv:value>22:00</sv:value></sv:property>
+    </sv:node>
+    <sv:node sv:name="2">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="name" sv:type="String"><sv:value>Nights</sv:value></sv:property>
+      <sv:property sv:name="from" sv:type="String"><sv:value>22:00</sv:value></sv:property>
+      <sv:property sv:name="to" sv:type="String"><sv:value>06:00</sv:value></sv:property>
+    </sv:node>
+  </sv:node>
+  <sv:node sv:name="tiles"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:node sv:name="0">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="value" sv:type="String"><sv:value>98.6%</sv:value></sv:property>
+      <sv:property sv:name="label" sv:type="String"><sv:value>Right first time</sv:value></sv:property>
+      <sv:property sv:name="note" sv:type="String"><sv:value>Target 97% · rolling 4 weeks</sv:value></sv:property>
+      <sv:property sv:name="trend" sv:type="String"><sv:value>up</sv:value></sv:property>
+    </sv:node>
+    <sv:node sv:name="1">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="value" sv:type="String"><sv:value>On plan</sv:value></sv:property>
+      <sv:property sv:name="label" sv:type="String"><sv:value>Aircraft build</sv:value></sv:property>
+      <sv:property sv:name="note" sv:type="String"><sv:value>Next roll-out: week 46</sv:value></sv:property>
+    </sv:node>
+    <sv:node sv:name="2">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="value" sv:type="String"><sv:value>0</sv:value></sv:property>
+      <sv:property sv:name="label" sv:type="String"><sv:value>Open FOD reports</sv:value></sv:property>
+      <sv:property sv:name="note" sv:type="String"><sv:value>Last walk: start of shift</sv:value></sv:property>
+      <sv:property sv:name="trend" sv:type="String"><sv:value>flat</sv:value></sv:property>
+    </sv:node>
+  </sv:node>
+  <sv:property sv:name="remindersTitle" sv:type="String"><sv:value>Beyond the yellow line</sv:value></sv:property>
+  <sv:property sv:name="reminders" sv:type="String" sv:multiple="true"><sv:value>Safety boots and eye protection</sv:value><sv:value>Tool control: sign every tool out and in</sv:value><sv:value>FOD walk at every shift change</sv:value></sv:property>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>0</sv:value></sv:property>
+</sv:node>

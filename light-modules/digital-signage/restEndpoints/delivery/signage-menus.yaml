@@ -1,0 +1,10 @@
+$type: jcrDeliveryEndpoint_v2
+workspace: signageMenus
+endpointPath: delivery/signage-menus
+bypassWorkspaceAcls: true
+depth: 10
+nodeTypes:
+  - sgn:menu
+childNodeTypes:
+  - mgnl:contentNode
+

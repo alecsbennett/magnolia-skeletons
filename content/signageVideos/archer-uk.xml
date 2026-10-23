@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="archer-uk">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:video</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>archer-uk</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>ARCHER</sv:value></sv:property>
+  <sv:property sv:name="eyebrow" sv:type="String"><sv:value>Land</sv:value></sv:property>
+  <sv:property sv:name="caption" sv:type="String"><sv:value>Mobile artillery for the British Army.</sv:value></sv:property>
+  <sv:property sv:name="src" sv:type="String"><sv:value>/media/video/archer-uk.mp4</sv:value></sv:property>
+  <sv:property sv:name="poster" sv:type="String"><sv:value>/media/images/archer-poster.jpg</sv:value></sv:property>
+  <sv:property sv:name="muted" sv:type="Boolean"><sv:value>true</sv:value></sv:property>
+  <sv:property sv:name="credit" sv:type="String"><sv:value>BAE Systems</sv:value></sv:property>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>1</sv:value></sv:property>
+</sv:node>

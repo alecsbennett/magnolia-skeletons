@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="govan-shipyard">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:board</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>govan-shipyard</sv:value></sv:property>
+  <sv:property sv:name="site" sv:type="String"><sv:value>govan</sv:value></sv:property>
+  <sv:property sv:name="eyebrow" sv:type="String"><sv:value>Govan shipyard · Glasgow</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Type 26 frigate programme</sv:value></sv:property>
+  <sv:property sv:name="safeSince" sv:type="String"><sv:value>2026-04-21</sv:value></sv:property>
+  <sv:property sv:name="safeNote" sv:type="String"><sv:value>Govan and Scotstoun combined</sv:value></sv:property>
+  <sv:node sv:name="shifts"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:node sv:name="0">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="name" sv:type="String"><sv:value>Days</sv:value></sv:property>
+      <sv:property sv:name="from" sv:type="String"><sv:value>07:30</sv:value></sv:property>
+      <sv:property sv:name="to" sv:type="String"><sv:value>16:00</sv:value></sv:property>
+    </sv:node>
+    <sv:node sv:name="1">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="name" sv:type="String"><sv:value>Backs</sv:value></sv:property>
+      <sv:property sv:name="from" sv:type="String"><sv:value>16:00</sv:value></sv:property>
+      <sv:property sv:name="to" sv:type="String"><sv:value>00:30</sv:value></sv:property>
+    </sv:node>
+  </sv:node>
+  <sv:node sv:name="tiles"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:node sv:name="0">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="value" sv:type="String"><sv:value>Block 3</sv:value></sv:property>
+      <sv:property sv:name="label" sv:type="String"><sv:value>Ship 6 · in build</sv:value></sv:property>
+      <sv:property sv:name="note" sv:type="String"><sv:value>Consolidation in the build hall</sv:value></sv:property>
+    </sv:node>
+    <sv:node sv:name="1">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="value" sv:type="String"><sv:value>97.4%</sv:value></sv:property>
+      <sv:property sv:name="label" sv:type="String"><sv:value>Right first time</sv:value></sv:property>
+      <sv:property sv:name="note" sv:type="String"><sv:value>Outfit and weld · 4 weeks</sv:value></sv:property>
+      <sv:property sv:name="trend" sv:type="String"><sv:value>up</sv:value></sv:property>
+    </sv:node>
+    <sv:node sv:name="2">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="value" sv:type="String"><sv:value>41</sv:value></sv:property>
+      <sv:property sv:name="label" sv:type="String"><sv:value>Apprentices on site</sv:value></sv:property>
+      <sv:property sv:name="note" sv:type="String"><sv:value>This year’s intake</sv:value></sv:property>
+    </sv:node>
+  </sv:node>
+  <sv:property sv:name="remindersTitle" sv:type="String"><sv:value>On the yard</sv:value></sv:property>
+  <sv:property sv:name="reminders" sv:type="String" sv:multiple="true"><sv:value>Hi-vis and hard hat outside the offices</sv:value><sv:value>Use the marked walkways</sv:value><sv:value>Hot work: permit, fire watch, extinguisher</sv:value></sv:property>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>3</sv:value></sv:property>
+</sv:node>

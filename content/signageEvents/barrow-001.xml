@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="barrow-001">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:event</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>barrow-001</sv:value></sv:property>
+  <sv:property sv:name="site" sv:type="String"><sv:value>barrow</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Heavy Lift: Ring Section Move</sv:value></sv:property>
+  <sv:property sv:name="start" sv:type="String"><sv:value>2026-10-22T09:00:00</sv:value></sv:property>
+  <sv:property sv:name="end" sv:type="String"><sv:value>2026-10-22T12:00:00</sv:value></sv:property>
+  <sv:property sv:name="location" sv:type="String"><sv:value>Devonshire Dock Hall</sv:value></sv:property>
+  <sv:property sv:name="category" sv:type="String"><sv:value>Operations</sv:value></sv:property>
+  <sv:property sv:name="description" sv:type="String"><sv:value>Exclusion zone in force on the east walkway during the lift.</sv:value></sv:property>
+  <sv:property sv:name="featured" sv:type="Boolean"><sv:value>true</sv:value></sv:property>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>28</sv:value></sv:property>
+</sv:node>

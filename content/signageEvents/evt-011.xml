@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="evt-011">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:event</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>evt-011</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Mental Health First Aid Drop-in</sv:value></sv:property>
+  <sv:property sv:name="start" sv:type="String"><sv:value>2026-11-05T12:00:00</sv:value></sv:property>
+  <sv:property sv:name="end" sv:type="String"><sv:value>2026-11-05T14:00:00</sv:value></sv:property>
+  <sv:property sv:name="location" sv:type="String"><sv:value>Wellbeing Room</sv:value></sv:property>
+  <sv:property sv:name="category" sv:type="String"><sv:value>Wellbeing</sv:value></sv:property>
+  <sv:property sv:name="description" sv:type="String"><sv:value>Confidential conversations with our trained first aiders.</sv:value></sv:property>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>10</sv:value></sv:property>
+</sv:node>

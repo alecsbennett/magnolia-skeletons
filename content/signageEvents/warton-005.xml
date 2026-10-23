@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="warton-005">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:event</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>warton-005</sv:value></sv:property>
+  <sv:property sv:name="site" sv:type="String"><sv:value>warton</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Lean Improvement Showcase</sv:value></sv:property>
+  <sv:property sv:name="start" sv:type="String"><sv:value>2026-10-28T10:00:00</sv:value></sv:property>
+  <sv:property sv:name="end" sv:type="String"><sv:value>2026-10-28T12:00:00</sv:value></sv:property>
+  <sv:property sv:name="location" sv:type="String"><sv:value>Hangar 3 mezzanine</sv:value></sv:property>
+  <sv:property sv:name="category" sv:type="String"><sv:value>Learning</sv:value></sv:property>
+  <sv:property sv:name="description" sv:type="String"><sv:value>Shop-floor teams present this month’s improvement projects.</sv:value></sv:property>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>21</sv:value></sv:property>
+</sv:node>

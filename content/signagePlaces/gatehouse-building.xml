@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="gatehouse-building">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:place</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>gatehouse-building</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Gatehouse</sv:value></sv:property>
+  <sv:property sv:name="icon" sv:type="String"><sv:value>building</sv:value></sv:property>
+  <sv:property sv:name="parent" sv:type="String"><sv:value>frimley-site</sv:value></sv:property>
+  <sv:node sv:name="playback">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:property sv:name="deck" sv:type="String"><sv:value>month-ahead</sv:value></sv:property>
+    <sv:property sv:name="mode" sv:type="String"><sv:value>video</sv:value></sv:property>
+  </sv:node>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>17</sv:value></sv:property>
+</sv:node>

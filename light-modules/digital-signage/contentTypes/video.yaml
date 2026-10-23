@@ -1,0 +1,24 @@
+datasource:
+  $type: jcrContentTypeDatasource
+  workspace: signageVideos
+  namespaces:
+    sgn: https://www.tbscg.com/jcr/1.0/signage
+  autoCreate: true
+
+model:
+  nodeType: sgn:video
+  properties:
+    - name: name
+      required: true
+    - name: slug
+      required: true
+    - name: eyebrow
+    - name: caption
+    - name: src
+      required: true
+    - name: poster
+    - name: startAtSec
+    - name: muted
+      type: Boolean
+    - name: credit
+    - name: cues

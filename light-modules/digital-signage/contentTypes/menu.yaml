@@ -1,0 +1,31 @@
+datasource:
+  $type: jcrContentTypeDatasource
+  workspace: signageMenus
+  namespaces:
+    sgn: https://www.tbscg.com/jcr/1.0/signage
+  autoCreate: true
+
+model:
+  nodeType: sgn:menu
+  properties:
+    - name: name
+      required: true
+    - name: slug
+      required: true
+    - name: site
+      type: reference:location
+    - name: currency
+    - name: notice
+    - name: services
+      type: service
+      multiple: true
+  subModels:
+    - name: service
+      properties:
+        - name: name
+          required: true
+        - name: from
+          required: true
+        - name: to
+          required: true
+

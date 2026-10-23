@@ -1,0 +1,20 @@
+datasource:
+  $type: jcrContentTypeDatasource
+  workspace: signageSyncSettings
+  namespaces:
+    sgn: https://www.tbscg.com/jcr/1.0/signage
+  autoCreate: true
+
+model:
+  nodeType: sgn:syncSettings
+  properties:
+    - name: name
+      required: true
+    - name: destinationPath
+      required: true
+    - name: magnoliaBaseUrl
+      required: true
+    - name: enabled
+      type: Boolean
+    - name: pruneDecks
+      type: Boolean

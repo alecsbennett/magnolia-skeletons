@@ -4,7 +4,9 @@
   "description": "Magnolia CMS 6.4 Enterprise Edition project with CLI support",
   "type": "module",
   "scripts": {
-    "mgnl": "node node_modules/@magnolia/cli"
+    "mgnl": "node node_modules/@magnolia/cli",
+    "start:bynder": "node utils/exec/scripts/start-bynder-author.mjs",
+    "sync:signage-content": "node scripts/sync-magnolia-signage-content.mjs"
   },
   "dependencies": {
     "@magnolia/cli": "^5.2.0",

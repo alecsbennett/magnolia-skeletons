@@ -1,0 +1,22 @@
+!content-type:deck
+name: decks-app
+label: Decks
+icon: icon-content-app
+subApps:
+  detail:
+    form:
+      properties:
+        name:
+          label: Name
+          description: What editors see, for example Frimley main deck.
+        slug:
+          label: Id
+          description: Stable id, for example main. Displays and places point at this.
+        transition:
+          label: Transition
+          defaultValue: fade
+        location:
+          label: Location
+          description: Leave empty to use the home site for weather, welcome copy and events.
+        cards: !include:/digital-signage/includes/forms/deck-cards.yaml
+

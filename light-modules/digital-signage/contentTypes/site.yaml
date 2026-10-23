@@ -1,0 +1,58 @@
+datasource:
+  $type: jcrContentTypeDatasource
+  workspace: signageSites
+  namespaces:
+    sgn: https://www.tbscg.com/jcr/1.0/signage
+  autoCreate: true
+
+model:
+  nodeType: sgn:site
+  properties:
+    - name: name
+      required: true
+    - name: slug
+      required: true
+    - name: company
+      required: true
+    - name: home
+      type: Boolean
+    - name: locale
+    - name: timezone
+      required: true
+    - name: location
+      type: geo
+      required: true
+    - name: welcome
+      type: welcome
+      required: true
+    - name: sharePrice
+      type: sharePrice
+      required: true
+  subModels:
+    - name: geo
+      properties:
+        - name: label
+          required: true
+        - name: latitude
+          type: Decimal
+          required: true
+        - name: longitude
+          type: Decimal
+          required: true
+    - name: welcome
+      properties:
+        - name: eyebrow
+        - name: headline
+          required: true
+        - name: subline
+        - name: image
+        - name: notice
+    - name: sharePrice
+      properties:
+        - name: symbol
+          required: true
+        - name: displaySymbol
+        - name: exchange
+        - name: currency
+        - name: delayNote
+          required: true

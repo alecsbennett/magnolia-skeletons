@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="east-wing">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:display</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>east-wing</sv:value></sv:property>
+  <sv:property sv:name="code" sv:type="String"><sv:value>2001</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>East Wing – Corridor</sv:value></sv:property>
+  <sv:property sv:name="place" sv:type="String"><sv:value>east-wing-building</sv:value></sv:property>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>5</sv:value></sv:property>
+</sv:node>

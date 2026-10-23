@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="stirling-square-002">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:event</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>stirling-square-002</sv:value></sv:property>
+  <sv:property sv:name="site" sv:type="String"><sv:value>stirling-square</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Investor Relations Briefing</sv:value></sv:property>
+  <sv:property sv:name="start" sv:type="String"><sv:value>2026-10-22T14:30:00</sv:value></sv:property>
+  <sv:property sv:name="end" sv:type="String"><sv:value>2026-10-22T15:30:00</sv:value></sv:property>
+  <sv:property sv:name="location" sv:type="String"><sv:value>Carlton Room</sv:value></sv:property>
+  <sv:property sv:name="category" sv:type="String"><sv:value>Company</sv:value></sv:property>
+  <sv:property sv:name="description" sv:type="String"><sv:value>Analyst call ahead of the trading update.</sv:value></sv:property>
+  <sv:property sv:name="featured" sv:type="Boolean"><sv:value>true</sv:value></sv:property>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>47</sv:value></sv:property>
+</sv:node>

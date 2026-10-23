@@ -1,0 +1,36 @@
+!content-type:video
+name: videos-app
+label: Videos
+icon: icon-play
+subApps:
+  detail:
+    form:
+      properties:
+        name:
+          label: Title
+        slug:
+          label: Id
+          description: Stable id, for example typhoon-hero. Deck cards point at this.
+        eyebrow:
+          label: Eyebrow
+        caption:
+          label: Caption
+          rows: 2
+        src:
+          label: Video
+          description: H.264 and AAC MP4, 1080p or smaller.
+        poster:
+          label: Poster
+        startAtSec:
+          label: Start at (seconds)
+          description: Skip an ident at the beginning of the clip. 0 plays from the start.
+        muted:
+          buttonLabel: Muted
+          defaultValue: true
+          description: A TV will only autoplay a muted video.
+        credit:
+          label: Credit
+        cues:
+          label: Cue file
+          description: Optional JSON of timing cues for a synced overlay, such as the takeoff share-price film.
+

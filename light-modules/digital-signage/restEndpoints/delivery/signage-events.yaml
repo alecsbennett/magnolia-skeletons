@@ -1,0 +1,10 @@
+$type: jcrDeliveryEndpoint_v2
+workspace: signageEvents
+endpointPath: delivery/signage-events
+bypassWorkspaceAcls: true
+depth: 2
+nodeTypes:
+  - sgn:event
+childNodeTypes:
+  - mgnl:contentNode
+

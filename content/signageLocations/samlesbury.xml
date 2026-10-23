@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="samlesbury">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:location</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>samlesbury</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Samlesbury</sv:value></sv:property>
+  <sv:property sv:name="business" sv:type="String"><sv:value>Air: advanced manufacturing, F-35 aft fuselage, Academy for Skills &amp; Knowledge</sv:value></sv:property>
+  <sv:node sv:name="location">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:property sv:name="label" sv:type="String"><sv:value>Samlesbury, Lancashire</sv:value></sv:property>
+    <sv:property sv:name="latitude" sv:type="Decimal"><sv:value>53.776</sv:value></sv:property>
+    <sv:property sv:name="longitude" sv:type="Decimal"><sv:value>-2.571</sv:value></sv:property>
+  </sv:node>
+  <sv:node sv:name="welcome">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:property sv:name="eyebrow" sv:type="String"><sv:value>Samlesbury · Lancashire</sv:value></sv:property>
+    <sv:property sv:name="headline" sv:type="String"><sv:value>Welcome to BAE Systems Samlesbury</sv:value></sv:property>
+    <sv:property sv:name="subline" sv:type="String"><sv:value>A centre for aircraft engineering and advanced manufacturing.</sv:value></sv:property>
+    <sv:property sv:name="image" sv:type="String"><sv:value>/media/images/samlesbury.jpg</sv:value></sv:property>
+    <sv:property sv:name="notice" sv:type="String"><sv:value>Safety boots and eye protection are required beyond the green line.</sv:value></sv:property>
+  </sv:node>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>2</sv:value></sv:property>
+</sv:node>

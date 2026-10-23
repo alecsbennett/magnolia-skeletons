@@ -1,0 +1,10 @@
+$type: jcrDeliveryEndpoint_v2
+workspace: signageDecks
+endpointPath: delivery/signage-decks
+bypassWorkspaceAcls: true
+depth: 6
+nodeTypes:
+  - sgn:deck
+childNodeTypes:
+  - mgnl:contentNode
+

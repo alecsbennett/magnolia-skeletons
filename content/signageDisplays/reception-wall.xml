@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="reception-wall">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:display</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>reception-wall</sv:value></sv:property>
+  <sv:property sv:name="code" sv:type="String"><sv:value>1004</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Reception – Visitor Wall</sv:value></sv:property>
+  <sv:property sv:name="place" sv:type="String"><sv:value>reception-area</sv:value></sv:property>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>1</sv:value></sv:property>
+</sv:node>

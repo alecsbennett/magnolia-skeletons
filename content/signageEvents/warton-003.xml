@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="warton-003">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:event</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>warton-003</sv:value></sv:property>
+  <sv:property sv:name="site" sv:type="String"><sv:value>warton</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Apprentice Open Evening</sv:value></sv:property>
+  <sv:property sv:name="start" sv:type="String"><sv:value>2026-10-23T17:30:00</sv:value></sv:property>
+  <sv:property sv:name="end" sv:type="String"><sv:value>2026-10-23T20:00:00</sv:value></sv:property>
+  <sv:property sv:name="location" sv:type="String"><sv:value>Academy for Skills &amp; Knowledge</sv:value></sv:property>
+  <sv:property sv:name="category" sv:type="String"><sv:value>Careers</sv:value></sv:property>
+  <sv:property sv:name="description" sv:type="String"><sv:value>Families and local schools are welcome to tour the training hangar.</sv:value></sv:property>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>19</sv:value></sv:property>
+</sv:node>

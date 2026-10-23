@@ -9,6 +9,7 @@
     <magnolia.version>6.4.10</magnolia.version>
     <content-transfer.version>1.0.1</content-transfer.version>
     <extended-bootstrap.version>1.0.1</extended-bootstrap.version>
+    <bynder-universal-compact-view.version>3.0.0</bynder-universal-compact-view.version>
     <javaVersion>25</javaVersion>
     <tomcat.version>11.0.22</tomcat.version>
     <cargo.maven3.plugin.version>1.10.27</cargo.maven3.plugin.version>

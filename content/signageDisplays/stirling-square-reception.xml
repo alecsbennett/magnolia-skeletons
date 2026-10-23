@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="stirling-square-reception">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:display</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>stirling-square-reception</sv:value></sv:property>
+  <sv:property sv:name="code" sv:type="String"><sv:value>6001</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Stirling Square – Reception</sv:value></sv:property>
+  <sv:property sv:name="place" sv:type="String"><sv:value>stirling-square-site</sv:value></sv:property>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>9</sv:value></sv:property>
+</sv:node>

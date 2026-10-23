@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="m9">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:message</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>m9</sv:value></sv:property>
+  <sv:property sv:name="eyebrow" sv:type="String"><sv:value>FOD prevention</sv:value></sv:property>
+  <sv:property sv:name="text" sv:type="String"><sv:value>Clean as you go. One loose washer can ground an aircraft, so check every tool in and out.</sv:value></sv:property>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>8</sv:value></sv:property>
+</sv:node>

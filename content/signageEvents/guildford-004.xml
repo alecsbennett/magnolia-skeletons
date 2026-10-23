@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="guildford-004">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:event</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>guildford-004</sv:value></sv:property>
+  <sv:property sv:name="site" sv:type="String"><sv:value>guildford</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Security Clearance Drop-in</sv:value></sv:property>
+  <sv:property sv:name="start" sv:type="String"><sv:value>2026-10-27T14:00:00</sv:value></sv:property>
+  <sv:property sv:name="end" sv:type="String"><sv:value>2026-10-27T16:00:00</sv:value></sv:property>
+  <sv:property sv:name="location" sv:type="String"><sv:value>Room G.12</sv:value></sv:property>
+  <sv:property sv:name="category" sv:type="String"><sv:value>Compliance</sv:value></sv:property>
+  <sv:property sv:name="description" sv:type="String"><sv:value>Questions about vetting renewals? The security team can help.</sv:value></sv:property>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>53</sv:value></sv:property>
+</sv:node>

@@ -1,0 +1,33 @@
+!content-type:site
+name: sites-app
+label: Sites
+icon: icon-webpages-app
+subApps:
+  detail:
+    form:
+      properties:
+        name:
+          label: Site name
+          description: Shown in the header, for example Frimley.
+        slug:
+          label: Id
+          description: Stable id, for example frimley. Lower case letters, numbers and hyphens.
+        company:
+          label: Company
+        home:
+          buttonLabel: Home site
+          description: The player uses the home site when a deck has no location. Mark one site only.
+        locale:
+          label: Locale
+          defaultValue: en-GB
+        timezone:
+          label: Timezone
+          description: IANA timezone for every on-screen clock, for example Europe/London.
+        location:
+          label: Map location
+        welcome:
+          label: Welcome
+        sharePrice:
+          label: Share price
+        playback: !include:/digital-signage/includes/forms/playback-defaults.yaml
+

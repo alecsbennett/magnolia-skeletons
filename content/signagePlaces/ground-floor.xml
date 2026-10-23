@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="ground-floor">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:place</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>ground-floor</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Ground Floor</sv:value></sv:property>
+  <sv:property sv:name="icon" sv:type="String"><sv:value>folder</sv:value></sv:property>
+  <sv:property sv:name="parent" sv:type="String"><sv:value>main-building</sv:value></sv:property>
+  <sv:node sv:name="playback">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+  </sv:node>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>10</sv:value></sv:property>
+</sv:node>

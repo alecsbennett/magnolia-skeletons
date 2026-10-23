@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="stirling-square">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:location</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>stirling-square</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Stirling Square</sv:value></sv:property>
+  <sv:property sv:name="business" sv:type="String"><sv:value>Head office and registered office of BAE Systems plc</sv:value></sv:property>
+  <sv:node sv:name="location">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:property sv:name="label" sv:type="String"><sv:value>St James’s, London</sv:value></sv:property>
+    <sv:property sv:name="latitude" sv:type="Decimal"><sv:value>51.506</sv:value></sv:property>
+    <sv:property sv:name="longitude" sv:type="Decimal"><sv:value>-0.134</sv:value></sv:property>
+  </sv:node>
+  <sv:node sv:name="welcome">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:property sv:name="eyebrow" sv:type="String"><sv:value>Stirling Square · London</sv:value></sv:property>
+    <sv:property sv:name="headline" sv:type="String"><sv:value>Welcome to BAE Systems</sv:value></sv:property>
+    <sv:property sv:name="subline" sv:type="String"><sv:value>Our head office in St James’s, London.</sv:value></sv:property>
+    <sv:property sv:name="image" sv:type="String"><sv:value>/media/images/stirling-square.jpg</sv:value></sv:property>
+    <sv:property sv:name="notice" sv:type="String"><sv:value>Please sign in at the front desk. Your host will collect you from reception.</sv:value></sv:property>
+  </sv:node>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>0</sv:value></sv:property>
+</sv:node>

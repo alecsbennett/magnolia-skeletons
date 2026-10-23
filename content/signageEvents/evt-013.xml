@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="evt-013">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:event</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>evt-013</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Blood Donation Session</sv:value></sv:property>
+  <sv:property sv:name="start" sv:type="String"><sv:value>2026-11-09T09:30:00</sv:value></sv:property>
+  <sv:property sv:name="end" sv:type="String"><sv:value>2026-11-09T15:30:00</sv:value></sv:property>
+  <sv:property sv:name="location" sv:type="String"><sv:value>Mobile unit, Car Park B</sv:value></sv:property>
+  <sv:property sv:name="category" sv:type="String"><sv:value>Community</sv:value></sv:property>
+  <sv:property sv:name="description" sv:type="String"><sv:value>Book a slot via the intranet. Walk-ins welcome after 13:00.</sv:value></sv:property>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>12</sv:value></sv:property>
+</sv:node>

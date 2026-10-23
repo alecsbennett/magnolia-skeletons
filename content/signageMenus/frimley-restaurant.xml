@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="frimley-restaurant">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:menu</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>frimley-restaurant</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>The Restaurant</sv:value></sv:property>
+  <sv:property sv:name="site" sv:type="String"><sv:value>frimley</sv:value></sv:property>
+  <sv:property sv:name="currency" sv:type="String"><sv:value>£</sv:value></sv:property>
+  <sv:node sv:name="services"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:node sv:name="0">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="name" sv:type="String"><sv:value>Breakfast</sv:value></sv:property>
+      <sv:property sv:name="from" sv:type="String"><sv:value>07:30</sv:value></sv:property>
+      <sv:property sv:name="to" sv:type="String"><sv:value>10:00</sv:value></sv:property>
+    </sv:node>
+    <sv:node sv:name="1">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="name" sv:type="String"><sv:value>Lunch</sv:value></sv:property>
+      <sv:property sv:name="from" sv:type="String"><sv:value>11:45</sv:value></sv:property>
+      <sv:property sv:name="to" sv:type="String"><sv:value>14:00</sv:value></sv:property>
+    </sv:node>
+    <sv:node sv:name="2">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="name" sv:type="String"><sv:value>Café</sv:value></sv:property>
+      <sv:property sv:name="from" sv:type="String"><sv:value>07:30</sv:value></sv:property>
+      <sv:property sv:name="to" sv:type="String"><sv:value>16:00</sv:value></sv:property>
+    </sv:node>
+  </sv:node>
+  <sv:property sv:name="notice" sv:type="String"><sv:value>Allergen information is available at every counter. Please ask a member of the team.</sv:value></sv:property>
+  <sv:node sv:name="everyday"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:node sv:name="0">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="name" sv:type="String"><sv:value>Grill</sv:value></sv:property>
+      <sv:node sv:name="items"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+        <sv:node sv:name="0">
+          <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+          <sv:property sv:name="name" sv:type="String"><sv:value>Chargrilled chicken burger, slaw, fries</sv:value></sv:property>
+          <sv:property sv:name="price" sv:type="Decimal"><sv:value>5.6</sv:value></sv:property>
+          <sv:property sv:name="tags" sv:type="String" sv:multiple="true"><sv:value>h</sv:value></sv:property>
+        </sv:node>
+        <sv:node sv:name="1">
+          <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+          <sv:property sv:name="name" sv:type="String"><sv:value>Halloumi and roast pepper wrap</sv:value></sv:property>
+          <sv:property sv:name="price" sv:type="Decimal"><sv:value>4.9</sv:value></sv:property>
+          <sv:property sv:name="tags" sv:type="String" sv:multiple="true"><sv:value>v</sv:value></sv:property>
+        </sv:node>
+      </sv:node>
+    </sv:node>
+    <sv:node sv:name="1">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="name" sv:type="String"><sv:value>Deli &amp; salads</sv:value></sv:property>
+      <sv:node sv:name="items"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+        <sv:node sv:name="0">
+          <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+          <sv:property sv:name="name" sv:type="String"><sv:value>Build your own salad box</sv:value></sv:property>
+          <sv:property sv:name="price" sv:type="Decimal"><sv:value>4.2</sv:value></sv:property>
+          <sv:property sv:name="tags" sv:type="String" sv:multiple="true"><sv:value>vg</sv:value><sv:value>gf</sv:value></sv:property>
+        </sv:node>
+        <sv:node sv:name="1">
+          <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+          <sv:property sv:name="name" sv:type="String"><sv:value>Freshly made sandwiches and baguettes</sv:value></sv:property>
+          <sv:property sv:name="price" sv:type="Decimal"><sv:value>3.4</sv:value></sv:property>
+        </sv:node>
+      </sv:node>
+    </sv:node>
+  </sv:node>
+  <sv:node sv:name="days">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:node sv:name="mon">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:node sv:name="special">
+        <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+        <sv:property sv:name="label" sv:type="String"><sv:value>Chef’s special</sv:value></sv:property>
+        <sv:property sv:name="name" sv:type="String"><sv:value>Slow-roast beef brisket</sv:value></sv:property>
+        <sv:property sv:name="description" sv:type="String"><sv:value>Horseradish mash, honey-glazed carrots and red wine gravy.</sv:value></sv:property>
+        <sv:property sv:name="price" sv:type="Decimal"><sv:value>6.2</sv:value></sv:property>
+        <sv:property sv:name="kcal" sv:type="Decimal"><sv:value>720</sv:value></sv:property>
+        <sv:property sv:name="tags" sv:type="String" sv:multiple="true"><sv:value>gf</sv:value></sv:property>
+      </sv:node>
+      <sv:node sv:name="stations"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+        <sv:node sv:name="0">
+          <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+          <sv:property sv:name="name" sv:type="String"><sv:value>Hot counter</sv:value></sv:property>
+          <sv:node sv:name="items"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+            <sv:node sv:name="0">
+              <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+              <sv:property sv:name="name" sv:type="String"><sv:value>Slow-roast beef brisket, mash, gravy</sv:value></sv:property>
+              <sv:property sv:name="price" sv:type="Decimal"><sv:value>6.2</sv:value></sv:property>
+              <sv:property sv:name="tags" sv:type="String" sv:multiple="true"><sv:value>gf</sv:value></sv:property>
+            </sv:node>
+            <sv:node sv:name="1">
+              <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+              <sv:property sv:name="name" sv:type="String"><sv:value>Smoked haddock fishcakes, lemon mayo</sv:value></sv:property>
+              <sv:property sv:name="price" sv:type="Decimal"><sv:value>5.4</sv:value></sv:property>
+            </sv:node>
+          </sv:node>
+        </sv:node>
+        <sv:node sv:name="1">
+          <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+          <sv:property sv:name="name" sv:type="String"><sv:value>Plant kitchen</sv:value></sv:property>
+          <sv:node sv:name="items"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+            <sv:node sv:name="0">
+              <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+              <sv:property sv:name="name" sv:type="String"><sv:value>Chickpea and spinach dhal, brown rice</sv:value></sv:property>
+              <sv:property sv:name="price" sv:type="Decimal"><sv:value>4.6</sv:value></sv:property>
+              <sv:property sv:name="tags" sv:type="String" sv:multiple="true"><sv:value>vg</sv:value><sv:value>gf</sv:value></sv:property>
+            </sv:node>
+          </sv:node>
+        </sv:node>
+        <sv:node sv:name="2">
+          <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+          <sv:property sv:name="name" sv:type="String"><sv:value>Soup</sv:value></sv:property>
+          <sv:node sv:name="items"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+            <sv:node sv:name="0">
+              <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+              <sv:property sv:name="name" sv:type="String"><sv:value>Roast tomato and basil, sourdough</sv:value></sv:property>
+              <sv:property sv:name="price" sv:type="Decimal"><sv:value>2.6</sv:value></sv:property>
+              <sv:property sv:name="tags" sv:type="String" sv:multiple="true"><sv:value>vg</sv:value></sv:property>
+            </sv:node>
+          </sv:node>
+        </sv:node>
+      </sv:node>
+    </sv:node>
+    <sv:node sv:name="tue">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:node sv:name="special">
+        <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+        <sv:property sv:name="label" sv:type="String"><sv:value>World kitchen</sv:value></sv:property>
+        <sv:property sv:name="name" sv:type="String"><sv:value>Korean gochujang chicken</sv:value></sv:property>
+        <sv:property sv:name="description" sv:type="String"><sv:value>Sticky glazed thighs, sesame greens, kimchi slaw and steamed rice.</sv:value></sv:property>
+        <sv:property sv:name="price" sv:type="Decimal"><sv:value>6</sv:value></sv:property>
+        <sv:property sv:name="kcal" sv:type="Decimal"><sv:value>680</sv:value></sv:property>
+        <sv:property sv:name="tags" sv:type="String" sv:multiple="true"><sv:value>h</sv:value><sv:value>df</sv:value></sv:property>
+      </sv:node>
+      <sv:node sv:name="stations"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+        <sv:node sv:name="0">
+          <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+          <sv:property sv:name="name" sv:type="String"><sv:value>Hot counter</sv:value></sv:property>
+          <sv:node sv:name="items"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+            <sv:node sv:name="0">
+              <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+              <sv:property sv:name="name" sv:type="String"><sv:value>Korean gochujang chicken, sesame rice</sv:value></sv:property>
+              <sv:property sv:name="price" sv:type="Decimal"><sv:value>6</sv:value></sv:property>
+              <sv:property sv:name="tags" sv:type="String" sv:multiple="true"><sv:value>h</sv:value><sv:value>df</sv:value></sv:property>
+            </sv:node>
+            <sv:node sv:name="1">
+              <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+              <sv:property sv:name="name" sv:type="String"><sv:value>Beef lasagne, garlic bread</sv:value></sv:property>
+              <sv:property sv:name="price" sv:type="Decimal"><sv:value>5.6</sv:value></sv:property>
+            </sv:node>
+          </sv:node>
+        </sv:node>
+        <sv:node sv:name="1">
+          <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+          <sv:property sv:name="name" sv:type="String"><sv:value>Plant kitchen</sv:value></sv:property>
+          <sv:node sv:name="items"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+            <sv:node sv:name="0">
+              <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+              <sv:property sv:name="name" sv:type="String"><sv:value>Crispy tofu bao buns, pickled cucumber</sv:value></sv:property>
+              <sv:property sv:name="price" sv:type="Decimal"><sv:value>4.8</sv:value></sv:property>
+              <sv:property sv:name="tags" sv:type="String" sv:multiple="true"><sv:value>vg</sv:value></sv:property>
+            </sv:node>
+          </sv:node>
+        </sv:node>
+        <sv:node sv:name="2">
+          <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+          <sv:property sv:name="name" sv:type="String"><sv:value>Soup</sv:value></sv:property>
+          <sv:node sv:name="items"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+            <sv:node sv:name="0">
+              <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+              <sv:property sv:name="name" sv:type="String"><sv:value>Spiced carrot and lentil</sv:value></sv:property>
+              <sv:property sv:name="price" sv:type="Decimal"><sv:value>2.6</sv:value></sv:property>
+              <sv:property sv:name="tags" sv:type="String" sv:multiple="true"><sv:value>vg</sv:value><sv:value>gf</sv:value></sv:property>
+            </sv:node>
+          </sv:node>
+        </sv:node>
+      </sv:node>
+    </sv:node>
+    <sv:node sv:name="wed">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:node sv:name="special">
+        <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+        <sv:property sv:name="label" sv:type="String"><sv:value>Chef’s special</sv:value></sv:property>
+        <sv:property sv:name="name" sv:type="String"><sv:value>Pan-roast salmon</sv:value></sv:property>
+        <sv:property sv:name="description" sv:type="String"><sv:value>Crushed new potatoes, samphire, peas and a lemon caper butter.</sv:value></sv:property>
+        <sv:property sv:name="price" sv:type="Decimal"><sv:value>6.8</sv:value></sv:property>
+        <sv:property sv:name="kcal" sv:type="Decimal"><sv:value>610</sv:value></sv:property>
+        <sv:property sv:name="tags" sv:type="String" sv:multiple="true"><sv:value>gf</sv:value></sv:property>
+      </sv:node>
+      <sv:node sv:name="stations"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+        <sv:node sv:name="0">
+          <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+          <sv:property sv:name="name" sv:type="String"><sv:value>Hot counter</sv:value></sv:property>
+          <sv:node sv:name="items"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+            <sv:node sv:name="0">
+              <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+              <sv:property sv:name="name" sv:type="String"><sv:value>Pan-roast salmon, crushed potatoes</sv:value></sv:property>
+              <sv:property sv:name="price" sv:type="Decimal"><sv:value>6.8</sv:value></sv:property>
+              <sv:property sv:name="tags" sv:type="String" sv:multiple="true"><sv:value>gf</sv:value></sv:property>
+            </sv:node>
+            <sv:node sv:name="1">
+              <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+              <sv:property sv:name="name" sv:type="String"><sv:value>Pork sausages, mash, onion gravy</sv:value></sv:property>
+              <sv:property sv:name="price" sv:type="Decimal"><sv:value>5.2</sv:value></sv:property>
+            </sv:node>
+          </sv:node>
+        </sv:node>
+        <sv:node sv:name="1">
+          <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+          <sv:property sv:name="name" sv:type="String"><sv:value>Plant kitchen</sv:value></sv:property>
+          <sv:node sv:name="items"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+            <sv:node sv:name="0">
+              <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+              <sv:property sv:name="name" sv:type="String"><sv:value>Wild mushroom and squash risotto</sv:value></sv:property>
+              <sv:property sv:name="price" sv:type="Decimal"><sv:value>4.8</sv:value></sv:property>
+              <sv:property sv:name="tags" sv:type="String" sv:multiple="true"><sv:value>v</sv:value><sv:value>gf</sv:value></sv:property>
+            </sv:node>
+          </sv:node>
+        </sv:node>
+        <sv:node sv:name="2">
+          <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+          <sv:property sv:name="name" sv:type="String"><sv:value>Soup</sv:value></sv:property>
+          <sv:node sv:name="items"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+            <sv:node sv:name="0">
+              <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+              <sv:property sv:name="name" sv:type="String"><sv:value>Leek and potato</sv:value></sv:property>
+              <sv:property sv:name="price" sv:type="Decimal"><sv:value>2.6</sv:value></sv:property>
+              <sv:property sv:name="tags" sv:type="String" sv:multiple="true"><sv:value>v</sv:value><sv:value>gf</sv:value></sv:property>
+            </sv:node>
+          </sv:node>
+        </sv:node>
+      </sv:node>
+    </sv:node>
+    <sv:node sv:name="thu">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:node sv:name="special">
+        <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+        <sv:property sv:name="label" sv:type="String"><sv:value>Curry Thursday</sv:value></sv:property>
+        <sv:property sv:name="name" sv:type="String"><sv:value>Lamb rogan josh</sv:value></sv:property>
+        <sv:property sv:name="description" sv:type="String"><sv:value>Slow-cooked Kashmiri lamb, pilau rice, naan and mango chutney.</sv:value></sv:property>
+        <sv:property sv:name="price" sv:type="Decimal"><sv:value>6.4</sv:value></sv:property>
+        <sv:property sv:name="kcal" sv:type="Decimal"><sv:value>790</sv:value></sv:property>
+        <sv:property sv:name="tags" sv:type="String" sv:multiple="true"><sv:value>h</sv:value></sv:property>
+      </sv:node>
+      <sv:node sv:name="stations"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+        <sv:node sv:name="0">
+          <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+          <sv:property sv:name="name" sv:type="String"><sv:value>Hot counter</sv:value></sv:property>
+          <sv:node sv:name="items"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+            <sv:node sv:name="0">
+              <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+              <sv:property sv:name="name" sv:type="String"><sv:value>Lamb rogan josh, pilau rice, naan</sv:value></sv:property>
+              <sv:property sv:name="price" sv:type="Decimal"><sv:value>6.4</sv:value></sv:property>
+              <sv:property sv:name="tags" sv:type="String" sv:multiple="true"><sv:value>h</sv:value></sv:property>
+            </sv:node>
+            <sv:node sv:name="1">
+              <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+              <sv:property sv:name="name" sv:type="String"><sv:value>Butter chicken, jeera rice</sv:value></sv:property>
+              <sv:property sv:name="price" sv:type="Decimal"><sv:value>5.8</sv:value></sv:property>
+              <sv:property sv:name="tags" sv:type="String" sv:multiple="true"><sv:value>h</sv:value><sv:value>gf</sv:value></sv:property>
+            </sv:node>
+          </sv:node>
+        </sv:node>
+        <sv:node sv:name="1">
+          <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+          <sv:property sv:name="name" sv:type="String"><sv:value>Plant kitchen</sv:value></sv:property>
+          <sv:node sv:name="items"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+            <sv:node sv:name="0">
+              <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+              <sv:property sv:name="name" sv:type="String"><sv:value>Aloo gobi and tarka dhal</sv:value></sv:property>
+              <sv:property sv:name="price" sv:type="Decimal"><sv:value>4.6</sv:value></sv:property>
+              <sv:property sv:name="tags" sv:type="String" sv:multiple="true"><sv:value>vg</sv:value><sv:value>gf</sv:value></sv:property>
+            </sv:node>
+          </sv:node>
+        </sv:node>
+        <sv:node sv:name="2">
+          <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+          <sv:property sv:name="name" sv:type="String"><sv:value>Soup</sv:value></sv:property>
+          <sv:node sv:name="items"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+            <sv:node sv:name="0">
+              <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+              <sv:property sv:name="name" sv:type="String"><sv:value>Mulligatawny</sv:value></sv:property>
+              <sv:property sv:name="price" sv:type="Decimal"><sv:value>2.6</sv:value></sv:property>
+              <sv:property sv:name="tags" sv:type="String" sv:multiple="true"><sv:value>vg</sv:value></sv:property>
+            </sv:node>
+          </sv:node>
+        </sv:node>
+      </sv:node>
+    </sv:node>
+    <sv:node sv:name="fri">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:node sv:name="special">
+        <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+        <sv:property sv:name="label" sv:type="String"><sv:value>Fish Friday</sv:value></sv:property>
+        <sv:property sv:name="name" sv:type="String"><sv:value>Beer-battered cod and chips</sv:value></sv:property>
+        <sv:property sv:name="description" sv:type="String"><sv:value>Mushy peas, tartare sauce and a lemon wedge. Gluten-free batter on request.</sv:value></sv:property>
+        <sv:property sv:name="price" sv:type="Decimal"><sv:value>6.5</sv:value></sv:property>
+        <sv:property sv:name="kcal" sv:type="Decimal"><sv:value>940</sv:value></sv:property>
+        <sv:property sv:name="tags" sv:type="String" sv:multiple="true"><sv:value>df</sv:value></sv:property>
+      </sv:node>
+      <sv:node sv:name="stations"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+        <sv:node sv:name="0">
+          <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+          <sv:property sv:name="name" sv:type="String"><sv:value>Hot counter</sv:value></sv:property>
+          <sv:node sv:name="items"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+            <sv:node sv:name="0">
+              <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+              <sv:property sv:name="name" sv:type="String"><sv:value>Beer-battered cod, chips, mushy peas</sv:value></sv:property>
+              <sv:property sv:name="price" sv:type="Decimal"><sv:value>6.5</sv:value></sv:property>
+              <sv:property sv:name="tags" sv:type="String" sv:multiple="true"><sv:value>df</sv:value></sv:property>
+            </sv:node>
+            <sv:node sv:name="1">
+              <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+              <sv:property sv:name="name" sv:type="String"><sv:value>Chicken tikka flatbread, raita</sv:value></sv:property>
+              <sv:property sv:name="price" sv:type="Decimal"><sv:value>5.4</sv:value></sv:property>
+              <sv:property sv:name="tags" sv:type="String" sv:multiple="true"><sv:value>h</sv:value></sv:property>
+            </sv:node>
+          </sv:node>
+        </sv:node>
+        <sv:node sv:name="1">
+          <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+          <sv:property sv:name="name" sv:type="String"><sv:value>Plant kitchen</sv:value></sv:property>
+          <sv:node sv:name="items"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+            <sv:node sv:name="0">
+              <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+              <sv:property sv:name="name" sv:type="String"><sv:value>Battered banana-blossom ‘fish’ and chips</sv:value></sv:property>
+              <sv:property sv:name="price" sv:type="Decimal"><sv:value>5.2</sv:value></sv:property>
+              <sv:property sv:name="tags" sv:type="String" sv:multiple="true"><sv:value>vg</sv:value><sv:value>df</sv:value></sv:property>
+            </sv:node>
+          </sv:node>
+        </sv:node>
+        <sv:node sv:name="2">
+          <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+          <sv:property sv:name="name" sv:type="String"><sv:value>Soup</sv:value></sv:property>
+          <sv:node sv:name="items"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+            <sv:node sv:name="0">
+              <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+              <sv:property sv:name="name" sv:type="String"><sv:value>Pea and mint</sv:value></sv:property>
+              <sv:property sv:name="price" sv:type="Decimal"><sv:value>2.6</sv:value></sv:property>
+              <sv:property sv:name="tags" sv:type="String" sv:multiple="true"><sv:value>vg</sv:value><sv:value>gf</sv:value></sv:property>
+            </sv:node>
+          </sv:node>
+        </sv:node>
+      </sv:node>
+    </sv:node>
+  </sv:node>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>0</sv:value></sv:property>
+</sv:node>

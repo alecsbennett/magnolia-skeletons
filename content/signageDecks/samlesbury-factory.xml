@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="samlesbury-factory">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:deck</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>samlesbury-factory</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Samlesbury – Machining hall</sv:value></sv:property>
+  <sv:property sv:name="location" sv:type="String"><sv:value>samlesbury</sv:value></sv:property>
+  <sv:property sv:name="transition" sv:type="String"><sv:value>fade</sv:value></sv:property>
+  <sv:node sv:name="cards"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:node sv:name="0">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="cardId" sv:type="String"><sv:value>board</sv:value></sv:property>
+      <sv:property sv:name="cardType" sv:type="String"><sv:value>board</sv:value></sv:property>
+      <sv:property sv:name="label" sv:type="String"><sv:value>Today on the floor</sv:value></sv:property>
+      <sv:property sv:name="boardId" sv:type="String"><sv:value>samlesbury-machining</sv:value></sv:property>
+      <sv:property sv:name="durationSec" sv:type="Decimal"><sv:value>18</sv:value></sv:property>
+    </sv:node>
+    <sv:node sv:name="1">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="cardId" sv:type="String"><sv:value>quality</sv:value></sv:property>
+      <sv:property sv:name="cardType" sv:type="String"><sv:value>message</sv:value></sv:property>
+      <sv:property sv:name="label" sv:type="String"><sv:value>Right first time</sv:value></sv:property>
+      <sv:property sv:name="durationSec" sv:type="Decimal"><sv:value>10</sv:value></sv:property>
+      <sv:property sv:name="messageId" sv:type="String"><sv:value>m11</sv:value></sv:property>
+    </sv:node>
+    <sv:node sv:name="2">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="cardId" sv:type="String"><sv:value>events</sv:value></sv:property>
+      <sv:property sv:name="cardType" sv:type="String"><sv:value>events</sv:value></sv:property>
+      <sv:property sv:name="label" sv:type="String"><sv:value>What's on</sv:value></sv:property>
+      <sv:property sv:name="durationSec" sv:type="Decimal"><sv:value>14</sv:value></sv:property>
+    </sv:node>
+    <sv:node sv:name="3">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="cardId" sv:type="String"><sv:value>typhoon-hero</sv:value></sv:property>
+      <sv:property sv:name="cardType" sv:type="String"><sv:value>video</sv:value></sv:property>
+      <sv:property sv:name="label" sv:type="String"><sv:value>Typhoon</sv:value></sv:property>
+      <sv:property sv:name="videoId" sv:type="String"><sv:value>typhoon-hero</sv:value></sv:property>
+      <sv:property sv:name="maxDurationSec" sv:type="Decimal"><sv:value>40</sv:value></sv:property>
+    </sv:node>
+    <sv:node sv:name="4">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="cardId" sv:type="String"><sv:value>weather</sv:value></sv:property>
+      <sv:property sv:name="cardType" sv:type="String"><sv:value>weather</sv:value></sv:property>
+      <sv:property sv:name="label" sv:type="String"><sv:value>Weather</sv:value></sv:property>
+      <sv:property sv:name="durationSec" sv:type="Decimal"><sv:value>12</sv:value></sv:property>
+    </sv:node>
+    <sv:node sv:name="5">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="cardId" sv:type="String"><sv:value>zero-harm</sv:value></sv:property>
+      <sv:property sv:name="cardType" sv:type="String"><sv:value>message</sv:value></sv:property>
+      <sv:property sv:name="label" sv:type="String"><sv:value>Zero harm</sv:value></sv:property>
+      <sv:property sv:name="durationSec" sv:type="Decimal"><sv:value>10</sv:value></sv:property>
+      <sv:property sv:name="messageId" sv:type="String"><sv:value>m8</sv:value></sv:property>
+    </sv:node>
+  </sv:node>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>8</sv:value></sv:property>
+</sv:node>

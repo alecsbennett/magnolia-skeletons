@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="typhoon-hero">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:video</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>typhoon-hero</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Eurofighter Typhoon</sv:value></sv:property>
+  <sv:property sv:name="eyebrow" sv:type="String"><sv:value>Air</sv:value></sv:property>
+  <sv:property sv:name="caption" sv:type="String"><sv:value>Combat air capability, built in Britain.</sv:value></sv:property>
+  <sv:property sv:name="src" sv:type="String"><sv:value>/media/video/typhoon-hero.mp4</sv:value></sv:property>
+  <sv:property sv:name="startAtSec" sv:type="Decimal"><sv:value>6</sv:value></sv:property>
+  <sv:property sv:name="poster" sv:type="String"><sv:value>/media/images/typhoon-poster.jpg</sv:value></sv:property>
+  <sv:property sv:name="muted" sv:type="Boolean"><sv:value>true</sv:value></sv:property>
+  <sv:property sv:name="credit" sv:type="String"><sv:value>BAE Systems</sv:value></sv:property>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>0</sv:value></sv:property>
+</sv:node>

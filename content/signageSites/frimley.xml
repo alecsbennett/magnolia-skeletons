@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="frimley">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:site</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>frimley</sv:value></sv:property>
+  <sv:property sv:name="company" sv:type="String"><sv:value>BAE Systems</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Frimley</sv:value></sv:property>
+  <sv:property sv:name="locale" sv:type="String"><sv:value>en-GB</sv:value></sv:property>
+  <sv:property sv:name="timezone" sv:type="String"><sv:value>Europe/London</sv:value></sv:property>
+  <sv:node sv:name="location">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:property sv:name="label" sv:type="String"><sv:value>Frimley, Surrey</sv:value></sv:property>
+    <sv:property sv:name="latitude" sv:type="Decimal"><sv:value>51.3145</sv:value></sv:property>
+    <sv:property sv:name="longitude" sv:type="Decimal"><sv:value>-0.7427</sv:value></sv:property>
+  </sv:node>
+  <sv:node sv:name="welcome">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:property sv:name="eyebrow" sv:type="String"><sv:value>Frimley</sv:value></sv:property>
+    <sv:property sv:name="headline" sv:type="String"><sv:value>Welcome to BAE Systems</sv:value></sv:property>
+    <sv:property sv:name="subline" sv:type="String"><sv:value>Good to see you. Here’s what’s happening on site today.</sv:value></sv:property>
+    <sv:property sv:name="image" sv:type="String"><sv:value>/media/images/welcome.jpg</sv:value></sv:property>
+    <sv:property sv:name="notice" sv:type="String"><sv:value>Please sign in at reception and wear your visitor pass at all times.</sv:value></sv:property>
+  </sv:node>
+  <sv:node sv:name="sharePrice">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:property sv:name="symbol" sv:type="String"><sv:value>BA.L</sv:value></sv:property>
+    <sv:property sv:name="displaySymbol" sv:type="String"><sv:value>BA.</sv:value></sv:property>
+    <sv:property sv:name="exchange" sv:type="String"><sv:value>LSE</sv:value></sv:property>
+    <sv:property sv:name="currency" sv:type="String"><sv:value>GBp</sv:value></sv:property>
+    <sv:property sv:name="delayNote" sv:type="String"><sv:value>Prices delayed by at least 15 minutes. For information only, not investment advice.</sv:value></sv:property>
+  </sv:node>
+  <sv:property sv:name="home" sv:type="Boolean"><sv:value>true</sv:value></sv:property>
+  <sv:node sv:name="playback">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:property sv:name="deck" sv:type="String"><sv:value>main</sv:value></sv:property>
+    <sv:property sv:name="mode" sv:type="String"><sv:value>loop</sv:value></sv:property>
+    <sv:property sv:name="idleTimeoutSec" sv:type="Decimal"><sv:value>45</sv:value></sv:property>
+    <sv:property sv:name="reloadHours" sv:type="Decimal"><sv:value>6</sv:value></sv:property>
+  </sv:node>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>0</sv:value></sv:property>
+</sv:node>

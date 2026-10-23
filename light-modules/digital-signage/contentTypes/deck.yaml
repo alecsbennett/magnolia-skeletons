@@ -1,0 +1,41 @@
+datasource:
+  $type: jcrContentTypeDatasource
+  workspace: signageDecks
+  namespaces:
+    sgn: https://www.tbscg.com/jcr/1.0/signage
+  autoCreate: true
+
+model:
+  nodeType: sgn:deck
+  properties:
+    - name: name
+      required: true
+    - name: slug
+      required: true
+    - name: transition
+      options:
+        fade:
+          value: fade
+          label: Fade
+        cut:
+          value: cut
+          label: Cut
+    - name: location
+      type: reference:location
+    - name: cards
+      type: card
+      multiple: true
+      required: true
+  subModels:
+    - name: card
+      properties:
+        - name: cardId
+          required: true
+        - name: cardType
+          required: true
+        - name: label
+          required: true
+        - name: durationSec
+        - name: enabled
+          type: Boolean
+

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="player-content">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:syncSettings</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Digital signage player</sv:value></sv:property>
+  <sv:property sv:name="destinationPath" sv:type="String"><sv:value>/Users/alecbennett/Development/TBSCG/DigitalSignage/ideas/01-bae-frimley/content</sv:value></sv:property>
+  <sv:property sv:name="magnoliaBaseUrl" sv:type="String"><sv:value>http://localhost:8080/author</sv:value></sv:property>
+  <sv:property sv:name="enabled" sv:type="Boolean"><sv:value>true</sv:value></sv:property>
+  <sv:property sv:name="pruneDecks" sv:type="Boolean"><sv:value>true</sv:value></sv:property>
+</sv:node>

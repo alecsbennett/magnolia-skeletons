@@ -1,0 +1,40 @@
+$type: collapsibleCompositeField
+label: Playback defaults
+collapsed: true
+description: Used when a place or a display does not set its own deck, mode or timings.
+itemProvider:
+  $type: currentItemProvider
+properties:
+  deck:
+    $type: linkField
+    label: Deck
+    datasource:
+      $type: jcrDatasource
+      workspace: signageDecks
+  mode:
+    $type: comboBoxField
+    label: Mode
+    defaultValue: loop
+    datasource:
+      $type: optionListDatasource
+      options:
+        - name: loop
+          value: loop
+          label: Loop
+        - name: interactive
+          value: interactive
+          label: Interactive
+        - name: video
+          value: video
+          label: Video (rendered MP4)
+  idleTimeoutSec:
+    $type: textField
+    label: Idle timeout (seconds)
+    description: Interactive screens return to the loop after this many seconds. Whole number from 10 to 3600.
+    defaultValue: "45"
+  reloadHours:
+    $type: textField
+    label: Reload interval (hours)
+    description: How often the player reloads. Whole number from 1 to 48.
+    defaultValue: "6"
+

@@ -1,0 +1,41 @@
+$type: collapsibleCompositeField
+label: Playback
+collapsed: true
+description: Overrides the site defaults for this place and the places under it. Leave this closed to inherit.
+itemProvider:
+  $type: currentItemProvider
+properties:
+  deck:
+    $type: linkField
+    label: Deck
+    description: Leave empty to inherit.
+    datasource:
+      $type: jcrDatasource
+      workspace: signageDecks
+  mode:
+    $type: comboBoxField
+    label: Mode
+    datasource:
+      $type: optionListDatasource
+      options:
+        - name: inherit
+          value: ""
+          label: Inherit
+        - name: loop
+          value: loop
+          label: Loop
+        - name: interactive
+          value: interactive
+          label: Interactive
+        - name: video
+          value: video
+          label: Video (rendered MP4)
+  idleTimeoutSec:
+    $type: textField
+    label: Idle timeout (seconds)
+    description: Leave empty to inherit. Whole number from 10 to 3600.
+  reloadHours:
+    $type: textField
+    label: Reload interval (hours)
+    description: Leave empty to inherit. Whole number from 1 to 48.
+

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="washington">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:location</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>washington</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Washington</sv:value></sv:property>
+  <sv:property sv:name="business" sv:type="String"><sv:value>Munitions: artillery shells and mortar bombs</sv:value></sv:property>
+  <sv:node sv:name="location">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:property sv:name="label" sv:type="String"><sv:value>Washington, Tyne and Wear</sv:value></sv:property>
+    <sv:property sv:name="latitude" sv:type="Decimal"><sv:value>54.882</sv:value></sv:property>
+    <sv:property sv:name="longitude" sv:type="Decimal"><sv:value>-1.586</sv:value></sv:property>
+  </sv:node>
+  <sv:node sv:name="welcome">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:property sv:name="eyebrow" sv:type="String"><sv:value>Washington · Tyne and Wear</sv:value></sv:property>
+    <sv:property sv:name="headline" sv:type="String"><sv:value>Welcome to BAE Systems Munitions</sv:value></sv:property>
+    <sv:property sv:name="subline" sv:type="String"><sv:value>A major hub for artillery shell and mortar bomb production.</sv:value></sv:property>
+    <sv:property sv:name="image" sv:type="String"><sv:value>/media/images/washington.jpg</sv:value></sv:property>
+    <sv:property sv:name="notice" sv:type="String"><sv:value>No smoking, vaping or lighters anywhere on site. Leave all electronic devices at reception.</sv:value></sv:property>
+  </sv:node>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>6</sv:value></sv:property>
+</sv:node>

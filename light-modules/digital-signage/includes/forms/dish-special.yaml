@@ -1,0 +1,46 @@
+$type: compositeField
+label: Special
+itemProvider:
+  $type: jcrChildNodeProvider
+properties:
+  name:
+    $type: textField
+    label: Name
+    required: true
+  description:
+    $type: textField
+    label: Description
+    rows: 2
+  price:
+    $type: textField
+    label: Price
+    description: Number only, for example 6.20. The menu's currency is added on screen.
+  kcal:
+    $type: textField
+    label: kcal
+  label:
+    $type: textField
+    label: Highlight
+    description: Optional ribbon, for example Chef's special.
+  tags:
+    $type: checkBoxGroupField
+    label: Dietary tags
+    datasource:
+      $type: optionListDatasource
+      options:
+        - name: v
+          value: v
+          label: Vegetarian
+        - name: vg
+          value: vg
+          label: Vegan
+        - name: gf
+          value: gf
+          label: Gluten free
+        - name: df
+          value: df
+          label: Dairy free
+        - name: h
+          value: h
+          label: Halal
+

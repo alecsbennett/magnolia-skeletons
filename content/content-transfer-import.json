@@ -1,0 +1,90 @@
+{
+  "output": {
+    "type": "FileSystem",
+    "destinationPath": "/Users/alecbennett/Development/TBSCG/DigitalSignage/Magnolia64/content",
+    "settings": {}
+  },
+  "settings": {
+    "collisionMode": "overwrite",
+    "wipeBeforeImport": false
+  },
+  "workspaces": [
+    {
+      "workspace": "signageSites",
+      "paths": [
+        ".*"
+      ],
+      "mode": "node"
+    },
+    {
+      "workspace": "signageLocations",
+      "paths": [
+        ".*"
+      ],
+      "mode": "node"
+    },
+    {
+      "workspace": "signagePlaces",
+      "paths": [
+        ".*"
+      ],
+      "mode": "node"
+    },
+    {
+      "workspace": "signageDisplays",
+      "paths": [
+        ".*"
+      ],
+      "mode": "node"
+    },
+    {
+      "workspace": "signageDecks",
+      "paths": [
+        ".*"
+      ],
+      "mode": "node"
+    },
+    {
+      "workspace": "signageEvents",
+      "paths": [
+        ".*"
+      ],
+      "mode": "node"
+    },
+    {
+      "workspace": "signageMenus",
+      "paths": [
+        ".*"
+      ],
+      "mode": "node"
+    },
+    {
+      "workspace": "signageBoards",
+      "paths": [
+        ".*"
+      ],
+      "mode": "node"
+    },
+    {
+      "workspace": "signageVideos",
+      "paths": [
+        ".*"
+      ],
+      "mode": "node"
+    },
+    {
+      "workspace": "signageMessages",
+      "paths": [
+        ".*"
+      ],
+      "mode": "node"
+    },
+    {
+      "workspace": "signageSyncSettings",
+      "paths": [
+        ".*"
+      ],
+      "mode": "node"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="m5">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:message</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>m5</sv:value></sv:property>
+  <sv:property sv:name="eyebrow" sv:type="String"><sv:value>Safety</sv:value></sv:property>
+  <sv:property sv:name="text" sv:type="String"><sv:value>If it doesn’t look safe, stop. Every one of us has the authority to pause the work.</sv:value></sv:property>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>4</sv:value></sv:property>
+</sv:node>

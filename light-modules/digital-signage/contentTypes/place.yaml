@@ -1,0 +1,32 @@
+datasource:
+  $type: jcrContentTypeDatasource
+  workspace: signagePlaces
+  namespaces:
+    sgn: https://www.tbscg.com/jcr/1.0/signage
+  autoCreate: true
+
+model:
+  nodeType: sgn:place
+  properties:
+    - name: name
+      required: true
+    - name: slug
+      required: true
+    - name: icon
+      options:
+        site:
+          value: site
+          label: Site
+        building:
+          value: building
+          label: Building
+        folder:
+          value: folder
+          label: Folder
+        room:
+          value: room
+          label: Room
+    - name: parent
+      type: reference:place
+    - name: note
+

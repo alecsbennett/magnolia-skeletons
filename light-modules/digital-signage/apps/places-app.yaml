@@ -1,0 +1,25 @@
+!content-type:place
+name: places-app
+label: Places
+icon: icon-folder-l
+subApps:
+  detail:
+    form:
+      properties:
+        name:
+          label: Name
+          description: Building, floor or room, for example Main Building.
+        slug:
+          label: Id
+          description: Stable id, for example main-building.
+        icon:
+          label: Icon
+          defaultValue: folder
+        parent:
+          label: Parent place
+          description: Leave empty for a top-level site. Playback settings inherit down this chain.
+        note:
+          label: Note
+          rows: 2
+        playback: !include:/digital-signage/includes/forms/playback-place.yaml
+

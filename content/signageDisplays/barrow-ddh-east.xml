@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="barrow-ddh-east">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:display</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>barrow-ddh-east</sv:value></sv:property>
+  <sv:property sv:name="code" sv:type="String"><sv:value>4001</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Devonshire Dock Hall – East door</sv:value></sv:property>
+  <sv:property sv:name="place" sv:type="String"><sv:value>barrow-ddh-hall</sv:value></sv:property>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>11</sv:value></sv:property>
+</sv:node>

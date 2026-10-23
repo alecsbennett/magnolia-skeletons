@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="govan-005">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:event</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>govan-005</sv:value></sv:property>
+  <sv:property sv:name="site" sv:type="String"><sv:value>govan</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Apprentice Recruitment Day</sv:value></sv:property>
+  <sv:property sv:name="start" sv:type="String"><sv:value>2026-10-30T10:00:00</sv:value></sv:property>
+  <sv:property sv:name="end" sv:type="String"><sv:value>2026-10-30T15:00:00</sv:value></sv:property>
+  <sv:property sv:name="location" sv:type="String"><sv:value>Training Centre</sv:value></sv:property>
+  <sv:property sv:name="category" sv:type="String"><sv:value>Careers</sv:value></sv:property>
+  <sv:property sv:name="description" sv:type="String"><sv:value>Next year’s shipbuilding apprenticeships: come and meet the team.</sv:value></sv:property>
+  <sv:property sv:name="featured" sv:type="Boolean"><sv:value>true</sv:value></sv:property>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>37</sv:value></sv:property>
+</sv:node>

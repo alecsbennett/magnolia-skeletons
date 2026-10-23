@@ -1,0 +1,15 @@
+$type: jcrDeliveryEndpoint_v2
+workspace: signageSites
+endpointPath: delivery/signage-sites
+bypassWorkspaceAcls: true
+depth: 4
+nodeTypes:
+  - sgn:site
+childNodeTypes:
+  - mgnl:contentNode
+references:
+  - name: welcomeImage
+    propertyName: image
+    referenceResolver:
+      $type: assetReferenceResolver
+

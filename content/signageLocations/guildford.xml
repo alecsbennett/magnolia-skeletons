@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="guildford">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:location</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>guildford</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Guildford</sv:value></sv:property>
+  <sv:property sv:name="business" sv:type="String"><sv:value>Digital Intelligence: cyber, intelligence and digital transformation</sv:value></sv:property>
+  <sv:node sv:name="location">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:property sv:name="label" sv:type="String"><sv:value>Guildford, Surrey</sv:value></sv:property>
+    <sv:property sv:name="latitude" sv:type="Decimal"><sv:value>51.243</sv:value></sv:property>
+    <sv:property sv:name="longitude" sv:type="Decimal"><sv:value>-0.62</sv:value></sv:property>
+  </sv:node>
+  <sv:node sv:name="welcome">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:property sv:name="eyebrow" sv:type="String"><sv:value>Guildford · Surrey Research Park</sv:value></sv:property>
+    <sv:property sv:name="headline" sv:type="String"><sv:value>Welcome to BAE Systems Digital Intelligence</sv:value></sv:property>
+    <sv:property sv:name="subline" sv:type="String"><sv:value>Cyber, intelligence and digital, from Waterside House.</sv:value></sv:property>
+    <sv:property sv:name="image" sv:type="String"><sv:value>/media/images/guildford.jpg</sv:value></sv:property>
+    <sv:property sv:name="notice" sv:type="String"><sv:value>Please sign in and collect a visitor badge. Laptops must be declared at reception.</sv:value></sv:property>
+  </sv:node>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>7</sv:value></sv:property>
+</sv:node>

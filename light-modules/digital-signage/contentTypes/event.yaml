@@ -1,0 +1,27 @@
+datasource:
+  $type: jcrContentTypeDatasource
+  workspace: signageEvents
+  namespaces:
+    sgn: https://www.tbscg.com/jcr/1.0/signage
+  autoCreate: true
+
+model:
+  nodeType: sgn:event
+  properties:
+    - name: name
+      required: true
+    - name: slug
+      required: true
+    - name: start
+      type: Date
+      required: true
+    - name: end
+      type: Date
+    - name: room
+    - name: site
+      type: reference:location
+    - name: category
+    - name: description
+    - name: featured
+      type: Boolean
+

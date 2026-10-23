@@ -1,0 +1,23 @@
+!content-type:message
+name: messages-app
+label: Messages
+icon: icon-message
+subApps:
+  detail:
+    form:
+      properties:
+        name:
+          label: Name
+          description: What editors see in the list. The screen shows the eyebrow and the text.
+        slug:
+          label: Id
+          description: Stable id, for example m1. A message card can pin this.
+        eyebrow:
+          label: Eyebrow
+        text:
+          label: Text
+          rows: 3
+        kind:
+          label: Kind
+          description: Groups statements for editors. The player can rotate any of them.
+

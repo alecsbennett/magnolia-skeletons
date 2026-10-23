@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="evt-001">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:event</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>evt-001</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Site Town Hall</sv:value></sv:property>
+  <sv:property sv:name="start" sv:type="String"><sv:value>2026-10-22T10:00:00</sv:value></sv:property>
+  <sv:property sv:name="end" sv:type="String"><sv:value>2026-10-22T11:00:00</sv:value></sv:property>
+  <sv:property sv:name="location" sv:type="String"><sv:value>Atrium</sv:value></sv:property>
+  <sv:property sv:name="category" sv:type="String"><sv:value>Company</sv:value></sv:property>
+  <sv:property sv:name="description" sv:type="String"><sv:value>Quarterly update from the site leadership team, followed by open Q&amp;A.</sv:value></sv:property>
+  <sv:property sv:name="featured" sv:type="Boolean"><sv:value>true</sv:value></sv:property>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>0</sv:value></sv:property>
+</sv:node>

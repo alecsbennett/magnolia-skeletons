@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="evt-017">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:event</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>evt-017</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Quarterly Safety Stand-down</sv:value></sv:property>
+  <sv:property sv:name="start" sv:type="String"><sv:value>2026-11-18T09:00:00</sv:value></sv:property>
+  <sv:property sv:name="end" sv:type="String"><sv:value>2026-11-18T10:00:00</sv:value></sv:property>
+  <sv:property sv:name="location" sv:type="String"><sv:value>Auditorium</sv:value></sv:property>
+  <sv:property sv:name="category" sv:type="String"><sv:value>Safety</sv:value></sv:property>
+  <sv:property sv:name="description" sv:type="String"><sv:value>A pause across all teams to review lessons learned and look ahead.</sv:value></sv:property>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>16</sv:value></sv:property>
+</sv:node>

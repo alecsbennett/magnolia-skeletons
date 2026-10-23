@@ -1,0 +1,37 @@
+!content-type:board
+name: boards-app
+label: Boards
+icon: icon-development-app
+subApps:
+  detail:
+    form:
+      properties:
+        name:
+          label: Title
+          description: The line under the eyebrow, for example Typhoon assembly & upgrades.
+        slug:
+          label: Id
+          description: Stable id, for example warton-final-assembly.
+        site:
+          label: Location
+        eyebrow:
+          label: Eyebrow
+        safeSince:
+          label: Safe since
+          description: Date of the last lost-time injury. The card counts the days live.
+        safeLabel:
+          label: Safety label
+        safeNote:
+          label: Safety note
+        shifts:
+          label: Shifts
+          description: From and to are 24-hour times. An end earlier than the start means the shift runs overnight.
+        tiles:
+          label: Tiles
+          description: Up to four figures. Values are text, so 98.6% and On plan are both fine.
+        remindersTitle:
+          label: Reminders title
+        reminders:
+          label: Reminders
+          description: Up to four short lines, for example Safety boots and eye protection.
+

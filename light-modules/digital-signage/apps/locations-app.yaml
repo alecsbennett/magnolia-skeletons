@@ -1,0 +1,25 @@
+!content-type:location
+name: locations-app
+label: Locations
+icon: icon-categories
+subApps:
+  detail:
+    form:
+      properties:
+        name:
+          label: Site name
+          description: Shown in the header and on card eyebrows.
+        slug:
+          label: Id
+          description: Stable id, for example warton. Decks, events, menus and boards point at this.
+        business:
+          label: Business
+          description: What happens at this site. Editors only, not shown on screen.
+        timezone:
+          label: Timezone
+          description: IANA timezone. Leave empty to use the home site's timezone.
+        location:
+          label: Map location
+        welcome:
+          label: Welcome
+

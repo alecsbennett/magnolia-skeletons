@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="washington-shells">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:board</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>washington-shells</sv:value></sv:property>
+  <sv:property sv:name="site" sv:type="String"><sv:value>washington</sv:value></sv:property>
+  <sv:property sv:name="eyebrow" sv:type="String"><sv:value>Shell line · Washington</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Artillery shell production</sv:value></sv:property>
+  <sv:property sv:name="safeSince" sv:type="String"><sv:value>2025-11-30</sv:value></sv:property>
+  <sv:property sv:name="safeNote" sv:type="String"><sv:value>Explosives safety: zero incidents this year</sv:value></sv:property>
+  <sv:node sv:name="shifts"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:node sv:name="0">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="name" sv:type="String"><sv:value>Earlies</sv:value></sv:property>
+      <sv:property sv:name="from" sv:type="String"><sv:value>06:00</sv:value></sv:property>
+      <sv:property sv:name="to" sv:type="String"><sv:value>14:00</sv:value></sv:property>
+    </sv:node>
+    <sv:node sv:name="1">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="name" sv:type="String"><sv:value>Lates</sv:value></sv:property>
+      <sv:property sv:name="from" sv:type="String"><sv:value>14:00</sv:value></sv:property>
+      <sv:property sv:name="to" sv:type="String"><sv:value>22:00</sv:value></sv:property>
+    </sv:node>
+    <sv:node sv:name="2">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="name" sv:type="String"><sv:value>Nights</sv:value></sv:property>
+      <sv:property sv:name="from" sv:type="String"><sv:value>22:00</sv:value></sv:property>
+      <sv:property sv:name="to" sv:type="String"><sv:value>06:00</sv:value></sv:property>
+    </sv:node>
+  </sv:node>
+  <sv:node sv:name="tiles"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:node sv:name="0">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="value" sv:type="String"><sv:value>On plan</sv:value></sv:property>
+      <sv:property sv:name="label" sv:type="String"><sv:value>155mm output</sv:value></sv:property>
+      <sv:property sv:name="note" sv:type="String"><sv:value>Week 43 · all three shifts</sv:value></sv:property>
+      <sv:property sv:name="trend" sv:type="String"><sv:value>up</sv:value></sv:property>
+    </sv:node>
+    <sv:node sv:name="1">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="value" sv:type="String"><sv:value>99.2%</sv:value></sv:property>
+      <sv:property sv:name="label" sv:type="String"><sv:value>First-pass inspection</sv:value></sv:property>
+      <sv:property sv:name="note" sv:type="String"><sv:value>Rolling 4 weeks</sv:value></sv:property>
+      <sv:property sv:name="trend" sv:type="String"><sv:value>flat</sv:value></sv:property>
+    </sv:node>
+    <sv:node sv:name="2">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="value" sv:type="String"><sv:value>27</sv:value></sv:property>
+      <sv:property sv:name="label" sv:type="String"><sv:value>Improvement ideas</sv:value></sv:property>
+      <sv:property sv:name="note" sv:type="String"><sv:value>Raised this month</sv:value></sv:property>
+    </sv:node>
+  </sv:node>
+  <sv:property sv:name="remindersTitle" sv:type="String"><sv:value>On the line</sv:value></sv:property>
+  <sv:property sv:name="reminders" sv:type="String" sv:multiple="true"><sv:value>No smoking materials past the gatehouse</sv:value><sv:value>Anti-static footwear in process areas</sv:value><sv:value>Report any damaged packaging at once</sv:value></sv:property>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>4</sv:value></sv:property>
+</sv:node>

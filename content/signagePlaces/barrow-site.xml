@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="barrow-site">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:place</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>barrow-site</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Barrow-in-Furness</sv:value></sv:property>
+  <sv:property sv:name="icon" sv:type="String"><sv:value>site</sv:value></sv:property>
+  <sv:node sv:name="playback">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:property sv:name="deck" sv:type="String"><sv:value>barrow-ddh</sv:value></sv:property>
+  </sv:node>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>5</sv:value></sv:property>
+</sv:node>

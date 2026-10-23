@@ -1,0 +1,10 @@
+$type: jcrDeliveryEndpoint_v2
+workspace: signageDisplays
+endpointPath: delivery/signage-displays
+bypassWorkspaceAcls: true
+depth: 4
+nodeTypes:
+  - sgn:display
+childNodeTypes:
+  - mgnl:contentNode
+

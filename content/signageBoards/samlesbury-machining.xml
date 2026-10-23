@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="samlesbury-machining">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:board</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>samlesbury-machining</sv:value></sv:property>
+  <sv:property sv:name="site" sv:type="String"><sv:value>samlesbury</sv:value></sv:property>
+  <sv:property sv:name="eyebrow" sv:type="String"><sv:value>Advanced manufacturing · Samlesbury</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>F-35 aft fuselage &amp; machining</sv:value></sv:property>
+  <sv:property sv:name="safeSince" sv:type="String"><sv:value>2026-05-18</sv:value></sv:property>
+  <sv:property sv:name="safeNote" sv:type="String"><sv:value>Previous best: 365 days</sv:value></sv:property>
+  <sv:node sv:name="shifts"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:node sv:name="0">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="name" sv:type="String"><sv:value>A</sv:value></sv:property>
+      <sv:property sv:name="from" sv:type="String"><sv:value>06:00</sv:value></sv:property>
+      <sv:property sv:name="to" sv:type="String"><sv:value>18:00</sv:value></sv:property>
+    </sv:node>
+    <sv:node sv:name="1">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="name" sv:type="String"><sv:value>B</sv:value></sv:property>
+      <sv:property sv:name="from" sv:type="String"><sv:value>18:00</sv:value></sv:property>
+      <sv:property sv:name="to" sv:type="String"><sv:value>06:00</sv:value></sv:property>
+    </sv:node>
+  </sv:node>
+  <sv:node sv:name="tiles"><sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:node sv:name="0">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="value" sv:type="String"><sv:value>91%</sv:value></sv:property>
+      <sv:property sv:name="label" sv:type="String"><sv:value>Machine availability</sv:value></sv:property>
+      <sv:property sv:name="note" sv:type="String"><sv:value>5-axis cells · this week</sv:value></sv:property>
+      <sv:property sv:name="trend" sv:type="String"><sv:value>up</sv:value></sv:property>
+    </sv:node>
+    <sv:node sv:name="1">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="value" sv:type="String"><sv:value>14 / 15</sv:value></sv:property>
+      <sv:property sv:name="label" sv:type="String"><sv:value>Aft fuselage sets</sv:value></sv:property>
+      <sv:property sv:name="note" sv:type="String"><sv:value>Delivered this quarter</sv:value></sv:property>
+    </sv:node>
+    <sv:node sv:name="2">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+      <sv:property sv:name="value" sv:type="String"><sv:value>2</sv:value></sv:property>
+      <sv:property sv:name="label" sv:type="String"><sv:value>Open safety actions</sv:value></sv:property>
+      <sv:property sv:name="note" sv:type="String"><sv:value>Both due by Friday</sv:value></sv:property>
+      <sv:property sv:name="trend" sv:type="String"><sv:value>down</sv:value></sv:property>
+    </sv:node>
+  </sv:node>
+  <sv:property sv:name="remindersTitle" sv:type="String"><sv:value>In the cell</sv:value></sv:property>
+  <sv:property sv:name="reminders" sv:type="String" sv:multiple="true"><sv:value>Hearing protection in machining halls</sv:value><sv:value>Never bypass a guard or interlock</sv:value><sv:value>Swarf: gloves on, hands off</sv:value></sv:property>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>1</sv:value></sv:property>
+</sv:node>

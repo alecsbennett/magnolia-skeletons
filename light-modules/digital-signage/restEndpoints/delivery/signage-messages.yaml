@@ -1,0 +1,10 @@
+$type: jcrDeliveryEndpoint_v2
+workspace: signageMessages
+endpointPath: delivery/signage-messages
+bypassWorkspaceAcls: true
+depth: 2
+nodeTypes:
+  - sgn:message
+childNodeTypes:
+  - mgnl:contentNode
+

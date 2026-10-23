@@ -37,7 +37,7 @@ export default {
 
 	// Content Transfer configuration file path
 
-	contentTransferConfigPath: 'C:/Development/MagnoliaSkeletons/6.4-Community/transfer-config.json',
+	contentTransferConfigPath: './content/content-transfer-import.json',
 	// Analytics configuration
 	analytics: {
 		enabled: false,

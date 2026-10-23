@@ -1,0 +1,35 @@
+datasource:
+  $type: jcrContentTypeDatasource
+  workspace: signageMessages
+  namespaces:
+    sgn: https://www.tbscg.com/jcr/1.0/signage
+  autoCreate: true
+
+model:
+  nodeType: sgn:message
+  properties:
+    - name: name
+      required: true
+    - name: slug
+      required: true
+    - name: eyebrow
+    - name: text
+      required: true
+    - name: kind
+      options:
+        statement:
+          value: statement
+          label: Statement
+        safety:
+          value: safety
+          label: Safety
+        security:
+          value: security
+          label: Security
+        wellbeing:
+          value: wellbeing
+          label: Wellbeing
+        share:
+          value: share
+          label: Share price
+

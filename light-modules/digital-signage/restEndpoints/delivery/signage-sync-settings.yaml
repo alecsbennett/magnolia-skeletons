@@ -1,0 +1,9 @@
+$type: jcrDeliveryEndpoint_v2
+workspace: signageSyncSettings
+endpointPath: delivery/signage-sync-settings
+bypassWorkspaceAcls: true
+depth: 2
+nodeTypes:
+  - sgn:syncSettings
+childNodeTypes:
+  - mgnl:contentNode

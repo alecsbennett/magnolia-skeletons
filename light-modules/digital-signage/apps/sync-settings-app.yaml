@@ -1,0 +1,25 @@
+!content-type:syncSettings
+name: sync-settings-app
+label: Signage sync settings
+icon: icon-export
+subApps:
+  detail:
+    form:
+      properties:
+        name:
+          label: Settings name
+          defaultValue: Digital signage player
+        destinationPath:
+          label: Player content directory
+          description: Absolute path to the content folder read by the signage player. The sync command only writes to this directory.
+          defaultValue: ${env:SIGNAGE_CONTENT_DIR}
+        magnoliaBaseUrl:
+          label: Magnolia author URL
+          description: Author base URL used by the synchronizer, for example http://localhost:8080/author.
+          defaultValue: http://localhost:8080/author
+        enabled:
+          buttonLabel: Enable file sync
+          defaultValue: true
+        pruneDecks:
+          buttonLabel: Remove deck JSON files no longer in Magnolia
+          defaultValue: true

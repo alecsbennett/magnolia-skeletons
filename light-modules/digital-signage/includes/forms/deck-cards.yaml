@@ -1,0 +1,157 @@
+$type: jcrMultiField
+label: Cards
+description: Add the cards in the order they should play. Pick a card type, then open Overrides only when this card should pin a video, message, menu or board.
+buttonSelectAddLabel: Add card
+field:
+  $type: compositeField
+  label: Card
+  properties:
+    cardId:
+      $type: textField
+      label: Id
+      required: true
+      description: Stable id inside this deck, for example welcome or typhoon.
+    cardType:
+      $type: comboBoxField
+      label: Card
+      required: true
+      datasource:
+        $type: optionListDatasource
+        options:
+          - name: welcome
+            value: welcome
+            label: Welcome
+          - name: weather
+            value: weather
+            label: Weather
+          - name: events
+            value: events
+            label: What's on
+          - name: monthAhead
+            value: monthAhead
+            label: Month ahead
+          - name: message
+            value: message
+            label: Message
+          - name: video
+            value: video
+            label: Video
+          - name: sharePrice
+            value: sharePrice
+            label: Share price
+          - name: menu
+            value: menu
+            label: Menu
+          - name: board
+            value: board
+            label: Board
+    label:
+      $type: textField
+      label: Label
+      required: true
+      description: Shown in the progress bar and the interactive menu.
+    durationSec:
+      $type: textField
+      label: Duration (seconds)
+      description: How long the card stays up. Leave empty on a video card to play it to the end. Minimum 3.
+    enabled:
+      $type: checkBoxField
+      label: ""
+      buttonLabel: Enabled
+      defaultValue: true
+    overrides:
+      $type: collapsibleCompositeField
+      label: Overrides
+      collapsed: true
+      description: Leave this closed to use the card's own content. Open it to pin a clip, a statement, a menu or a board, or to change a month-ahead window.
+      itemProvider:
+        $type: jcrChildNodeProvider
+      properties:
+        video:
+          $type: linkField
+          label: Video
+          description: Video and share-price cards.
+          datasource:
+            $type: jcrDatasource
+            workspace: signageVideos
+        message:
+          $type: linkField
+          label: Message
+          description: Message cards. Leave empty to rotate every statement.
+          datasource:
+            $type: jcrDatasource
+            workspace: signageMessages
+        menu:
+          $type: linkField
+          label: Menu
+          description: Menu cards.
+          datasource:
+            $type: jcrDatasource
+            workspace: signageMenus
+        board:
+          $type: linkField
+          label: Board
+          description: Board cards.
+          datasource:
+            $type: jcrDatasource
+            workspace: signageBoards
+        daysAhead:
+          $type: textField
+          label: Days ahead
+          description: Month-ahead cards. Whole number from 7 to 62.
+        maxDurationSec:
+          $type: textField
+          label: Max duration (seconds)
+          description: Stops a video card even if the clip is longer. Minimum 3.
+    schedule:
+      $type: collapsibleCompositeField
+      label: Schedule
+      collapsed: true
+      description: Leave this closed to show the card all the time.
+      itemProvider:
+        $type: jcrChildNodeProvider
+      properties:
+        validFrom:
+          $type: dateField
+          label: Valid from
+          time: true
+        validTo:
+          $type: dateField
+          label: Valid to
+          time: true
+        days:
+          $type: checkBoxGroupField
+          label: Days
+          datasource:
+            $type: optionListDatasource
+            options:
+              - name: mon
+                value: mon
+                label: Monday
+              - name: tue
+                value: tue
+                label: Tuesday
+              - name: wed
+                value: wed
+                label: Wednesday
+              - name: thu
+                value: thu
+                label: Thursday
+              - name: fri
+                value: fri
+                label: Friday
+              - name: sat
+                value: sat
+                label: Saturday
+              - name: sun
+                value: sun
+                label: Sunday
+        fromTime:
+          $type: textField
+          label: From
+          description: 24-hour time, for example 07:30.
+        toTime:
+          $type: textField
+          label: To
+          description: 24-hour time, for example 18:00.
+

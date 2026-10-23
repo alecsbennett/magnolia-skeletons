@@ -1,0 +1,25 @@
+!content-type:display
+name: displays-app
+label: Displays
+icon: icon-packager-app
+subApps:
+  detail:
+    form:
+      properties:
+        name:
+          label: Name
+          description: What editors see, for example Reception – Main Lobby.
+        slug:
+          label: Id
+          description: Stable id used in the player URL, for example reception.
+        code:
+          label: Code
+          description: The number typed on the TV at /connect. Three to eight digits, for example 1001.
+        place:
+          label: Place
+          description: Building, floor or room this screen belongs to.
+        note:
+          label: Note
+          rows: 2
+        playback: !include:/digital-signage/includes/forms/playback-display.yaml
+

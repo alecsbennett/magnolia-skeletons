@@ -1,0 +1,58 @@
+datasource:
+  $type: jcrContentTypeDatasource
+  workspace: signageBoards
+  namespaces:
+    sgn: https://www.tbscg.com/jcr/1.0/signage
+  autoCreate: true
+
+model:
+  nodeType: sgn:board
+  properties:
+    - name: name
+      required: true
+    - name: slug
+      required: true
+    - name: site
+      type: reference:location
+    - name: eyebrow
+    - name: safeSince
+      type: Date
+    - name: safeLabel
+    - name: safeNote
+    - name: shifts
+      type: shift
+      multiple: true
+    - name: tiles
+      type: tile
+      multiple: true
+    - name: remindersTitle
+    - name: reminders
+      multiple: true
+  subModels:
+    - name: shift
+      properties:
+        - name: name
+          required: true
+        - name: from
+          required: true
+        - name: to
+          required: true
+    - name: tile
+      properties:
+        - name: value
+          required: true
+        - name: label
+          required: true
+        - name: note
+        - name: trend
+          options:
+            up:
+              value: up
+              label: Up
+            down:
+              value: down
+              label: Down
+            flat:
+              value: flat
+              label: Flat
+

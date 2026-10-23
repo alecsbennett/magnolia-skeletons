@@ -1,0 +1,10 @@
+version: 1.0.0
+dependencies:
+  # Content type apps. https://docs.magnolia-cms.com/product-docs/Developing/Content-Types/Content-type-definition/
+  content-types:
+    version: "*"
+  # Registers collapsibleCompositeField, used so deck overrides start collapsed.
+  # DX Core. https://docs.magnolia-cms.com/product-docs/Modules/List-of-modules/Content-Editor-module/
+  content-editor:
+    version: "*"
+

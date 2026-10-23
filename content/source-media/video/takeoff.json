@@ -1,0 +1,12 @@
+{
+  "src": "/media/video/takeoff.mp4",
+  "poster": "/media/video/takeoff-poster.jpg",
+  "durationSec": 14,
+  "fps": 30,
+  "cues": {
+    "rollStart": 1,
+    "liftOff": 5,
+    "climbOut": 7,
+    "holdFrom": 11
+  }
+}

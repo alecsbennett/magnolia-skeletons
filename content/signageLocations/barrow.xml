@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="barrow">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:location</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>barrow</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Barrow-in-Furness</sv:value></sv:property>
+  <sv:property sv:name="business" sv:type="String"><sv:value>Submarines: Astute, Dreadnought and SSN-AUKUS. The UK’s largest shipyard</sv:value></sv:property>
+  <sv:node sv:name="location">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:property sv:name="label" sv:type="String"><sv:value>Barrow-in-Furness, Cumbria</sv:value></sv:property>
+    <sv:property sv:name="latitude" sv:type="Decimal"><sv:value>54.105</sv:value></sv:property>
+    <sv:property sv:name="longitude" sv:type="Decimal"><sv:value>-3.243</sv:value></sv:property>
+  </sv:node>
+  <sv:node sv:name="welcome">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:property sv:name="eyebrow" sv:type="String"><sv:value>Barrow-in-Furness · Cumbria</sv:value></sv:property>
+    <sv:property sv:name="headline" sv:type="String"><sv:value>Welcome to BAE Systems Submarines</sv:value></sv:property>
+    <sv:property sv:name="subline" sv:type="String"><sv:value>The UK’s largest shipyard, building the Royal Navy’s submarines.</sv:value></sv:property>
+    <sv:property sv:name="image" sv:type="String"><sv:value>/media/images/barrow.jpg</sv:value></sv:property>
+    <sv:property sv:name="notice" sv:type="String"><sv:value>Please carry your pass at all times and follow your host’s directions in the yard.</sv:value></sv:property>
+  </sv:node>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>3</sv:value></sv:property>
+</sv:node>

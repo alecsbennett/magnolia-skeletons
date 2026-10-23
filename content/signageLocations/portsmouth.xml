@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="portsmouth">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>sgn:location</sv:value></sv:property>
+  <sv:property sv:name="slug" sv:type="String"><sv:value>portsmouth</sv:value></sv:property>
+  <sv:property sv:name="name" sv:type="String"><sv:value>Portsmouth Naval Base</sv:value></sv:property>
+  <sv:property sv:name="business" sv:type="String"><sv:value>Maritime: warship support for the Royal Navy’s surface fleet</sv:value></sv:property>
+  <sv:node sv:name="location">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:property sv:name="label" sv:type="String"><sv:value>Portsmouth, Hampshire</sv:value></sv:property>
+    <sv:property sv:name="latitude" sv:type="Decimal"><sv:value>50.803</sv:value></sv:property>
+    <sv:property sv:name="longitude" sv:type="Decimal"><sv:value>-1.11</sv:value></sv:property>
+  </sv:node>
+  <sv:node sv:name="welcome">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name"><sv:value>mgnl:contentNode</sv:value></sv:property>
+    <sv:property sv:name="eyebrow" sv:type="String"><sv:value>Portsmouth Naval Base</sv:value></sv:property>
+    <sv:property sv:name="headline" sv:type="String"><sv:value>Welcome to BAE Systems</sv:value></sv:property>
+    <sv:property sv:name="subline" sv:type="String"><sv:value>Keeping the Royal Navy’s surface fleet ready, from frigates to aircraft carriers.</sv:value></sv:property>
+    <sv:property sv:name="image" sv:type="String"><sv:value>/media/images/portsmouth.jpg</sv:value></sv:property>
+    <sv:property sv:name="notice" sv:type="String"><sv:value>Naval base security rules apply. Keep your pass visible at all times.</sv:value></sv:property>
+  </sv:node>
+  <sv:property sv:name="syncOrder" sv:type="Decimal"><sv:value>5</sv:value></sv:property>
+</sv:node>
